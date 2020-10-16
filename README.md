@@ -1,0 +1,2 @@
+# crummycm
+Crummy config management
