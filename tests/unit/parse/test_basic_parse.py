@@ -31,7 +31,7 @@ ex_config = {
     "xml_simple_a": (
         (
             {
-                "user_in": "./tests/unit/parse/example_files/simple/a.xml",
+                "cur_in": "./tests/unit/parse/example_files/simple/a.xml",
                 "unsafe": True,
             },
         ),
@@ -49,7 +49,7 @@ ex_config = {
             "info": {"age": 3, "teeth": {"front": 5, "back": 9}},
         },
     ),
-    "not_a_formatted_str": ("fake_str", ValueError),
+    "not_a_formatted_str": ("fake_str", FileNotFoundError),
     "yml_file_doesnt_exist": ("./fake_file.yml", FileNotFoundError),
     "json_file_doesnt_exist": ("./fake_file.json", FileNotFoundError),
 }
