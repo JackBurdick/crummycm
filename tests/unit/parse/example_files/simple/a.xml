@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+  <name>Diesel</name>
+  <location>
+    <state>WA</state>
+    <country>USA</country>
+  </location>
+  <info>
+    <age>3</age>
+    <teeth>
+      <front>5</front>
+      <back>9</back>
+    </teeth>
+  </info>
+</root>
