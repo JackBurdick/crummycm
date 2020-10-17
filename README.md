@@ -1,2 +1,5 @@
 # crummycm
-Crummy config management
+
+Crummy config management (WIP).
+
+Parse a config file against custom python objects.
