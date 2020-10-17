@@ -40,7 +40,13 @@ class XmlDictConfig(dict):
         if parent_element.items():
             self.update(dict(parent_element.items()))
         for element in parent_element:
-            print(element.attrib)
+            """
+            TODO: I'm not sure how to specify types in xml at this point since every
+            time I use the schema, the parser does not work and I haven't dug into
+            this yet.. so for now, the types are all returned as string.
+            one idea is to create the schema then apply use element.attrib to
+            test for various types.
+            """
             if element:
                 # treat like dict - we assume that if the first two tags
                 # in a series are different, then they are all different.

@@ -2,6 +2,7 @@ from typing import Any
 from crummycm.read_format.json import parse_json_from_path
 from crummycm.read_format.yaml import parse_yaml_from_path
 from crummycm.read_format.xml import parse_xml_from_path
+from crummycm.read_format.proto import parse_proto_from_path
 
 
 def determine_in_format(user_in: Any) -> str:
@@ -14,6 +15,8 @@ def determine_in_format(user_in: Any) -> str:
             return "yaml"
         elif user_in.endswith(".xml"):
             return "xml"
+        elif user_in.endswith(".proto"):
+            return "proto"
         else:
             raise ValueError(f"format {user_in} is not allowed")
     else:
@@ -25,6 +28,8 @@ def extract_dict_from_path(cur_path: str, in_format: str, ignore_types=False) ->
         raw_dict = parse_json_from_path(cur_path)
     elif in_format == "yaml":
         raw_dict = parse_yaml_from_path(cur_path)
+    elif in_format == "proto":
+        raw_dict = parse_proto_from_path(cur_path)
     elif in_format == "xml":
         raw_dict = parse_xml_from_path(cur_path)
         if not ignore_types:
