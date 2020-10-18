@@ -21,3 +21,6 @@ else:
 
 # Config
 from crummycm.parse import parse
+from crummycm.validate import validate
+
+# from crummycm.generate import config
