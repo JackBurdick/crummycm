@@ -69,6 +69,7 @@ class Base:
             else:
                 temp = self.fn(raw)
         except TypeError:
+            # TODO: when debugging, print errors
             temp = raw
 
         return temp

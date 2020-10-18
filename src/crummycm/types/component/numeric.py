@@ -31,11 +31,11 @@ class Numeric(Base):
         self.bounds = bounds or None
 
     def transform(self, cur_value=None):
-        if cur_value:
+        if cur_value is not None:
             if not isinstance(cur_value, self.ALLOWED_TYPES) and not isinstance(
                 cur_value, bool
             ):
-                raise ValueError(
+                raise TypeError(
                     f"cur_value ({cur_value}) is not type {self.ALLOWED_TYPES}"
                 )
         self.user_in = cur_value
