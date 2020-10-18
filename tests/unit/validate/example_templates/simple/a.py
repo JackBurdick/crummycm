@@ -1,7 +1,7 @@
 from crummycm.types.base import Base
 
 
-A_EX_TEMP = {"name": Base(default_value="Sam")}
+A_EX_TEMP = {"name": Base(default_value="Sam", required=False)}
 # type
 A_required_EX_TEMP = {"name": Base(required=True)}
 # type

@@ -15,7 +15,7 @@ class Base:
         self.default_value = default_value or None
 
         # ran in transform
-        self.required = required or True
+        self.required = True if required is None else required
         self.is_type = is_type or None
         self.fn = fn or None
         self.fn_kwargs = fn_kwargs or None
