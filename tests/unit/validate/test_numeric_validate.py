@@ -1,7 +1,7 @@
 import pytest
 
 from crummycm.validate import validate
-from example_templates.numeric.a import (
+from example_templates.element.numeric.a import (
     A_EX_TEMP,
     A_float_EX_TEMP,
     A_fn_bad_kwargs_EX_TEMP,

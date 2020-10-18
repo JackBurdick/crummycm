@@ -1,4 +1,4 @@
-from crummycm.types.component.text import Text
+from crummycm.types.element.text import Text
 
 A_EX_TEMP = {"my_text": Text(default_value="Jack", required=False)}
 # type
