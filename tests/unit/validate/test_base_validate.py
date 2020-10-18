@@ -1,7 +1,7 @@
 import pytest
 
 from crummycm.validate import validate
-from example_templates.simple.a import (
+from example_templates.base.a import (
     A_EX_TEMP,
     A_bool_EX_TEMP,
     A_float_EX_TEMP,

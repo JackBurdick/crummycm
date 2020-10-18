@@ -35,7 +35,6 @@ def validate(raw: Any, template: Any):
     if isinstance(template, dict):
         for k, spec in template.items():
             cur_val = _obtain_init_value(k, raw, spec)
-            print(cur_val)
             try:
                 formatted[k] = spec.transform(cur_val)
             except AttributeError:

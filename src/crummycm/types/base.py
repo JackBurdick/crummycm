@@ -12,7 +12,7 @@ class Base:
         fn_kwargs=None,
     ):
         # assigned in outter loop
-        self.default_value = default_value or None
+        self.default_value = default_value if default_value is not None else None
 
         # ran in transform
         self.required = True if required is None else required
@@ -24,6 +24,14 @@ class Base:
             self.description = "The description for this entry hasn't been written yet"
         else:
             self.description = description
+
+    def _set_init(self, raw):
+        self.user_in = raw
+        cur_val = raw
+        if not raw:
+            if self.default_value:
+                cur_val = self.default_value
+        return cur_val
 
     def _mandatory_exists(self, raw):
         if self.required:
@@ -66,11 +74,15 @@ class Base:
         return temp
 
     def transform(self, raw):
-        self._mandatory_exists(raw)
-        intermediate = self._check_type(raw)
+        # init
+        cur_val = self._set_init(raw)
+        # checks
+        self._mandatory_exists(cur_val)
+        # tranform
+        intermediate = self._check_type(cur_val)
         intermediate = self._apply_fn(intermediate)
-        out = intermediate
-        return out
+        self.out = intermediate
+        return self.out
 
     def __str__(self):
         return str(self.__class__) + ": " + str(self.__dict__)
