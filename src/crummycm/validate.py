@@ -1,8 +1,8 @@
 from typing import Any
-from crummycm.types.base import Base
 
-# from crummycm.types.component.known_dict import KnownDict
+from crummycm.types.base import Base
 from crummycm.types.component.base_dict import BaseDict
+from crummycm.types.component.known_dict import KnownDict
 
 # def has_method(o, name):
 #     # https://stackoverflow.com/questions/7580532/how-to-check-whether-a-method-exists-in-python
@@ -33,7 +33,7 @@ def _obtain_init_value(k, raw, spec):
     return cur_raw_v
 
 
-def _parse_dict(raw, spec):
+def _parse_known_dict(raw, spec):
     tmp_dict = {}
     for k, v in spec.in_dict.items():
         if isinstance(v, Base):
@@ -43,6 +43,16 @@ def _parse_dict(raw, spec):
         else:
             raise TypeError(f"type of {v} ({type(v)}) is invalid")
         tmp_dict[k] = cur_val
+    return tmp_dict
+
+
+def _parse_dict(raw, spec):
+    tmp_dict = {}
+    if isinstance(spec, KnownDict):
+        tmp_dict = _parse_known_dict(raw, spec)
+    else:
+        raise TypeError(f"{spec} ({type(spec)}) is not an accepted type")
+
     return tmp_dict
 
 
