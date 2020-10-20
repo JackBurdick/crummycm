@@ -1,8 +1,9 @@
 from typing import Any
 
 from crummycm.types.base import Base
-from crummycm.types.component.base_dict import BaseDict
+from crummycm.types.component.base_dict import BaseDict, KeyPlaceholder
 from crummycm.types.component.known_dict import KnownDict
+from crummycm.types.component.unnamed_dict import UnnamedDict
 
 # def has_method(o, name):
 #     # https://stackoverflow.com/questions/7580532/how-to-check-whether-a-method-exists-in-python
@@ -46,10 +47,30 @@ def _parse_known_dict(raw, spec):
     return tmp_dict
 
 
+def _parse_unnamed_dict(raw, spec):
+    if not raw:
+        raise ValueError(f"no user entry found for {spec}")
+
+    # will accept the users keys
+    tmp_dict = {}
+    v = spec.in_dict[KeyPlaceholder]
+    for uk, uv in raw.items():
+        if isinstance(v, Base):
+            cur_val = _transform_from_spec(uk, raw, v)
+        elif isinstance(v, BaseDict):
+            cur_val = validate(raw[uk], v.in_dict)
+        else:
+            raise TypeError(f"type of {v} ({type(v)}) is invalid")
+        tmp_dict[uk] = cur_val
+    return tmp_dict
+
+
 def _parse_dict(raw, spec):
     tmp_dict = {}
     if isinstance(spec, KnownDict):
         tmp_dict = _parse_known_dict(raw, spec)
+    elif isinstance(spec, UnnamedDict):
+        tmp_dict = _parse_unnamed_dict(raw, spec)
     else:
         raise TypeError(f"{spec} ({type(spec)}) is not an accepted type")
 
@@ -70,11 +91,15 @@ def validate(raw: Any, template: Any):
     formatted = {}
     if isinstance(template, dict):
         for k, spec in template.items():
-            if isinstance(spec, BaseDict):
-                formatted[k] = _parse_dict(raw[k], spec)
-            elif isinstance(spec, Base):
-                formatted[k] = _transform_from_spec(k, raw, spec)
+            if not isinstance(k, str):
+                if issubclass(k, KeyPlaceholder):
+                    formatted = _parse_unnamed_dict(raw, UnnamedDict(template))
             else:
-                raise TypeError(f"type of {spec} ({type(spec)}) is invalid")
+                if isinstance(spec, BaseDict):
+                    formatted[k] = _parse_dict(raw[k], spec)
+                elif isinstance(spec, Base):
+                    formatted[k] = _transform_from_spec(k, raw, spec)
+                else:
+                    raise TypeError(f"type of {spec} ({type(spec)}) is invalid")
 
     return formatted
