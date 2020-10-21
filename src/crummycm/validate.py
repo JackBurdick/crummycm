@@ -113,5 +113,11 @@ def validate(raw: Any, template: Any):
     formatted = {}
     if isinstance(template, dict):
         formatted = _validate_dict(raw, template)
+    elif isinstance(template, UnnamedDict):
+        formatted = _parse_unnamed_dict(raw, template)
+    else:
+        raise ValueError(
+            f"{template} is of type {type(template)} not {dict} or {UnnamedDict}"
+        )
 
     return formatted
