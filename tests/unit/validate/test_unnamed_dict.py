@@ -6,6 +6,7 @@ from example_templates.component.unnamed.a import (
     A_unnamed_single_num_ex,
     A_nested_unnamed_num,
     A_quad_nested_unnamed_num,
+    A_unnamed_out,
 )
 
 ex_config = {
@@ -40,6 +41,7 @@ ex_config = {
         ),
         {"config": {"1st": {"2nd": {"third": {"fourth": 4}}}}},
     ),
+    "user_named_out": (({"my_conf": 3}, A_unnamed_out), {"my_conf": 3}),
 }
 
 

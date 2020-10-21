@@ -16,6 +16,14 @@ A_unnamed_single_num_ex = {
     )
 }
 
+
+A_unnamed_out = UnnamedDict(
+    {
+        KeyPlaceholder: Numeric(default_value=int(0), required=False, is_type=int),
+    }
+)
+
+
 A_nested_unnamed_num = {
     "config": UnnamedDict(
         {

@@ -4,6 +4,7 @@ from crummycm.validate import validate
 from example_templates.component.named.a import (
     A_ex,
     A_named_ex,
+    A_named_out,
     A_nested_known_ex,
     A_extra_nested_known_ex,
 )
@@ -16,6 +17,10 @@ ex_config = {
     "two_elements_neither_provided_default": (
         ({}, A_ex),
         {"my_str": "Jack", "my_num": 0},
+    ),
+    "two_elements_neither_provided_default": (
+        ({"my_num": 3}, A_named_out),
+        {"my_num": 3},
     ),
     "named_dict": (
         ({"config": {"my_str": "Jack", "my_num": 1}}, A_named_ex),

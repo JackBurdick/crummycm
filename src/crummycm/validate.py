@@ -109,15 +109,15 @@ def _validate_dict(raw, template):
 
 
 def validate(raw: Any, template: Any):
-    # assert raw.keys() == template.keys(), f"not equal"  # check unused keys
+    # check unused keys
     formatted = {}
     if isinstance(template, dict):
         formatted = _validate_dict(raw, template)
-    elif isinstance(template, UnnamedDict):
-        formatted = _parse_unnamed_dict(raw, template)
+    elif isinstance(template, BaseDict):
+        formatted = _parse_dict(raw, template)
     else:
         raise ValueError(
-            f"{template} is of type {type(template)} not {dict} or {UnnamedDict}"
+            f"{template} is of type {type(template)} not {dict} or {BaseDict}"
         )
 
     return formatted
