@@ -26,7 +26,7 @@ class BaseDict:
                 or isinstance(v, BaseDict)
                 or isinstance(v, ValuePlaceholder)
             ), TypeError(
-                f"key {v} is expected to be subclass of {Base} or subclass of {BaseDict}, not {type(v)}"
+                f"value {v} is expected to be subclass of {Base} or subclass of {BaseDict}, not {type(v)}"
             )
 
         self.in_dict = in_dict or None

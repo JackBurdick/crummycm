@@ -86,6 +86,17 @@ def _transform_from_spec(k, raw, spec):
     return rv
 
 
+def _val_spec_against_user(k, raw, spec):
+    tmp = None
+    if isinstance(spec, BaseDict):
+        tmp = _parse_dict(raw[k], spec)
+    elif isinstance(spec, Base):
+        tmp = _transform_from_spec(k, raw, spec)
+    else:
+        raise TypeError(f"type of {spec} ({type(spec)}) is invalid")
+    return tmp
+
+
 def validate(raw: Any, template: Any):
     # assert raw.keys() == template.keys(), f"not equal"  # check unused keys
     formatted = {}
@@ -95,11 +106,6 @@ def validate(raw: Any, template: Any):
                 if issubclass(k, KeyPlaceholder):
                     formatted = _parse_unnamed_dict(raw, UnnamedDict(template))
             else:
-                if isinstance(spec, BaseDict):
-                    formatted[k] = _parse_dict(raw[k], spec)
-                elif isinstance(spec, Base):
-                    formatted[k] = _transform_from_spec(k, raw, spec)
-                else:
-                    raise TypeError(f"type of {spec} ({type(spec)}) is invalid")
+                formatted[k] = _val_spec_against_user(k, raw, spec)
 
     return formatted
