@@ -4,6 +4,7 @@ from crummycm.types.base import Base
 from crummycm.types.component.base_dict import BaseDict, KeyPlaceholder
 from crummycm.types.component.known_dict import KnownDict
 from crummycm.types.component.unnamed_dict import UnnamedDict
+from crummycm.types.component.unknown_dict import UnknownDict
 
 # def has_method(o, name):
 #     # https://stackoverflow.com/questions/7580532/how-to-check-whether-a-method-exists-in-python
@@ -71,6 +72,8 @@ def _parse_dict(raw, spec):
         tmp_dict = _parse_known_dict(raw, spec)
     elif isinstance(spec, UnnamedDict):
         tmp_dict = _parse_unnamed_dict(raw, spec)
+    elif isinstance(spec, UnknownDict):
+        tmp_dict = raw
     else:
         raise TypeError(f"{spec} ({type(spec)}) is not an accepted type")
 
@@ -97,7 +100,7 @@ def _val_spec_against_user(k, raw, spec):
     return tmp
 
 
-def _validate_dict(raw, template):
+def _parse_py_dict(raw, template):
     formatted = {}
     for k, spec in template.items():
         if not isinstance(k, str):
@@ -112,7 +115,7 @@ def validate(raw: Any, template: Any):
     # check unused keys
     formatted = {}
     if isinstance(template, dict):
-        formatted = _validate_dict(raw, template)
+        formatted = _parse_py_dict(raw, template)
     elif isinstance(template, BaseDict):
         formatted = _parse_dict(raw, template)
     else:

@@ -7,7 +7,7 @@ from crummycm.types.component.base_dict import BaseDict, ValuePlaceholder
 class KnownDict(BaseDict):
     def __init__(self, in_dict):
         super().__init__(in_dict)
-        for k, v in in_dict.items():
+        for k, v in self.in_dict.items():
             # key must be a string
             assert isinstance(k, str), TypeError(
                 f"key {k} is expected to be type str, not {type(k)}"
