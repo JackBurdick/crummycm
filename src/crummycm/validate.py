@@ -97,15 +97,21 @@ def _val_spec_against_user(k, raw, spec):
     return tmp
 
 
+def _validate_dict(raw, template):
+    formatted = {}
+    for k, spec in template.items():
+        if not isinstance(k, str):
+            if issubclass(k, KeyPlaceholder):
+                formatted = _parse_unnamed_dict(raw, UnnamedDict(template))
+        else:
+            formatted[k] = _val_spec_against_user(k, raw, spec)
+    return formatted
+
+
 def validate(raw: Any, template: Any):
     # assert raw.keys() == template.keys(), f"not equal"  # check unused keys
     formatted = {}
     if isinstance(template, dict):
-        for k, spec in template.items():
-            if not isinstance(k, str):
-                if issubclass(k, KeyPlaceholder):
-                    formatted = _parse_unnamed_dict(raw, UnnamedDict(template))
-            else:
-                formatted[k] = _val_spec_against_user(k, raw, spec)
+        formatted = _validate_dict(raw, template)
 
     return formatted
