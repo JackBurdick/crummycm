@@ -1,11 +1,9 @@
-# from crummycm.types.element.numeric import Numeric
-# from crummycm.types.element.text import Text
 from crummycm.types.base import Base
 from crummycm.types.component.base_dict import BaseDict, ValuePlaceholder
 
 
-class KnownDict(BaseDict):
-    # key is known, value is unknown
+class NamedDict(BaseDict):
+    # keys are known, values are unknown
     def __init__(self, in_dict):
         super().__init__(in_dict)
         for k, v in self.in_dict.items():
@@ -15,6 +13,6 @@ class KnownDict(BaseDict):
             )
 
             # value must not be a placeholder
-            assert not isinstance(v, ValuePlaceholder), TypeError(
-                f"value {v} in a KnownDict is not allowed to be {ValuePlaceholder}, not {type(v)}"
+            assert issubclass(v, ValuePlaceholder), TypeError(
+                f"For an {self.__class__}, the value {v} is expected to be type {ValuePlaceholder}, not {type(ValuePlaceholder)}"
             )

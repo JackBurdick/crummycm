@@ -3,6 +3,7 @@ from typing import Any
 from crummycm.types.base import Base
 from crummycm.types.component.base_dict import BaseDict, KeyPlaceholder
 from crummycm.types.component.known_dict import KnownDict
+from crummycm.types.component.named_dict import NamedDict
 from crummycm.types.component.unnamed_dict import UnnamedDict
 from crummycm.types.component.unknown_dict import UnknownDict
 
@@ -48,6 +49,21 @@ def _parse_known_dict(raw, spec):
     return tmp_dict
 
 
+def _parse_named_dict(raw, spec):
+    # blindly accept user value and place in spec
+    temp_dict = {}
+    for k, v in spec.in_dict.items():
+        try:
+            cur_val = raw[k]
+        except KeyError:
+            raise ValueError(
+                f"key {k} is expected in {spec}, but is not in {raw.keys()}"
+            )
+        temp_dict[k] = cur_val
+
+    return temp_dict
+
+
 def _parse_unnamed_dict(raw, spec):
     if not raw:
         raise ValueError(f"no user entry found for {spec}")
@@ -70,6 +86,8 @@ def _parse_dict(raw, spec):
     tmp_dict = {}
     if isinstance(spec, KnownDict):
         tmp_dict = _parse_known_dict(raw, spec)
+    elif isinstance(spec, NamedDict):
+        tmp_dict = _parse_named_dict(raw, spec)
     elif isinstance(spec, UnnamedDict):
         tmp_dict = _parse_unnamed_dict(raw, spec)
     elif isinstance(spec, UnknownDict):

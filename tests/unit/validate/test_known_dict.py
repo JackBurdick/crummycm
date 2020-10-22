@@ -1,7 +1,7 @@
 import pytest
 
 from crummycm.validate import validate
-from example_templates.component.named.a import (
+from example_templates.component.known.a import (
     A_ex,
     A_named_ex,
     A_named_out,

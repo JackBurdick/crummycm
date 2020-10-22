@@ -9,6 +9,7 @@ from crummycm.types.component.base_dict import (
 
 
 class UnnamedDict(BaseDict):
+    # keys are unknown but values are known
     def __init__(self, in_dict):
         super().__init__(in_dict)
         for k, v in self.in_dict.items():
