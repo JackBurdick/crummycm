@@ -1,7 +1,12 @@
 from typing import Any
 
 from crummycm.types.base import Base
-from crummycm.types.component.base_dict import BaseDict, KeyPlaceholder
+from crummycm.types.component.base_dict import (
+    BaseDict,
+    KeyPlaceholder,
+    ValuePlaceholder,
+    is_placeholder,
+)
 from crummycm.types.component.known_dict import KnownDict
 from crummycm.types.component.named_dict import NamedDict
 from crummycm.types.component.unnamed_dict import UnnamedDict
@@ -64,14 +69,58 @@ def _parse_named_dict(raw, spec):
     return temp_dict
 
 
+def _get_corresponding_template_k(spec_in_dict, uk):
+    matching_keys = []
+    for k in list(spec_in_dict.keys()):
+        if getattr(k, "starts_with", False):
+            if uk.startswith(k.starts_with):
+                if uk not in matching_keys:
+                    matching_keys.append(k)
+                else:
+                    raise ValueError(
+                        f"key {uk} matches {k.name} 's attribute starts_with ({k.starts_with})"
+                        f" but {matching_keys} also match a template spec and only one can be valid"
+                    )
+        if getattr(k, "ends_with", False):
+            if uk.endswith(k.ends_with):
+                if uk not in matching_keys:
+                    matching_keys.append(k)
+                else:
+                    raise ValueError(
+                        f"key {uk} matches {k.name} 's attribute ends_with ({k.ends_with}),"
+                        f" but {matching_keys} also match a template spec and only one can be valid"
+                    )
+        if not getattr(k, "ends_with", False) and not getattr(k, "starts_with", False):
+            matching_keys.append(k)
+
+    if len(matching_keys) == 0:
+        raise ValueError(
+            f"no user keys found to match the specified keys in {spec_in_dict}"
+        )
+    elif len(matching_keys) > 1:
+        raise ValueError(
+            f"user keys: {matching_keys} match multiple spec keys {spec_in_dict}"
+        )
+
+    cur_k = matching_keys[0]
+    return cur_k
+
+
 def _parse_unnamed_dict(raw, spec):
     if not raw:
         raise ValueError(f"no user entry found for {spec}")
 
+    # TODO: keep track of used names
+
     # will accept the users keys
     tmp_dict = {}
-    v = spec.in_dict[KeyPlaceholder]
     for uk, uv in raw.items():
+        if len(spec.in_dict) == 1 and KeyPlaceholder in spec.in_dict.keys():
+            # this could be moved outside the loop, but it's more readable here
+            k = KeyPlaceholder
+        else:
+            k = _get_corresponding_template_k(spec.in_dict, uk)
+        v = spec.in_dict[k]
         if isinstance(v, Base):
             cur_val = _transform_from_spec(uk, raw, v)
         elif isinstance(v, BaseDict):
@@ -127,6 +176,61 @@ def _parse_py_dict(raw, template):
         else:
             formatted[k] = _val_spec_against_user(k, raw, spec)
     return formatted
+
+
+# def _split_dicts(raw, template):
+#     known, unknown = {}, {}
+#     named, unnamed = {}, {}
+
+#     # split template
+#     for k, v in template:
+#         if is_placeholder(k):
+#             if is_placeholder(v):
+#                 assert len(unknown) < 1, ValueError(
+#                     f"can only have 1 unknown item in {template}"
+#                 )
+#                 unknown[k] = v
+#             else:
+#                 assert len(unknown) < 1, ValueError(
+#                     f"can only have 1 unnamed item in {template}"
+#                 )
+#                 unnamed[k] = v
+#         else:
+#             if is_placeholder(v):
+#                 named[k] = v
+#             else:
+#                 known[k] = v
+
+#     r_known, r_unknown = {}, {}
+#     r_named, r_unnamed = {}, {}
+#     for k in list(known.keys()):
+#         r_known[k] = raw.get(k, None)
+#     for k in list(r_named.keys()):
+#         r_known[k] = raw.get(k, None)
+
+# obtain corresponding dicts from raw
+# NOTE: this could be done in a single loop, but this is easy to
+# read/reason about for the time being
+
+
+# def _parse_py_dict_v2(raw, template):
+#     # split dicts
+#     for k,v in spec:
+#         if not isinstance(k, str):
+#             if issubclass(k, KeyPlaceholder):
+
+
+#     # parse seperately
+
+#     # merge
+#     formatted = {}
+#     for k, spec in template.items():
+#         if not isinstance(k, str):
+#             if issubclass(k, KeyPlaceholder):
+#                 formatted = _parse_unnamed_dict(raw, UnnamedDict(template))
+#         else:
+#             formatted[k] = _val_spec_against_user(k, raw, spec)
+#     return formatted
 
 
 def validate(raw: Any, template: Any):

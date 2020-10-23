@@ -5,6 +5,7 @@ from crummycm.types.component.base_dict import (
     BaseDict,
     KeyPlaceholder,
     ValuePlaceholder,
+    is_KeyPlaceholder,
 )
 
 
@@ -13,7 +14,7 @@ class UnnamedDict(BaseDict):
     def __init__(self, in_dict):
         super().__init__(in_dict)
         for k, v in self.in_dict.items():
-            assert issubclass(k, KeyPlaceholder), TypeError(
+            assert is_KeyPlaceholder(k), TypeError(
                 f"key {k} is expected to be type {KeyPlaceholder}, not {type(k)}"
             )
 
