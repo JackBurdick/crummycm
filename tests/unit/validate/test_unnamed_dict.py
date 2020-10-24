@@ -9,7 +9,7 @@ from example_templates.component.unnamed.a import (
     A_nested_unnamed_num,
     A_quad_nested_unnamed_num,
     A_unnamed_out,
-    A_unnamed_double_no_dist,
+    A_unnamed_double_dist,
 )
 
 ex_config = {
@@ -58,6 +58,10 @@ ex_config = {
         {"config": {"1st": {"2nd": {"third": {"fourth": 4}}}}},
     ),
     "user_named_out": (({"my_conf": 3}, A_unnamed_out), {"my_conf": 3}),
+    "nested_unnamed_num": (
+        ({"config": {"personal_key": 3, "up_val": 4}}, A_unnamed_double_dist),
+        {"config": {"personal_key": 3, "up_val": 4}},
+    ),
 }
 
 

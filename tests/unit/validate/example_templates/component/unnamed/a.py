@@ -26,7 +26,7 @@ A_unnamed_single_num_startswith_ex = {
     )
 }
 
-A_unnamed_double_no_dist = {
+A_unnamed_double_dist = {
     "config": UnnamedDict(
         {
             KeyPlaceholder("my_key"): Numeric(
