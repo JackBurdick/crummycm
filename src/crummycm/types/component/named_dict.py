@@ -13,6 +13,6 @@ class NamedDict(BaseDict):
             )
 
             # value must not be a placeholder
-            assert issubclass(v, ValuePlaceholder), TypeError(
+            assert isinstance(v, ValuePlaceholder), TypeError(
                 f"For an {self.__class__}, the value {v} is expected to be type {ValuePlaceholder}, not {type(ValuePlaceholder)}"
             )

@@ -11,7 +11,7 @@ A_known_uk = {
             "kd_num": Numeric(default_value=int(0), required=False, is_type=int),
             "uk_dict": UnnamedDict(
                 {
-                    KeyPlaceholder: Numeric(
+                    KeyPlaceholder("a_num"): Numeric(
                         default_value=int(0), required=False, is_type=int
                     )
                 }
@@ -23,9 +23,9 @@ A_known_uk = {
 A_uk_k = {
     "my_conf": UnnamedDict(
         {
-            KeyPlaceholder: KnownDict(
+            KeyPlaceholder("a_num"): KnownDict(
                 {"my_num": Numeric(default_value=int(0), required=False, is_type=int)}
-            ),
+            )
         }
     )
 }
@@ -33,10 +33,12 @@ A_uk_k = {
 
 A_outter_nested_uk_uk = UnnamedDict(
     {
-        KeyPlaceholder: UnnamedDict(
+        KeyPlaceholder("a_dict"): UnnamedDict(
             {
-                KeyPlaceholder: Numeric(default_value=0, required=False, is_type=int),
+                KeyPlaceholder("a_num"): Numeric(
+                    default_value=0, required=False, is_type=int
+                )
             }
-        ),
+        )
     }
 )

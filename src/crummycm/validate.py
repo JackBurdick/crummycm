@@ -5,7 +5,6 @@ from crummycm.types.component.base_dict import (
     BaseDict,
     KeyPlaceholder,
     ValuePlaceholder,
-    is_placeholder,
 )
 from crummycm.types.component.known_dict import KnownDict
 from crummycm.types.component.named_dict import NamedDict
@@ -171,7 +170,7 @@ def _parse_py_dict(raw, template):
     formatted = {}
     for k, spec in template.items():
         if not isinstance(k, str):
-            if issubclass(k, KeyPlaceholder):
+            if isinstance(k, KeyPlaceholder):
                 formatted = _parse_unnamed_dict(raw, UnnamedDict(template))
         else:
             formatted[k] = _val_spec_against_user(k, raw, spec)

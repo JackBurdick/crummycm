@@ -19,9 +19,7 @@ A_named_ex = {
 }
 
 A_named_out = KnownDict(
-    {
-        "my_num": Numeric(default_value=int(0), required=False, is_type=int),
-    }
+    {"my_num": Numeric(default_value=int(0), required=False, is_type=int)}
 )
 
 A_nested_known_ex = {

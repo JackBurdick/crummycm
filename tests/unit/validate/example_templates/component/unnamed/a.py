@@ -4,14 +4,48 @@ from crummycm.types.element.numeric import Numeric
 from crummycm.types.element.text import Text
 
 # from crummycm.types.element.base import Base
-A_ex = {
-    "val": Numeric(default_value=int(0), required=False, is_type=int),
-}
+A_ex = {"val": Numeric(default_value=int(0), required=False, is_type=int)}
 
 A_unnamed_single_num_ex = {
     "config": UnnamedDict(
         {
-            KeyPlaceholder: Numeric(default_value=int(0), required=False, is_type=int),
+            KeyPlaceholder("some_key"): Numeric(
+                default_value=int(0), required=False, is_type=int
+            )
+        }
+    )
+}
+
+A_unnamed_single_num_startswith_ex = {
+    "config": UnnamedDict(
+        {
+            KeyPlaceholder("my_key", starts_with="val_"): Numeric(
+                default_value=int(0), required=False, is_type=int
+            )
+        }
+    )
+}
+
+A_unnamed_double_no_dist = {
+    "config": UnnamedDict(
+        {
+            KeyPlaceholder("my_key"): Numeric(
+                default_value=int(0), required=False, is_type=int
+            ),
+            KeyPlaceholder("my_other_key", ends_with="_val"): Numeric(
+                default_value=int(0), required=False, is_type=int
+            ),
+        }
+    )
+}
+
+
+A_unnamed_single_num_endswith_ex = {
+    "config": UnnamedDict(
+        {
+            KeyPlaceholder("my_key", ends_with="_val"): Numeric(
+                default_value=int(0), required=False, is_type=int
+            )
         }
     )
 }
@@ -19,7 +53,9 @@ A_unnamed_single_num_ex = {
 
 A_unnamed_out = UnnamedDict(
     {
-        KeyPlaceholder: Numeric(default_value=int(0), required=False, is_type=int),
+        KeyPlaceholder("my_num"): Numeric(
+            default_value=int(0), required=False, is_type=int
+        )
     }
 )
 
@@ -27,13 +63,13 @@ A_unnamed_out = UnnamedDict(
 A_nested_unnamed_num = {
     "config": UnnamedDict(
         {
-            KeyPlaceholder: UnnamedDict(
+            KeyPlaceholder("some_dict"): UnnamedDict(
                 {
-                    KeyPlaceholder: Numeric(
+                    KeyPlaceholder("inner_num"): Numeric(
                         default_value=int(0), required=False, is_type=int
-                    ),
+                    )
                 }
-            ),
+            )
         }
     )
 }
@@ -41,23 +77,23 @@ A_nested_unnamed_num = {
 A_quad_nested_unnamed_num = {
     "config": UnnamedDict(
         {
-            KeyPlaceholder: UnnamedDict(
+            KeyPlaceholder("some_dict"): UnnamedDict(
                 {
-                    KeyPlaceholder: UnnamedDict(
+                    KeyPlaceholder("another_dict"): UnnamedDict(
                         {
-                            KeyPlaceholder: UnnamedDict(
+                            KeyPlaceholder("yet_another_dict"): UnnamedDict(
                                 {
-                                    KeyPlaceholder: Numeric(
+                                    KeyPlaceholder("some_num"): Numeric(
                                         default_value=int(0),
                                         required=False,
                                         is_type=int,
-                                    ),
+                                    )
                                 }
-                            ),
+                            )
                         }
-                    ),
+                    )
                 }
-            ),
+            )
         }
     )
 }
