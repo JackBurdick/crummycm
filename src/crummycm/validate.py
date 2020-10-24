@@ -8,8 +8,8 @@ from crummycm.types.component.base_dict import (
 )
 from crummycm.types.component.known_dict import KnownDict
 from crummycm.types.component.named_dict import NamedDict
-from crummycm.types.component.unnamed_dict import UnnamedDict
 from crummycm.types.component.unknown_dict import UnknownDict
+from crummycm.types.component.unnamed_dict import UnnamedDict
 from crummycm.validation.assign import map_user_keys_to_spec_key
 
 # def has_method(o, name):

@@ -67,8 +67,6 @@ class BaseDict:
                 else:
                     raise ValueError(f"k {k} already exists in {in_dict.keys()}")
             elif isinstance(k, Placeholder):
-                print(k)
-                print(k.starts_with)
                 if k.starts_with:
                     if k not in sw_val:
                         sw_val.add(k.starts_with)
