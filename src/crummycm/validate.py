@@ -68,7 +68,7 @@ def _parse_named_dict(raw, spec):
     return temp_dict
 
 
-def _get_corresponding_template_k(spec_in_dict, uk):
+def _get_corresponding_template_keys(spec_in_dict, uk):
     matching_keys = []
     for k in list(spec_in_dict.keys()):
         if getattr(k, "starts_with", False):
@@ -96,13 +96,40 @@ def _get_corresponding_template_k(spec_in_dict, uk):
         raise ValueError(
             f"no user keys found to match the specified keys in {spec_in_dict}"
         )
-    elif len(matching_keys) > 1:
-        raise ValueError(
-            f"user keys: {matching_keys} match multiple spec keys {spec_in_dict}"
-        )
+    # elif len(matching_keys) > 1:
+    #     raise ValueError(
+    #         f"user keys: {matching_keys} match multiple spec keys {spec_in_dict}"
+    #     )
 
-    cur_k = matching_keys[0]
-    return cur_k
+    return matching_keys
+
+
+def _map_user_keys_to_spec_key(raw, spec_in_dict):
+    uk_to_sk = {}
+    options_dict = {}
+    # get all keys
+    for uk in raw.keys():
+        options_dict[uk] = _get_corresponding_template_keys(spec_in_dict, uk)
+
+    # eliminate singles
+    used_keys = set()
+    tmp_dict = {}
+    for kk, vv in options_dict.items():
+        if len(vv) == 1:
+            cur_v = vv[0]
+            if cur_v in used_keys:
+                raise ValueError(f"key {vv} matches multiple items")
+            else:
+                used_keys.add(cur_v)
+                uk_to_sk[kk] = cur_v
+        else:
+            tmp_dict[kk] = vv
+
+    # TODO: eliminate remaining
+
+    assert len(tmp_dict) == 0, ValueError(f"keys remain unassigned: {tmp_dict}")
+
+    return uk_to_sk
 
 
 def _parse_unnamed_dict(raw, spec):
@@ -110,15 +137,12 @@ def _parse_unnamed_dict(raw, spec):
         raise ValueError(f"no user entry found for {spec}")
 
     # TODO: keep track of used names
+    uk_to_sk = _map_user_keys_to_spec_key(raw, spec.in_dict)
 
     # will accept the users keys
     tmp_dict = {}
     for uk, uv in raw.items():
-        if len(spec.in_dict) == 1 and KeyPlaceholder in spec.in_dict.keys():
-            # this could be moved outside the loop, but it's more readable here
-            k = KeyPlaceholder
-        else:
-            k = _get_corresponding_template_k(spec.in_dict, uk)
+        k = uk_to_sk[uk]
         v = spec.in_dict[k]
         if isinstance(v, Base):
             cur_val = _transform_from_spec(uk, raw, v)
