@@ -16,6 +16,16 @@ A_unnamed_single_num_ex = {
     )
 }
 
+A_unnamed_single_num_multi_ex = {
+    "config": UnnamedDict(
+        {
+            KeyPlaceholder("some_key", multi=True): Numeric(
+                default_value=int(0), required=False, is_type=int
+            )
+        }
+    )
+}
+
 A_unnamed_single_num_startswith_ex = {
     "config": UnnamedDict(
         {

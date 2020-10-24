@@ -26,7 +26,7 @@ class ValuePlaceholder(Placeholder):
 
 
 class KeyPlaceholder(Placeholder):
-    def __init__(self, name, starts_with=None, ends_with=None):
+    def __init__(self, name, starts_with=None, ends_with=None, multi=False):
         if not name:
             raise ValueError("no name was provided for KeyPlaceholder")
         elif not isinstance(name, str):
@@ -37,6 +37,7 @@ class KeyPlaceholder(Placeholder):
         )
         self.starts_with = starts_with or None
         self.ends_with = ends_with or None
+        self.multi = multi
 
 
 def is_KeyPlaceholder(cur_obj):

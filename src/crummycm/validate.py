@@ -10,6 +10,7 @@ from crummycm.types.component.known_dict import KnownDict
 from crummycm.types.component.named_dict import NamedDict
 from crummycm.types.component.unnamed_dict import UnnamedDict
 from crummycm.types.component.unknown_dict import UnknownDict
+from crummycm.validation.assign import map_user_keys_to_spec_key
 
 # def has_method(o, name):
 #     # https://stackoverflow.com/questions/7580532/how-to-check-whether-a-method-exists-in-python
@@ -68,76 +69,12 @@ def _parse_named_dict(raw, spec):
     return temp_dict
 
 
-def _get_corresponding_template_keys(spec_in_dict, uk):
-    matching_keys = []
-    for k in list(spec_in_dict.keys()):
-        if getattr(k, "starts_with", False):
-            if uk.startswith(k.starts_with):
-                if uk not in matching_keys:
-                    matching_keys.append(k)
-                else:
-                    raise ValueError(
-                        f"key {uk} matches {k.name} 's attribute starts_with ({k.starts_with})"
-                        f" but {matching_keys} also match a template spec and only one can be valid"
-                    )
-        if getattr(k, "ends_with", False):
-            if uk.endswith(k.ends_with):
-                if uk not in matching_keys:
-                    matching_keys.append(k)
-                else:
-                    raise ValueError(
-                        f"key {uk} matches {k.name} 's attribute ends_with ({k.ends_with}),"
-                        f" but {matching_keys} also match a template spec and only one can be valid"
-                    )
-        if not getattr(k, "ends_with", False) and not getattr(k, "starts_with", False):
-            matching_keys.append(k)
-
-    if len(matching_keys) == 0:
-        raise ValueError(
-            f"no user keys found to match the specified keys in {spec_in_dict}"
-        )
-    # elif len(matching_keys) > 1:
-    #     raise ValueError(
-    #         f"user keys: {matching_keys} match multiple spec keys {spec_in_dict}"
-    #     )
-
-    return matching_keys
-
-
-def _map_user_keys_to_spec_key(raw, spec_in_dict):
-    uk_to_sk = {}
-    options_dict = {}
-    # get all keys
-    for uk in raw.keys():
-        options_dict[uk] = _get_corresponding_template_keys(spec_in_dict, uk)
-
-    # eliminate singles
-    used_keys = set()
-    tmp_dict = {}
-    for kk, vv in options_dict.items():
-        if len(vv) == 1:
-            cur_v = vv[0]
-            if cur_v in used_keys:
-                raise ValueError(f"key {vv} matches multiple items")
-            else:
-                used_keys.add(cur_v)
-                uk_to_sk[kk] = cur_v
-        else:
-            tmp_dict[kk] = vv
-
-    # TODO: eliminate remaining
-
-    assert len(tmp_dict) == 0, ValueError(f"keys remain unassigned: {tmp_dict}")
-
-    return uk_to_sk
-
-
 def _parse_unnamed_dict(raw, spec):
     if not raw:
         raise ValueError(f"no user entry found for {spec}")
 
     # TODO: keep track of used names
-    uk_to_sk = _map_user_keys_to_spec_key(raw, spec.in_dict)
+    uk_to_sk = map_user_keys_to_spec_key(raw, spec.in_dict)
 
     # will accept the users keys
     tmp_dict = {}
