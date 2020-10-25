@@ -5,8 +5,8 @@ from example_templates.component.unknown.a import A_inner_unknown, A_outer_unkno
 
 ex_config = {
     "some_config": (
-        ({"some_config": 4}, A_inner_unknown),
-        {"some_config": 4},
+        ({"some_config": {"my_val": 4}}, A_inner_unknown),
+        {"some_config": {"my_val": 4}},
     ),
     "nested_unknown": (
         ({"some_config": {"kd_num": 3, "uk_dict": {"user_num": 4}}}, A_inner_unknown),

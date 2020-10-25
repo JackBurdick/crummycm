@@ -5,6 +5,7 @@ from crummycm.types.component.base_dict import (
     BaseDict,
     KeyPlaceholder,
     ValuePlaceholder,
+    Placeholder,
 )
 from crummycm.types.component.known_dict import KnownDict
 from crummycm.types.component.named_dict import NamedDict
@@ -101,7 +102,7 @@ def _parse_dict(raw, spec):
     elif isinstance(spec, UnnamedDict):
         tmp_dict = _parse_unnamed_dict(raw, spec)
     elif isinstance(spec, UnknownDict):
-        tmp_dict = raw
+        tmp_dict = raw.copy()
     else:
         raise TypeError(f"{spec} ({type(spec)}) is not an accepted type")
 
@@ -139,66 +140,112 @@ def _parse_py_dict(raw, template):
     return formatted
 
 
-# def _split_dicts(raw, template):
-#     known, unknown = {}, {}
-#     named, unnamed = {}, {}
+def _split_dicts(raw, template):
+    known, unknown = {}, {}
+    named, unnamed = {}, {}
 
-#     # split template
-#     for k, v in template:
-#         if is_placeholder(k):
-#             if is_placeholder(v):
-#                 assert len(unknown) < 1, ValueError(
-#                     f"can only have 1 unknown item in {template}"
-#                 )
-#                 unknown[k] = v
-#             else:
-#                 assert len(unknown) < 1, ValueError(
-#                     f"can only have 1 unnamed item in {template}"
-#                 )
-#                 unnamed[k] = v
-#         else:
-#             if is_placeholder(v):
-#                 named[k] = v
-#             else:
-#                 known[k] = v
+    # split template
+    for k, v in template.items():
+        if isinstance(k, Placeholder):
+            if isinstance(v, Placeholder):
+                assert len(unknown) < 1, ValueError(
+                    f"can only have 1 unknown item in {template}"
+                )
+                unknown[k] = v
+            else:
+                assert len(unknown) < 1, ValueError(
+                    f"can only have 1 unnamed item in {template}"
+                )
+                unnamed[k] = v
+        else:
+            if isinstance(v, Placeholder):
+                named[k] = v
+            else:
+                known[k] = v
 
-#     r_known, r_unknown = {}, {}
-#     r_named, r_unnamed = {}, {}
-#     for k in list(known.keys()):
-#         r_known[k] = raw.get(k, None)
-#     for k in list(r_named.keys()):
-#         r_known[k] = raw.get(k, None)
+    if known:
+        known = KnownDict(known)
+    if named:
+        named = NamedDict(named)
+    if unnamed:
+        unnamed = UnnamedDict(unnamed)
+    if unknown:
+        unknown = UnknownDict(unknown)
+    return known, named, unnamed, unknown
+
 
 # obtain corresponding dicts from raw
 # NOTE: this could be done in a single loop, but this is easy to
 # read/reason about for the time being
 
 
-# def _parse_py_dict_v2(raw, template):
-#     # split dicts
-#     for k,v in spec:
-#         if not isinstance(k, str):
-#             if issubclass(k, KeyPlaceholder):
+def _parse_py_dicts_and_merge(raw, template):
+    formatted = {}
+    # split dicts
+    known_t, named_t, unnamed_t, unknown_t = _split_dicts(raw, template)
 
+    # parse seperately
+    # the order is important --known keys, to unknown keys
+    if isinstance(known_t, BaseDict):
+        # print(f"known: {known_t.in_dict.keys()}")
+        ok = _parse_dict(raw, known_t)
+        for k in ok.keys():
+            try:
+                del raw[k]
+            except KeyError:
+                pass
+        # print(f"ok: {ok}")
+    else:
+        ok = {}
 
-#     # parse seperately
+    if isinstance(named_t, BaseDict):
+        # print(f"named_t: {named_t.in_dict.keys()}")
+        on = _parse_dict(raw, named_t)
+        for k in on.keys():
+            try:
+                del raw[k]
+            except KeyError:
+                pass
+        # print(f"on: {on}")
+    else:
+        on = {}
 
-#     # merge
-#     formatted = {}
-#     for k, spec in template.items():
-#         if not isinstance(k, str):
-#             if issubclass(k, KeyPlaceholder):
-#                 formatted = _parse_unnamed_dict(raw, UnnamedDict(template))
-#         else:
-#             formatted[k] = _val_spec_against_user(k, raw, spec)
-#     return formatted
+    if isinstance(unnamed_t, BaseDict):
+        # print(f"unnamed_t: {unnamed_t.in_dict.keys()}")
+        oun = _parse_dict(raw, unnamed_t)
+        for k in oun.keys():
+            try:
+                del raw[k]
+            except KeyError:
+                pass
+        # print(f"oun: {oun}")
+    else:
+        oun = {}
+
+    if isinstance(unknown_t, BaseDict):
+        # print(f"unknown_t: {unknown_t.in_dict.keys()}")
+        ouk = _parse_dict(raw, unknown_t)
+        for k in ouk.keys():
+            try:
+                del raw[k]
+            except KeyError:
+                pass
+        # print(f"ouk: {ouk}")
+    else:
+        ouk = {}
+
+    # merge
+    formatted = {**ok, **on, **oun, **ouk}
+
+    return formatted
 
 
 def validate(raw: Any, template: Any):
     # check unused keys
     formatted = {}
     if isinstance(template, dict):
-        formatted = _parse_py_dict(raw, template)
+        # formatted = _parse_py_dict(raw, template)
+        formatted = _parse_py_dicts_and_merge(raw, template)
     elif isinstance(template, BaseDict):
         formatted = _parse_dict(raw, template)
     else:
