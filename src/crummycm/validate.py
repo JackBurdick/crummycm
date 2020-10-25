@@ -79,15 +79,16 @@ def _parse_unnamed_dict(raw, spec):
     # will accept the users keys
     tmp_dict = {}
     for uk, uv in raw.items():
-        k = uk_to_sk[uk]
-        v = spec.in_dict[k]
-        if isinstance(v, Base):
-            cur_val = _transform_from_spec(uk, raw, v)
-        elif isinstance(v, BaseDict):
-            cur_val = validate(raw[uk], v.in_dict)
+        sk = uk_to_sk[uk]
+        sv = spec.in_dict[sk]
+        if isinstance(sv, Base):
+            cur_val = _transform_from_spec(uk, raw, sv)
+        elif isinstance(sv, BaseDict):
+            cur_val = validate(raw[uk], sv.in_dict)
         else:
-            raise TypeError(f"type of {v} ({type(v)}) is invalid")
+            raise TypeError(f"type of {sv} ({type(sv)}) is invalid")
         tmp_dict[uk] = cur_val
+
     return tmp_dict
 
 
@@ -116,25 +117,25 @@ def _transform_from_spec(k, raw, spec):
     return rv
 
 
-def _val_spec_against_user(k, raw, spec):
+def _val_spec_against_user(sk, raw, sv):
     tmp = None
-    if isinstance(spec, BaseDict):
-        tmp = _parse_dict(raw[k], spec)
-    elif isinstance(spec, Base):
-        tmp = _transform_from_spec(k, raw, spec)
+    if isinstance(sv, BaseDict):
+        tmp = _parse_dict(raw[sk], sv)
+    elif isinstance(sv, Base):
+        tmp = _transform_from_spec(sk, raw, sv)
     else:
-        raise TypeError(f"type of {spec} ({type(spec)}) is invalid")
+        raise TypeError(f"type of {sv} ({type(sv)}) is invalid")
     return tmp
 
 
 def _parse_py_dict(raw, template):
     formatted = {}
-    for k, spec in template.items():
-        if not isinstance(k, str):
-            if isinstance(k, KeyPlaceholder):
+    for sk, sv in template.items():
+        if not isinstance(sk, str):
+            if isinstance(sk, KeyPlaceholder):
                 formatted = _parse_unnamed_dict(raw, UnnamedDict(template))
         else:
-            formatted[k] = _val_spec_against_user(k, raw, spec)
+            formatted[sk] = _val_spec_against_user(sk, raw, sv)
     return formatted
 
 

@@ -85,6 +85,39 @@ A_unnamed_quad_dist = {
 }
 
 
+A_unnamed_quad_inner_quad = {
+    "config": UnnamedDict(
+        {
+            KeyPlaceholder("my_key"): UnnamedDict(
+                {
+                    KeyPlaceholder("next_my_key"): Numeric(
+                        default_value=int(0), required=False, is_type=int
+                    ),
+                    KeyPlaceholder(
+                        "next_my_other_key", ends_with="_val", multi=True
+                    ): Numeric(default_value=int(0), required=False, is_type=int),
+                    KeyPlaceholder("next_YAK", starts_with="val_", multi=True): Numeric(
+                        default_value=int(0), required=False, is_type=int
+                    ),
+                    KeyPlaceholder(
+                        "next_YAK_sw", starts_with="x_", multi=True
+                    ): Numeric(default_value=int(0), required=False, is_type=int),
+                }
+            ),
+            KeyPlaceholder("my_other_key", ends_with="_val", multi=True): Numeric(
+                default_value=int(0), required=False, is_type=int
+            ),
+            KeyPlaceholder("YAK", starts_with="val_", multi=True): Numeric(
+                default_value=int(0), required=False, is_type=int
+            ),
+            KeyPlaceholder("YAK_sw", starts_with="x_", multi=True): Numeric(
+                default_value=int(0), required=False, is_type=int
+            ),
+        }
+    )
+}
+
+
 A_unnamed_single_num_endswith_ex = {
     "config": UnnamedDict(
         {
@@ -139,6 +172,58 @@ A_quad_nested_unnamed_num = {
                     )
                 }
             )
+        }
+    )
+}
+
+
+A_unnamed_quad_nested_inner_quad = {
+    "config": UnnamedDict(
+        {
+            KeyPlaceholder("my_key"): UnnamedDict(
+                {
+                    KeyPlaceholder("next_my_key"): UnnamedDict(
+                        {
+                            KeyPlaceholder("deeper_key"): Numeric(
+                                default_value=int(0), required=False, is_type=int
+                            ),
+                            KeyPlaceholder(
+                                "next_my_other_key", ends_with="_val", multi=True
+                            ): Numeric(
+                                default_value=int(0), required=False, is_type=int
+                            ),
+                            KeyPlaceholder(
+                                "next_YAK", starts_with="val_", multi=True
+                            ): Numeric(
+                                default_value=int(0), required=False, is_type=int
+                            ),
+                            KeyPlaceholder(
+                                "next_YAK_sw", starts_with="x_", multi=True
+                            ): Numeric(
+                                default_value=int(0), required=False, is_type=int
+                            ),
+                        }
+                    ),
+                    KeyPlaceholder(
+                        "next_my_other_key", ends_with="_val", multi=True
+                    ): Numeric(default_value=int(0), required=False, is_type=int),
+                    KeyPlaceholder("next_YAK", starts_with="val_", multi=True): Numeric(
+                        default_value=int(0), required=False, is_type=int
+                    ),
+                    KeyPlaceholder(
+                        "next_YAK_sw", starts_with="x_", multi=True
+                    ): Numeric(default_value=int(0), required=False, is_type=int),
+                }
+            ),
+            KeyPlaceholder("my_other_key", ends_with="_val", multi=True): Numeric(
+                default_value=int(0), required=False, is_type=int
+            ),
+            KeyPlaceholder("YAK", starts_with="val_", multi=True): Numeric(
+                default_value=int(0), required=False, is_type=int
+            ),
+            KeyPlaceholder("YAK_sw", starts_with="x_", multi=True): Numeric(
+                default_value=int(0), required=False, is_type=int
+            ),
         }
     )
 }

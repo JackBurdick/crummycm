@@ -49,7 +49,29 @@ def _eliminate_single_keys(opt_dict, uk_to_sk, used_keys):
                     used_keys.add(sk)
                     uk_to_sk[uk] = sk
         else:
-            unsolved_opt_dict[uk] = sks
+            # multiple specs might match the user value, but we will match the
+            # user value to the stricter of the definitions. That is, if the
+            # user key is `my_val` and one is a generic placeholder and the other
+            # calls for ends_with=`_val` we will assign to the ends with
+            stricter = []
+            for sk in sks:
+                if sk.starts_with or sk.ends_with:
+                    stricter.append(sk)
+
+            if len(stricter) == 1:
+                sk = stricter[0]
+                if sk.multi:
+                    unsolved_m_opt_dict[uk] = sk
+                else:
+                    if sk in used_keys:
+                        raise ValueError(
+                            f"key {sk.name} matches multiple items: {[v.name for v in list(used_keys)]}"
+                        )
+                    else:
+                        used_keys.add(sk)
+                        uk_to_sk[uk] = sk
+            else:
+                unsolved_opt_dict[uk] = sks
 
     return unsolved_opt_dict, unsolved_m_opt_dict
 
@@ -98,6 +120,9 @@ def _assign_multi_keys(unsolved_m_opt_dict, uk_to_sk):
 
 
 def _assign_keys(opt_dict, uk_to_sk, used_keys):
+    # this function is ..tricky.. I don't trust that I've implemented this
+    # correctly yet
+
     # eliminate single
     unsolved_opt_dict, unsolved_m_opt_dict = _eliminate_single_keys(
         opt_dict, uk_to_sk, used_keys
@@ -109,6 +134,8 @@ def _assign_keys(opt_dict, uk_to_sk, used_keys):
             unsolved_opt_dict, uk_to_sk, used_keys
         )
 
+    # this block may belong above the _remove_used_options(unsolved_opt_dict,
+    # used_keys) to help eliminate additional keys?
     if len(unsolved_m_opt_dict) > 0:
         uk_to_sk = _assign_multi_keys(unsolved_m_opt_dict, uk_to_sk)
 

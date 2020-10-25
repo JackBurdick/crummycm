@@ -13,6 +13,8 @@ from example_templates.component.unnamed.a import (
     A_unnamed_double_dist,
     A_unnamed_triple_dist,
     A_unnamed_quad_dist,
+    A_unnamed_quad_inner_quad,
+    A_unnamed_quad_nested_inner_quad,
 )
 
 ex_config = {
@@ -127,6 +129,114 @@ ex_config = {
                 "val_side": 8,
                 "x_a": 10,
                 "x_b": 11,
+            }
+        },
+    ),
+    "nested_unnamed_nest_multi": (
+        (
+            {
+                "config": {
+                    "personal_key": {
+                        "next_up_val": 4,
+                        "next_down_val": 2,
+                        "next_side_val": 3,
+                        "val_next_up": 6,
+                        "val_next_down": 7,
+                        "val_next_side": 8,
+                        "x_next_a": 10,
+                        "x_next_b": 11,
+                    },
+                    "up_val": 4,
+                    "down_val": 2,
+                    "side_val": 3,
+                    "val_up": 6,
+                    "val_down": 7,
+                    "val_side": 8,
+                }
+            },
+            A_unnamed_quad_inner_quad,
+        ),
+        {
+            "config": {
+                "personal_key": {
+                    "next_up_val": 4,
+                    "next_down_val": 2,
+                    "next_side_val": 3,
+                    "val_next_up": 6,
+                    "val_next_down": 7,
+                    "val_next_side": 8,
+                    "x_next_a": 10,
+                    "x_next_b": 11,
+                },
+                "up_val": 4,
+                "down_val": 2,
+                "side_val": 3,
+                "val_up": 6,
+                "val_down": 7,
+                "val_side": 8,
+            }
+        },
+    ),
+    "nested_unnamed_nest_multi": (
+        (
+            {
+                "config": {
+                    "personal_key": {
+                        "my_dict": {
+                            "my_number": 3,
+                            "inner_down_val": 2,
+                            "inner_side_val": 3,
+                            "val_inner_up": 6,
+                            "val_inner_down": 7,
+                            "val_inner_side": 8,
+                            "x_inner_a": 10,
+                            "x_inner_b": 11,
+                        },
+                        "next_down_val": 2,
+                        "next_side_val": 3,
+                        "val_next_up": 6,
+                        "val_next_down": 7,
+                        "val_next_side": 8,
+                        "x_next_a": 10,
+                        "x_next_b": 11,
+                    },
+                    "up_val": 4,
+                    "down_val": 2,
+                    "side_val": 3,
+                    "val_up": 6,
+                    "val_down": 7,
+                    "val_side": 8,
+                }
+            },
+            A_unnamed_quad_nested_inner_quad,
+        ),
+        {
+            "config": {
+                "personal_key": {
+                    "my_dict": {
+                        "my_number": 3,
+                        "inner_down_val": 2,
+                        "inner_side_val": 3,
+                        "val_inner_up": 6,
+                        "val_inner_down": 7,
+                        "val_inner_side": 8,
+                        "x_inner_a": 10,
+                        "x_inner_b": 11,
+                    },
+                    "next_down_val": 2,
+                    "next_side_val": 3,
+                    "val_next_up": 6,
+                    "val_next_down": 7,
+                    "val_next_side": 8,
+                    "x_next_a": 10,
+                    "x_next_b": 11,
+                },
+                "up_val": 4,
+                "down_val": 2,
+                "side_val": 3,
+                "val_up": 6,
+                "val_down": 7,
+                "val_side": 8,
             }
         },
     ),
