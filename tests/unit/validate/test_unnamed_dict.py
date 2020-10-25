@@ -11,6 +11,8 @@ from example_templates.component.unnamed.a import (
     A_quad_nested_unnamed_num,
     A_unnamed_out,
     A_unnamed_double_dist,
+    A_unnamed_triple_dist,
+    A_unnamed_quad_dist,
 )
 
 ex_config = {
@@ -62,6 +64,71 @@ ex_config = {
     "nested_unnamed_num": (
         ({"config": {"personal_key": 3, "up_val": 4}}, A_unnamed_double_dist),
         {"config": {"personal_key": 3, "up_val": 4}},
+    ),
+    "nested_unnamed_num_multi": (
+        (
+            {"config": {"personal_key": 3, "up_val": 4, "down_val": 2, "side_val": 3}},
+            A_unnamed_double_dist,
+        ),
+        {"config": {"personal_key": 3, "up_val": 4, "down_val": 2, "side_val": 3}},
+    ),
+    "nested_unnamed_num_multi": (
+        (
+            {
+                "config": {
+                    "personal_key": 3,
+                    "up_val": 4,
+                    "down_val": 2,
+                    "side_val": 3,
+                    "val_up": 6,
+                    "val_down": 7,
+                    "val_side": 8,
+                }
+            },
+            A_unnamed_triple_dist,
+        ),
+        {
+            "config": {
+                "personal_key": 3,
+                "up_val": 4,
+                "down_val": 2,
+                "side_val": 3,
+                "val_up": 6,
+                "val_down": 7,
+                "val_side": 8,
+            }
+        },
+    ),
+    "nested_unnamed_num_multi": (
+        (
+            {
+                "config": {
+                    "personal_key": 3,
+                    "up_val": 4,
+                    "down_val": 2,
+                    "side_val": 3,
+                    "val_up": 6,
+                    "val_down": 7,
+                    "val_side": 8,
+                    "x_a": 10,
+                    "x_b": 11,
+                }
+            },
+            A_unnamed_quad_dist,
+        ),
+        {
+            "config": {
+                "personal_key": 3,
+                "up_val": 4,
+                "down_val": 2,
+                "side_val": 3,
+                "val_up": 6,
+                "val_down": 7,
+                "val_side": 8,
+                "x_a": 10,
+                "x_b": 11,
+            }
+        },
     ),
 }
 

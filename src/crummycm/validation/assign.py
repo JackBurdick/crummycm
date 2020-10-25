@@ -29,51 +29,47 @@ def _get_corresponding_template_keys(spec_in_dict, uk):
         raise ValueError(
             f"no user keys found to match the specified keys in {spec_in_dict}"
         )
-    # elif len(matching_keys) > 1:
-    #     raise ValueError(
-    #         f"user keys: {matching_keys} match multiple spec keys {spec_in_dict}"
-    #     )
 
     return matching_keys
 
 
-def _eliminate_single_keys(options_dict, uk_to_sk, used_keys):
-    tmp_dict, tmp_m_dict = {}, {}
-    for kk, vv in options_dict.items():
-        if len(vv) == 1:
-            cur_v = vv[0]
-            if cur_v.multi:
-                tmp_m_dict[kk] = cur_v
+def _eliminate_single_keys(opt_dict, uk_to_sk, used_keys):
+    unsolved_opt_dict, unsolved_m_opt_dict = {}, {}
+    for uk, sks in opt_dict.items():
+        if len(sks) == 1:
+            sk = sks[0]
+            if sk.multi:
+                unsolved_m_opt_dict[uk] = sk
             else:
-                if cur_v in used_keys:
+                if sk in used_keys:
                     raise ValueError(
-                        f"key {cur_v.name} matches multiple items: {[v.name for v in list(used_keys)]}"
+                        f"key {sk.name} matches multiple items: {[v.name for v in list(used_keys)]}"
                     )
                 else:
-                    used_keys.add(cur_v)
-                    uk_to_sk[kk] = cur_v
+                    used_keys.add(sk)
+                    uk_to_sk[uk] = sk
         else:
-            tmp_dict[kk] = vv
+            unsolved_opt_dict[uk] = sks
 
-    return tmp_dict, tmp_m_dict
+    return unsolved_opt_dict, unsolved_m_opt_dict
 
 
-def _remove_used_options(tmp_dict, used_keys):
-    for k, v in tmp_dict.items():
+def _remove_used_options(unsolved_opt_dict, used_keys):
+    for k, v in unsolved_opt_dict.items():
         new_options = []
         for vv in v:
             if vv not in used_keys:
                 new_options.append(vv)
-        tmp_dict[k] = new_options
+        unsolved_opt_dict[k] = new_options
 
-    return tmp_dict
+    return unsolved_opt_dict
 
 
-def _assign_multi_keys(tmp_m_dict, uk_to_sk):
+def _assign_multi_keys(unsolved_m_opt_dict, uk_to_sk):
     sk_to_uks = {}
     c = Counter()
     # reverse dict
-    for k, v in tmp_m_dict.items():
+    for k, v in unsolved_m_opt_dict.items():
         try:
             sk_to_uks[v].append(k)
         except KeyError:
@@ -89,7 +85,7 @@ def _assign_multi_keys(tmp_m_dict, uk_to_sk):
         err_str = ""
         for t in errs:
             uk, uk_count = t
-            err_str += f" - {uk} used {uk_count} times: {tmp_m_dict[uk]}\n"
+            err_str += f" - {uk} used {uk_count} times: {unsolved_m_opt_dict[uk]}\n"
         raise ValueError(
             f"the following keys cannot be discerned as they match multiple template keys:\n{err_str}"
         )
@@ -101,35 +97,37 @@ def _assign_multi_keys(tmp_m_dict, uk_to_sk):
     return uk_to_sk
 
 
-def _assign_keys(options_dict, uk_to_sk, used_keys):
+def _assign_keys(opt_dict, uk_to_sk, used_keys):
     # eliminate single
-    # used_keys and uk_to_sk are modified in place
-
-    tmp_dict, tmp_m_dict = _eliminate_single_keys(options_dict, uk_to_sk, used_keys)
-    if len(tmp_dict) > 0:
+    unsolved_opt_dict, unsolved_m_opt_dict = _eliminate_single_keys(
+        opt_dict, uk_to_sk, used_keys
+    )
+    if len(unsolved_opt_dict) > 0:
         # remove used keys from options
-        tmp_dict = _remove_used_options(tmp_dict, used_keys)
-        uk_to_sk, tmp_dict = _assign_keys(tmp_dict, uk_to_sk, used_keys)
+        unsolved_opt_dict = _remove_used_options(unsolved_opt_dict, used_keys)
+        uk_to_sk, unsolved_opt_dict = _assign_keys(
+            unsolved_opt_dict, uk_to_sk, used_keys
+        )
 
-    if len(tmp_m_dict) > 0:
-        uk_to_sk = _assign_multi_keys(tmp_m_dict, uk_to_sk)
+    if len(unsolved_m_opt_dict) > 0:
+        uk_to_sk = _assign_multi_keys(unsolved_m_opt_dict, uk_to_sk)
 
-    return uk_to_sk, tmp_dict
+    return uk_to_sk, unsolved_opt_dict
 
 
 def map_user_keys_to_spec_key(raw, spec_in_dict):
 
     # create initial options
-    options_dict = {}
+    opt_dict = {}
     for uk in raw.keys():
-        options_dict[uk] = _get_corresponding_template_keys(spec_in_dict, uk)
+        opt_dict[uk] = _get_corresponding_template_keys(spec_in_dict, uk)
 
     # eliminate and assign
-    used_keys = set()
-    uk_to_sk = {}
-    uk_to_sk, tmp_dict = _assign_keys(options_dict, uk_to_sk, used_keys)
-    # if len(tmp_dict) > 0:
-    #     uk_to_sk, tmp_dict = _assign_multi_keys(uk_to_sk, tmp_dict)
-    assert len(tmp_dict) == 0, ValueError(f"keys remain unassigned: {tmp_dict}")
+    uk_to_sk, used_keys = {}, set()
+    uk_to_sk, unsolved_opt_dict = _assign_keys(opt_dict, uk_to_sk, used_keys)
+
+    assert len(unsolved_opt_dict) == 0, ValueError(
+        f"keys remain unassigned: {unsolved_opt_dict}"
+    )
 
     return uk_to_sk

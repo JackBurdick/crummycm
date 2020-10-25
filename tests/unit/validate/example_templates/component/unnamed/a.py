@@ -42,7 +42,42 @@ A_unnamed_double_dist = {
             KeyPlaceholder("my_key"): Numeric(
                 default_value=int(0), required=False, is_type=int
             ),
-            KeyPlaceholder("my_other_key", ends_with="_val"): Numeric(
+            KeyPlaceholder("my_other_key", ends_with="_val", multi=True): Numeric(
+                default_value=int(0), required=False, is_type=int
+            ),
+        }
+    )
+}
+
+A_unnamed_triple_dist = {
+    "config": UnnamedDict(
+        {
+            KeyPlaceholder("my_key"): Numeric(
+                default_value=int(0), required=False, is_type=int
+            ),
+            KeyPlaceholder("my_other_key", ends_with="_val", multi=True): Numeric(
+                default_value=int(0), required=False, is_type=int
+            ),
+            KeyPlaceholder("YAK", starts_with="val_", multi=True): Numeric(
+                default_value=int(0), required=False, is_type=int
+            ),
+        }
+    )
+}
+
+A_unnamed_quad_dist = {
+    "config": UnnamedDict(
+        {
+            KeyPlaceholder("my_key"): Numeric(
+                default_value=int(0), required=False, is_type=int
+            ),
+            KeyPlaceholder("my_other_key", ends_with="_val", multi=True): Numeric(
+                default_value=int(0), required=False, is_type=int
+            ),
+            KeyPlaceholder("YAK", starts_with="val_", multi=True): Numeric(
+                default_value=int(0), required=False, is_type=int
+            ),
+            KeyPlaceholder("YAK_sw", starts_with="x_", multi=True): Numeric(
                 default_value=int(0), required=False, is_type=int
             ),
         }
