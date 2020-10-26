@@ -15,7 +15,7 @@ ex_config = {
         ({"my_conf": {"my_num": 0}}, required_num_false),
         {"my_conf": {"my_num": 0}},
     ),
-    "optional_num_true": (({"my_conf": {}}, required_num_true), {"my_conf": {}}),
+    "optional_num_true": (({"my_conf": {}}, required_num_true), ValueError),
     "required_num_true_true_v": (
         ({"my_conf": {"my_text": "jack"}}, required_num_true_true),
         {"my_conf": {"my_text": "jack"}},

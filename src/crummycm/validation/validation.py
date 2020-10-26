@@ -89,7 +89,20 @@ def _parse_unnamed_dict(raw, spec):
     return tmp_dict
 
 
+def _parse_unknown_dict(raw, spec):
+    tmp_dict = {}
+    uk_to_sk = map_user_keys_to_spec_key(raw, spec.in_dict)
+    if not uk_to_sk:
+        raise ValueError(f"no options present for {spec} in {raw}")
+    tmp_dict = raw.copy()
+    return tmp_dict
+
+
 def _parse_comp_dict(raw, spec):
+    if raw is None:
+        # NOTE: I'm not convinced this is how I want to handle a situation in
+        # which there is no user values to parse
+        raise ValueError(f"no user value for {spec}")
     tmp_dict = {}
     if isinstance(spec, KnownDict):
         tmp_dict = _parse_known_dict(raw, spec)
@@ -100,7 +113,7 @@ def _parse_comp_dict(raw, spec):
     elif isinstance(spec, MixedDict):
         tmp_dict = _parse_py_dicts_and_merge(raw, spec.in_dict)
     elif isinstance(spec, UnknownDict):
-        tmp_dict = raw.copy()
+        tmp_dict = _parse_unknown_dict(raw, spec)
     else:
         raise TypeError(f"{spec} ({type(spec)}) is not an accepted type")
 
@@ -124,14 +137,8 @@ def _split_dicts(raw, template):
     for k, v in template.items():
         if isinstance(k, Placeholder):
             if isinstance(v, Placeholder):
-                assert len(unknown) < 1, ValueError(
-                    f"can only have 1 unknown item in {template}"
-                )
                 unknown[k] = v
             else:
-                assert len(unknown) < 1, ValueError(
-                    f"can only have 1 unnamed item in {template}"
-                )
                 unnamed[k] = v
         else:
             if isinstance(v, Placeholder):
@@ -182,7 +189,7 @@ def _determine_if_all_strict(cur_t):
                 bl.append(False)
         return all(bl)
     else:
-        return True
+        return False
 
 
 def _create_subset(cur_t, raw):
