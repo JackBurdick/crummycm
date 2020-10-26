@@ -208,8 +208,14 @@ def determine_if_all_strict(cur_t):
         return True
 
 
-# def _create_subset(cur_t, raw):
-#     raw
+def _create_subset(cur_t, raw):
+    subset_raw = {}
+    for uk in raw.keys():
+        if isinstance(cur_t, BaseDict):
+            for sk in cur_t.in_dict.keys():
+                if sk.matches(uk):
+                    subset_raw[uk] = raw[uk]
+    return subset_raw
 
 
 def _parse_py_dicts_and_merge(raw, template):
@@ -229,23 +235,19 @@ def _parse_py_dicts_and_merge(raw, template):
     uk_strict = determine_if_all_strict(unknown_t)
     # subset raw to only values that match the strict
     if un_strict:
-        subset_raw = {}
+        subset_raw = _create_subset(unnamed_t, raw)
         for uk in raw.keys():
             if isinstance(unnamed_t, BaseDict):
-                for sk in unnamed_t.in_dict.keys():
-                    if sk.matches(uk):
-                        subset_raw[uk] = raw[uk]
         oun = _inner(unnamed_t, subset_raw)
         ouk = _inner(unknown_t, raw)
     else:
         if uk_strict:
-            # TODO: subset
-            ouk = _inner(unknown_t, raw)
+            subset_raw = _create_subset(unknown_t, raw)
+            ouk = _inner(unknown_t, subset_raw)
             oun = _inner(unnamed_t, raw)
         else:
             oun = _inner(unnamed_t, raw)
             ouk = _inner(unknown_t, raw)
-
 
     # merge
     formatted = {**ok, **on, **oun, **ouk}
