@@ -17,7 +17,7 @@ from example_templates.element.text.a import (
 
 ex_config = {
     "single_value_provided": (({"my_text": "Jack"}, A_EX_TEMP), {"my_text": "Jack"}),
-    "no_value_provided": (({}, A_EX_TEMP), {"my_text": "Jack"}),
+    "no_value_provided": (({"my_text": None}, A_EX_TEMP), {"my_text": "Jack"}),
     "required_provided": (
         ({"my_text": "Jack"}, A_required_EX_TEMP),
         {"my_text": "Jack"},

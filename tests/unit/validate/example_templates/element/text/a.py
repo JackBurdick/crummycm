@@ -1,6 +1,6 @@
-from crummycm.types.values.foundation.text import Text
+from crummycm.types.values.element.text import Text
 
-A_EX_TEMP = {"my_text": Text(default_value="Jack", required=False)}
+A_EX_TEMP = {"my_text": Text(default_value="Jack")}
 # type
 A_required_EX_TEMP = {"my_text": Text(required=True)}
 

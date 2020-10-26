@@ -4,8 +4,8 @@ from crummycm.types.dicts.base_dict import KeyPlaceholder, ValuePlaceholder
 from crummycm.types.dicts.foundation.named_dict import NamedDict
 from crummycm.types.dicts.mixed_dict import MixedDict as MD
 
-# from crummycm.types.values.foundation.numeric import Numeric
-from crummycm.types.values.foundation.text import Text
+# from crummycm.types.values.element.numeric import Numeric
+from crummycm.types.values.element.text import Text
 
 # from crummycm.types.values.base import BaseValue
 required_num_false = {
@@ -27,11 +27,7 @@ required_num_true_false = {
 
 required_num_true_false_default = {
     "my_conf": MD(
-        {
-            KeyPlaceholder("my_text", required=True): Text(
-                required=False, default_value="Jack"
-            )
-        }
+        {KeyPlaceholder("my_text", required=True): Text(default_value="Jack")}
     )
 }
 

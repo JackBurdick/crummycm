@@ -15,7 +15,7 @@ from example_templates.base.a import (
 
 ex_config = {
     "single_value_provided": (({"name": "Jack"}, A_EX_TEMP), {"name": "Jack"}),
-    "no_default_provided": (({}, A_EX_TEMP), {"name": "Sam"}),
+    "no_default_provided": (({"name": None}, A_EX_TEMP), {"name": "Sam"}),
     "required_provided": (({"name": "Jack"}, A_required_EX_TEMP), {"name": "Jack"}),
     "required_not_provided": (({"name": None}, A_required_EX_TEMP), ValueError),
     "str_correct_type_provided": (({"name": "Jack"}, A_str_EX_TEMP), {"name": "Jack"}),

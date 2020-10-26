@@ -2,8 +2,8 @@ from crummycm.types.dicts.base_dict import KeyPlaceholder, ValuePlaceholder
 from crummycm.types.dicts.foundation.unnamed_dict import UnnamedDict
 from crummycm.types.dicts.foundation.known_dict import KnownDict
 from crummycm.types.dicts.mixed_dict import MixedDict as MD
-from crummycm.types.values.foundation.numeric import Numeric
-from crummycm.types.values.foundation.text import Text
+from crummycm.types.values.element.numeric import Numeric
+from crummycm.types.values.element.text import Text
 
 # from crummycm.types.values.base import BaseValue
 A_mixed_all_single = {
@@ -94,7 +94,7 @@ mixed_all_single_key_unnamed_req_false_v_req_false_default = {
         {
             "kd_num": Numeric(default_value=int(0), is_type=int),
             KeyPlaceholder("some_str", ends_with="_str", required=False): Text(
-                required=False, default_value="DIESEL"
+                default_value="DIESEL"
             ),
             KeyPlaceholder("some_num", required=True): ValuePlaceholder("user_num"),
             "wild_card": ValuePlaceholder("wild_card_value"),

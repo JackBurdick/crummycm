@@ -70,10 +70,17 @@ ex_config = {
     ),
     "mixed_all_single_key_unnamed_req_false_v_req_false_def_a": (
         (
-            {"my_mixed": {"kd_num": 0, "my_num": 11, "wild_card": 2.3}},
+            {
+                "my_mixed": {
+                    "kd_num": 0,
+                    "my_num": 11,
+                    "my_str": "jack",
+                    "wild_card": 2.3,
+                }
+            },
             mixed_all_single_key_unnamed_req_false_v_req_false_default,
         ),
-        {"my_mixed": {"kd_num": 0, "my_num": 11, "wild_card": 2.3}},
+        {"my_mixed": {"kd_num": 0, "my_num": 11, "my_str": "jack", "wild_card": 2.3}},
     ),
     "mixed_all_single_key_unnamed_req_false_v_req_false_def_b": (
         (

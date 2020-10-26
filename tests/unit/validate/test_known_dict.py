@@ -15,7 +15,7 @@ ex_config = {
         {"my_str": "Jack", "my_num": 1},
     ),
     "two_elements_neither_provided_default": (
-        ({}, A_ex),
+        ({"my_str": None, "my_num": None}, A_ex),
         {"my_str": "Jack", "my_num": 0},
     ),
     "two_elements_neither_provided_default": (
