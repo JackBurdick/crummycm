@@ -1,12 +1,7 @@
 from typing import Any
 
 from crummycm.types.base import Base
-from crummycm.types.component.base_dict import (
-    BaseDict,
-    KeyPlaceholder,
-    ValuePlaceholder,
-    Placeholder,
-)
+from crummycm.types.component.base_dict import BaseDict, Placeholder
 from crummycm.types.component.known_dict import KnownDict
 from crummycm.types.component.mixed_dict import MixedDict
 from crummycm.types.component.named_dict import NamedDict
@@ -102,6 +97,8 @@ def _parse_comp_dict(raw, spec):
         tmp_dict = _parse_named_dict(raw, spec)
     elif isinstance(spec, UnnamedDict):
         tmp_dict = _parse_unnamed_dict(raw, spec)
+    elif isinstance(spec, MixedDict):
+        tmp_dict = _parse_py_dicts_and_merge(raw, spec.in_dict)
     elif isinstance(spec, UnknownDict):
         tmp_dict = raw.copy()
     else:
@@ -117,28 +114,6 @@ def _transform_from_spec(k, raw, spec):
     except AttributeError:
         rv = cur_val
     return rv
-
-
-def _val_spec_against_user(sk, raw, sv):
-    tmp = None
-    if isinstance(sv, BaseDict):
-        tmp = _parse_comp_dict(raw[sk], sv)
-    elif isinstance(sv, Base):
-        tmp = _transform_from_spec(sk, raw, sv)
-    else:
-        raise TypeError(f"type of {sv} ({type(sv)}) is invalid")
-    return tmp
-
-
-def _parse_py_dict(raw, template):
-    formatted = {}
-    for sk, sv in template.items():
-        if not isinstance(sk, str):
-            if isinstance(sk, KeyPlaceholder):
-                formatted = _parse_unnamed_dict(raw, UnnamedDict(template))
-        else:
-            formatted[sk] = _val_spec_against_user(sk, raw, sv)
-    return formatted
 
 
 def _split_dicts(raw, template):
@@ -188,21 +163,14 @@ def _remove_subset_from_raw(subset, raw):
 
 def _inner(cur_t, raw):
     if isinstance(cur_t, BaseDict):
-        # print(f"cur_t: {cur_t.in_dict.keys()}")
         o = _parse_comp_dict(raw, cur_t)
         _remove_subset_from_raw(o, raw)
-        # for k in o.keys():
-        #     try:
-        #         del raw[k]
-        #     except KeyError:
-        #         pass
-        # print(f"o: {o}")
     else:
         o = {}
     return o
 
 
-def determine_if_all_strict(cur_t):
+def _determine_if_all_strict(cur_t):
     if isinstance(cur_t, BaseDict):
         bl = []
         for k in cur_t.in_dict.keys():
@@ -231,15 +199,13 @@ def _parse_py_dicts_and_merge(raw, template):
     known_t, named_t, unnamed_t, unknown_t = _split_dicts(raw, template)
 
     # parse seperately
-    # TODO: this could be done in a loop
     # the order is important --known keys, to unknown keys
     # strict to less strict
 
     ok = _inner(known_t, raw)
     on = _inner(named_t, raw)
-
-    un_strict = determine_if_all_strict(unnamed_t)
-    uk_strict = determine_if_all_strict(unknown_t)
+    un_strict = _determine_if_all_strict(unnamed_t)
+    uk_strict = _determine_if_all_strict(unknown_t)
     # subset raw to only values that match the strict
     if un_strict:
         subset_raw = _create_subset(unnamed_t, raw)
@@ -266,7 +232,6 @@ def validate(raw: Any, template: Any):
     # check unused keys
     formatted = {}
     if isinstance(template, dict):
-        # formatted = _parse_py_dict(raw, template)
         formatted = _parse_py_dicts_and_merge(raw, template)
     elif isinstance(template, BaseDict):
         formatted = _parse_comp_dict(raw, template)

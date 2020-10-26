@@ -1,10 +1,15 @@
 import pytest
 
 from crummycm.validate import validate
-from example_templates.component.mixed_keys.a import A_mixed_all_single
+from example_templates.component.mixed_keys.a import (
+    A_mixed_all_single,
+    A_mixed_outter,
+    A_mixed_all_single_nested,
+    A_mixed_outter_nested,
+)
 
 ex_config = {
-    "known_contains_unknown": (
+    "mixed_inner": (
         (
             {
                 "my_mixed": {
@@ -17,7 +22,76 @@ ex_config = {
             A_mixed_all_single,
         ),
         {"my_mixed": {"kd_num": 0, "my_str": "Jack", "my_num": 11, "wild_card": 2.3}},
-    )
+    ),
+    "mixed_outter": (
+        (
+            {"kd_num": 0, "my_str": "Jack", "my_num": 11, "wild_card": 2.3},
+            A_mixed_outter,
+        ),
+        {"kd_num": 0, "my_str": "Jack", "my_num": 11, "wild_card": 2.3},
+    ),
+    "mixed_inner_nested": (
+        (
+            {
+                "my_mixed": {
+                    "kd_num": 0,
+                    "my_str": "Jack",
+                    "my_num": 11,
+                    "wild_card": 2.3,
+                    "nested_md": {
+                        "kd_num": 0,
+                        "my_str": "Jack",
+                        "my_num": 11,
+                        "wild_card": 2.3,
+                    },
+                }
+            },
+            A_mixed_all_single_nested,
+        ),
+        {
+            "my_mixed": {
+                "kd_num": 0,
+                "my_str": "Jack",
+                "my_num": 11,
+                "wild_card": 2.3,
+                "nested_md": {
+                    "kd_num": 0,
+                    "my_str": "Jack",
+                    "my_num": 11,
+                    "wild_card": 2.3,
+                },
+            }
+        },
+    ),
+    "mixed_outter_nested": (
+        (
+            {
+                "kd_num": 0,
+                "my_str": "Jack",
+                "my_num": 11,
+                "wild_card": 2.3,
+                "nested_md": {
+                    "kd_num": 0,
+                    "my_str": "Jack",
+                    "my_num": 11,
+                    "wild_card": 2.3,
+                },
+            },
+            A_mixed_outter_nested,
+        ),
+        {
+            "kd_num": 0,
+            "my_str": "Jack",
+            "my_num": 11,
+            "wild_card": 2.3,
+            "nested_md": {
+                "kd_num": 0,
+                "my_str": "Jack",
+                "my_num": 11,
+                "wild_card": 2.3,
+            },
+        },
+    ),
 }
 
 
