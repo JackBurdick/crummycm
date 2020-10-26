@@ -8,6 +8,7 @@ from crummycm.types.component.base_dict import (
     Placeholder,
 )
 from crummycm.types.component.known_dict import KnownDict
+from crummycm.types.component.mixed_dict import MixedDict
 from crummycm.types.component.named_dict import NamedDict
 from crummycm.types.component.unknown_dict import UnknownDict
 from crummycm.types.component.unnamed_dict import UnnamedDict
@@ -93,7 +94,7 @@ def _parse_unnamed_dict(raw, spec):
     return tmp_dict
 
 
-def _parse_dict(raw, spec):
+def _parse_comp_dict(raw, spec):
     tmp_dict = {}
     if isinstance(spec, KnownDict):
         tmp_dict = _parse_known_dict(raw, spec)
@@ -121,7 +122,7 @@ def _transform_from_spec(k, raw, spec):
 def _val_spec_against_user(sk, raw, sv):
     tmp = None
     if isinstance(sv, BaseDict):
-        tmp = _parse_dict(raw[sk], sv)
+        tmp = _parse_comp_dict(raw[sk], sv)
     elif isinstance(sv, Base):
         tmp = _transform_from_spec(sk, raw, sv)
     else:
@@ -179,60 +180,34 @@ def _split_dicts(raw, template):
 # read/reason about for the time being
 
 
-def _parse_py_dicts_and_merge(raw, template):
-    formatted = {}
-    # split dicts
-    known_t, named_t, unnamed_t, unknown_t = _split_dicts(raw, template)
-
-    # parse seperately
-    # the order is important --known keys, to unknown keys
-    if isinstance(known_t, BaseDict):
+def _inner(cur_t, raw):
+    if isinstance(cur_t, BaseDict):
         # print(f"known: {known_t.in_dict.keys()}")
-        ok = _parse_dict(raw, known_t)
-        for k in ok.keys():
+        o = _parse_comp_dict(raw, cur_t)
+        for k in o.keys():
             try:
                 del raw[k]
             except KeyError:
                 pass
         # print(f"ok: {ok}")
     else:
-        ok = {}
+        o = {}
+    return o
 
-    if isinstance(named_t, BaseDict):
-        # print(f"named_t: {named_t.in_dict.keys()}")
-        on = _parse_dict(raw, named_t)
-        for k in on.keys():
-            try:
-                del raw[k]
-            except KeyError:
-                pass
-        # print(f"on: {on}")
-    else:
-        on = {}
 
-    if isinstance(unnamed_t, BaseDict):
-        # print(f"unnamed_t: {unnamed_t.in_dict.keys()}")
-        oun = _parse_dict(raw, unnamed_t)
-        for k in oun.keys():
-            try:
-                del raw[k]
-            except KeyError:
-                pass
-        # print(f"oun: {oun}")
-    else:
-        oun = {}
+def _parse_py_dicts_and_merge(raw, template):
+    formatted = {}
+    # split dicts
+    known_t, named_t, unnamed_t, unknown_t = _split_dicts(raw, template)
 
-    if isinstance(unknown_t, BaseDict):
-        # print(f"unknown_t: {unknown_t.in_dict.keys()}")
-        ouk = _parse_dict(raw, unknown_t)
-        for k in ouk.keys():
-            try:
-                del raw[k]
-            except KeyError:
-                pass
-        # print(f"ouk: {ouk}")
-    else:
-        ouk = {}
+    # parse seperately
+    # TODO: this could be done in a loop
+    # the order is important --known keys, to unknown keys
+    # strict to less strict
+    ok = _inner(known_t, raw)
+    on = _inner(named_t, raw)
+    oun = _inner(unnamed_t, raw)
+    ouk = _inner(unknown_t, raw)
 
     # merge
     formatted = {**ok, **on, **oun, **ouk}
@@ -247,7 +222,7 @@ def validate(raw: Any, template: Any):
         # formatted = _parse_py_dict(raw, template)
         formatted = _parse_py_dicts_and_merge(raw, template)
     elif isinstance(template, BaseDict):
-        formatted = _parse_dict(raw, template)
+        formatted = _parse_comp_dict(raw, template)
     else:
         raise ValueError(
             f"{template} is of type {type(template)} not {dict} or {BaseDict}"
