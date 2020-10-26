@@ -1,5 +1,7 @@
 from collections import Counter
 
+from crummycm.types.component.base_dict import KeyPlaceholder, Placeholder
+
 
 def _get_corresponding_template_keys(spec_in_dict, uk):
     matching_keys = []
@@ -26,8 +28,13 @@ def _get_corresponding_template_keys(spec_in_dict, uk):
             matching_keys.append(k)
 
     if len(matching_keys) == 0:
+        err_str = ""
+        ks = spec_in_dict.keys()
+        for k in ks:
+            if isinstance(k, KeyPlaceholder):
+                err_str += f"- {k}"
         raise ValueError(
-            f"no user keys found to match the specified keys in {spec_in_dict}"
+            f"user key {uk} found to match the specified keys in {spec_in_dict.keys()}\n: {err_str}"
         )
 
     return matching_keys
