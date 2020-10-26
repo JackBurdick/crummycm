@@ -182,17 +182,34 @@ def _split_dicts(raw, template):
 
 def _inner(cur_t, raw):
     if isinstance(cur_t, BaseDict):
-        # print(f"known: {known_t.in_dict.keys()}")
+        # print(f"cur_t: {cur_t.in_dict.keys()}")
         o = _parse_comp_dict(raw, cur_t)
         for k in o.keys():
             try:
                 del raw[k]
             except KeyError:
                 pass
-        # print(f"ok: {ok}")
+        # print(f"o: {o}")
     else:
         o = {}
     return o
+
+
+def determine_if_all_strict(cur_t):
+    if isinstance(cur_t, BaseDict):
+        bl = []
+        for k in cur_t.in_dict.keys():
+            if k.starts_with or k.ends_with:
+                bl.append(True)
+            else:
+                bl.append(False)
+        return all(bl)
+    else:
+        return True
+
+
+# def _create_subset(cur_t, raw):
+#     raw
 
 
 def _parse_py_dicts_and_merge(raw, template):
