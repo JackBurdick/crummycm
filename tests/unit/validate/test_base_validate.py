@@ -1,6 +1,6 @@
 import pytest
 
-from crummycm.validate import validate
+from crummycm.validation.validation import validate
 from example_templates.base.a import (
     A_EX_TEMP,
     A_bool_EX_TEMP,

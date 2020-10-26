@@ -1,10 +1,10 @@
 from crummycm.types.dicts.base_dict import ValuePlaceholder
 
-# from crummycm.types.dicts.unnamed_dict import UnnamedDict
-from crummycm.types.dicts.named_dict import NamedDict
+# from crummycm.types.dicts.foundation.unnamed_dict import UnnamedDict
+from crummycm.types.dicts.foundation.named_dict import NamedDict
 
-# from crummycm.types.values.numeric import Numeric
-# from crummycm.types.values.text import Text
+# from crummycm.types.values.foundation.numeric import Numeric
+# from crummycm.types.values.foundation.text import Text
 
 # from crummycm.types.values.base import Base
 A_named_single = {"known_dict": NamedDict({"some_thing": ValuePlaceholder("some_val")})}

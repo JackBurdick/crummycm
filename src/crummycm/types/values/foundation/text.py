@@ -1,4 +1,4 @@
-from crummycm.types.base import Base
+from crummycm.types.values.base import Base
 
 
 class Text(Base):

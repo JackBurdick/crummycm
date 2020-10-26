@@ -1,4 +1,4 @@
-from crummycm.types.base import Base
+from crummycm.types.values.base import Base
 
 
 A_EX_TEMP = {"name": Base(default_value="Sam", required=False)}

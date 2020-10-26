@@ -1,4 +1,4 @@
-from crummycm.types.values.numeric import Numeric
+from crummycm.types.values.foundation.numeric import Numeric
 
 A_EX_TEMP = {"my_num": Numeric(default_value=int(0), required=False, is_type=int)}
 # type

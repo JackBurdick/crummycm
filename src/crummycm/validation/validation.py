@@ -1,12 +1,12 @@
 from typing import Any
 
-from crummycm.types.base import Base
+from crummycm.types.values.base import Base
 from crummycm.types.dicts.base_dict import BaseDict, Placeholder
-from crummycm.types.dicts.known_dict import KnownDict
+from crummycm.types.dicts.foundation.known_dict import KnownDict
+from crummycm.types.dicts.foundation.named_dict import NamedDict
+from crummycm.types.dicts.foundation.unknown_dict import UnknownDict
+from crummycm.types.dicts.foundation.unnamed_dict import UnnamedDict
 from crummycm.types.dicts.mixed_dict import MixedDict
-from crummycm.types.dicts.named_dict import NamedDict
-from crummycm.types.dicts.unknown_dict import UnknownDict
-from crummycm.types.dicts.unnamed_dict import UnnamedDict
 from crummycm.validation.assign import map_user_keys_to_spec_key
 
 # def has_method(o, name):

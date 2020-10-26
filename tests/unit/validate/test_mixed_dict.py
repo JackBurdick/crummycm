@@ -1,6 +1,6 @@
 import pytest
 
-from crummycm.validate import validate
+from crummycm.validation.validation import validate
 from example_templates.component.mixed_keys.a import (
     A_mixed_all_single,
     A_mixed_outter,

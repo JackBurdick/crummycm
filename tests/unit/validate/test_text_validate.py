@@ -1,6 +1,6 @@
 import pytest
 
-from crummycm.validate import validate
+from crummycm.validation.validation import validate
 from example_templates.element.text.a import (
     A_EX_TEMP,
     A_contains_one_of_true,

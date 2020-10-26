@@ -1,8 +1,8 @@
 from crummycm.types.dicts.base_dict import KeyPlaceholder
-from crummycm.types.dicts.unnamed_dict import UnnamedDict
-from crummycm.types.dicts.known_dict import KnownDict
-from crummycm.types.values.numeric import Numeric
-from crummycm.types.values.text import Text
+from crummycm.types.dicts.foundation.unnamed_dict import UnnamedDict
+from crummycm.types.dicts.foundation.known_dict import KnownDict
+from crummycm.types.values.foundation.numeric import Numeric
+from crummycm.types.values.foundation.text import Text
 
 # from crummycm.types.values.base import Base
 A_known_uk = {

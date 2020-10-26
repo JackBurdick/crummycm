@@ -1,6 +1,6 @@
 import pytest
 
-from crummycm.validate import validate
+from crummycm.validation.validation import validate
 from example_templates.component.unknown.a import A_inner_unknown, A_outer_unknown
 
 ex_config = {

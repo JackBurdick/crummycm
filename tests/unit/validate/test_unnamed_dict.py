@@ -1,6 +1,6 @@
 import pytest
 
-from crummycm.validate import validate
+from crummycm.validation.validation import validate
 from example_templates.component.unnamed.a import (
     A_ex,
     A_unnamed_single_num_ex,
