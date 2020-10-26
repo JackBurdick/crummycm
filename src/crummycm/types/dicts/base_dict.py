@@ -60,6 +60,12 @@ class KeyPlaceholder(Placeholder):
                 f"{str(self.__class__)} is not allowed to be both exact and multi"
             )
 
+    def is_strict(self):
+        if self.starts_with or self.ends_with or self.exact:
+            return True
+        else:
+            return False
+
     def matches(self, user_val):
         if self.starts_with:
             if user_val.startswith(self.starts_with):
@@ -68,6 +74,11 @@ class KeyPlaceholder(Placeholder):
                 return False
         elif self.ends_with:
             if user_val.endswith(self.ends_with):
+                return True
+            else:
+                return False
+        elif self.exact:
+            if user_val == self.name:
                 return True
             else:
                 return False
@@ -92,6 +103,7 @@ class BaseDict:
         str_key = set()
         sw_val = set()
         ew_val = set()
+        named_keys = set()
 
         for k, v in in_dict.items():
             # TODO: are there any instances in which the k would be hashable but
@@ -116,6 +128,13 @@ class BaseDict:
                         raise ValueError(
                             f"k ({k}) invalid, duplicate keys ends_with={k.ends_with} in {in_dict.keys()}"
                         )
+                elif k.name:
+                    if k not in named_keys:
+                        named_keys.add(k.name)
+                    else:
+                        raise ValueError(
+                            f"duplicate keys detected: key {k} already in {in_dict.keys()}"
+                        )
                 else:
                     str_key.add("UNAMED_KEY")
             else:
@@ -131,11 +150,12 @@ class BaseDict:
                 f"value {v} is expected to be subclass of {BaseValue} or subclass of {BaseDict}, not {type(v)}"
             )
 
-        assert len(str_key) + len(sw_val) + len(ew_val) == len(
+        assert len(str_key) + len(sw_val) + len(ew_val) + len(named_keys) == len(
             in_dict.keys()
         ), ValueError(
             f"keys provided aren't unique:\n"
             f"keys defined by string: {str_key}\n"
+            f"named keys defined by name: {named_keys}\n"
             f"starts_with descriptors: {sw_val}\n"
             f"ends_with descriptors: {ew_val}\n"
             f"in_dict keys: {in_dict.keys()}"
