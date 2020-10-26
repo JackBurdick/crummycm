@@ -1,4 +1,5 @@
-from crummycm.types.values.base import Base
+from typing import Optional
+from crummycm.types.values.base import BaseValue
 
 
 class Placeholder:
@@ -26,7 +27,15 @@ class ValuePlaceholder(Placeholder):
 
 
 class KeyPlaceholder(Placeholder):
-    def __init__(self, name, starts_with=None, ends_with=None, multi=False):
+    def __init__(
+        self,
+        name,
+        starts_with=None,
+        ends_with=None,
+        exact=False,
+        required=True,
+        multi=False,
+    ):
         if not name:
             raise ValueError("no name was provided for KeyPlaceholder")
         elif not isinstance(name, str):
@@ -35,8 +44,15 @@ class KeyPlaceholder(Placeholder):
         assert starts_with is None or ends_with is None, ValueError(
             f"Cannot specify both starts_with=({starts_with}) and ends_with=({ends_with})"
         )
+        # qualifier
         self.starts_with = starts_with or None
         self.ends_with = ends_with or None
+        self.exact = exact
+
+        # optional
+        self.required = False
+
+        # allows many to one relationship
         self.multi = multi
 
     def matches(self, user_val):
@@ -103,11 +119,11 @@ class BaseDict:
                 )
 
             assert (
-                isinstance(v, Base)
+                isinstance(v, BaseValue)
                 or isinstance(v, BaseDict)
                 or isinstance(v, ValuePlaceholder)
             ), TypeError(
-                f"value {v} is expected to be subclass of {Base} or subclass of {BaseDict}, not {type(v)}"
+                f"value {v} is expected to be subclass of {BaseValue} or subclass of {BaseDict}, not {type(v)}"
             )
 
         assert len(str_key) + len(sw_val) + len(ew_val) == len(

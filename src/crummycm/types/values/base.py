@@ -1,7 +1,7 @@
 import inspect
 
 
-class Base:
+class BaseValue:
     def __init__(
         self,
         default_value=None,
@@ -39,15 +39,17 @@ class Base:
                 raise ValueError(f"variable is required but not specified")
 
     def _check_type(self, raw):
-        if self.is_type:
-            if not isinstance(raw, self.is_type):
-                # ints can be converted to floats, but the opposite isn't true
-                if issubclass(self.is_type, float):
-                    if isinstance(raw, int):
-                        return float(raw)
-                raise TypeError(
-                    f"specified value {raw} is type {type(raw)}, not {self.is_type}"
-                )
+        # NOTE: None is passed through
+        if raw:
+            if self.is_type:
+                if not isinstance(raw, self.is_type):
+                    # ints can be converted to floats, but the opposite isn't true
+                    if issubclass(self.is_type, float):
+                        if isinstance(raw, int):
+                            return float(raw)
+                    raise TypeError(
+                        f"specified value {raw} is type {type(raw)}, not {self.is_type}"
+                    )
         return raw
 
     def _apply_fn(self, raw):

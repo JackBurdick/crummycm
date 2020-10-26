@@ -4,7 +4,7 @@ from crummycm.types.dicts.foundation.known_dict import KnownDict
 from crummycm.types.values.foundation.numeric import Numeric
 from crummycm.types.values.foundation.text import Text
 
-# from crummycm.types.values.base import Base
+# from crummycm.types.values.base import BaseValue
 A_known_uk = {
     "known_dict": KnownDict(
         {

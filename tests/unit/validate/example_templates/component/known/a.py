@@ -2,7 +2,7 @@ from crummycm.types.dicts.foundation.known_dict import KnownDict
 from crummycm.types.values.foundation.numeric import Numeric
 from crummycm.types.values.foundation.text import Text
 
-# from crummycm.types.values.base import Base
+# from crummycm.types.values.base import BaseValue
 
 A_ex = {
     "my_num": Numeric(default_value=int(0), required=False, is_type=int),

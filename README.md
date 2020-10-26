@@ -10,3 +10,4 @@ Parse a config file against custom python objects.
 - examples
 - improve test organization + cases
 - parse + validate from file in same function
+- support optional

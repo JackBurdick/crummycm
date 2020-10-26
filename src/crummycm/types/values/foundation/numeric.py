@@ -1,7 +1,8 @@
-from crummycm.types.values.base import Base
+from typing import Optional
+from crummycm.types.values.base import BaseValue
 
 
-class Numeric(Base):
+class Numeric(BaseValue):
     def __init__(
         self,
         default_value=None,

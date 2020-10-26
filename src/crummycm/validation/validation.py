@@ -1,6 +1,6 @@
 from typing import Any
 
-from crummycm.types.values.base import Base
+from crummycm.types.values.base import BaseValue
 from crummycm.types.dicts.base_dict import BaseDict, Placeholder
 from crummycm.types.dicts.foundation.known_dict import KnownDict
 from crummycm.types.dicts.foundation.named_dict import NamedDict
@@ -41,7 +41,7 @@ def _obtain_init_value(k, raw, spec):
 def _parse_known_dict(raw, spec):
     tmp_dict = {}
     for k, v in spec.in_dict.items():
-        if isinstance(v, Base):
+        if isinstance(v, BaseValue):
             cur_val = _transform_from_spec(k, raw, v)
         elif isinstance(v, BaseDict):
             cur_val = validate(raw[k], v.in_dict)
@@ -67,8 +67,8 @@ def _parse_named_dict(raw, spec):
 
 
 def _parse_unnamed_dict(raw, spec):
-    if not raw:
-        raise ValueError(f"no user entry found for {spec}")
+    # if not raw:
+    #     raise ValueError(f"no user entry found for {spec}")
 
     # TODO: keep track of used names
     uk_to_sk = map_user_keys_to_spec_key(raw, spec.in_dict)
@@ -78,7 +78,7 @@ def _parse_unnamed_dict(raw, spec):
     for uk, uv in raw.items():
         sk = uk_to_sk[uk]
         sv = spec.in_dict[sk]
-        if isinstance(sv, Base):
+        if isinstance(sv, BaseValue):
             cur_val = _transform_from_spec(uk, raw, sv)
         elif isinstance(sv, BaseDict):
             cur_val = validate(raw[uk], sv.in_dict)
@@ -176,7 +176,7 @@ def _determine_if_all_strict(cur_t):
         for k in cur_t.in_dict.keys():
             # TODO: this would be nicer if the K had a method to check if it was
             # strcit or not (or even the dict)
-            if k.starts_with or k.ends_with:
+            if k.starts_with or k.ends_with or k.exact:
                 bl.append(True)
             else:
                 bl.append(False)

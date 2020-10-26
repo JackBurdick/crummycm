@@ -1,4 +1,4 @@
-from crummycm.types.values.base import Base
+from crummycm.types.values.base import BaseValue
 from crummycm.types.dicts.base_dict import BaseDict, ValuePlaceholder
 
 

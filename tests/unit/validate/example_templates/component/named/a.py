@@ -6,7 +6,7 @@ from crummycm.types.dicts.foundation.named_dict import NamedDict
 # from crummycm.types.values.foundation.numeric import Numeric
 # from crummycm.types.values.foundation.text import Text
 
-# from crummycm.types.values.base import Base
+# from crummycm.types.values.base import BaseValue
 A_named_single = {"known_dict": NamedDict({"some_thing": ValuePlaceholder("some_val")})}
 
 A_named_double = {

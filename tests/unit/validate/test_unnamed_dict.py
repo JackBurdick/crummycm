@@ -7,6 +7,8 @@ from example_templates.component.unnamed.a import (
     A_unnamed_single_num_multi_ex,
     A_unnamed_single_num_startswith_ex,
     A_unnamed_single_num_endswith_ex,
+    A_unnamed_single_num_endswith_req,
+    A_unnamed_single_exact,
     A_nested_unnamed_num,
     A_quad_nested_unnamed_num,
     A_unnamed_out,
@@ -28,15 +30,31 @@ ex_config = {
         {"config": {"val_the_thing": 4}},
     ),
     "single_unnamed_num_starts_with_invalid": (
-        ({"config": {"the_thing": 4}}, A_unnamed_single_num_startswith_ex),
-        ValueError,
+        ({"config": {"val_the_thing": None}}, A_unnamed_single_num_startswith_ex),
+        {"config": {"val_the_thing": None}},
     ),
-    "single_unnamed_num_starts_with_valid": (
+    "single_unnamed_num_ends_with_valid": (
         ({"config": {"the_thing_val": 4}}, A_unnamed_single_num_endswith_ex),
         {"config": {"the_thing_val": 4}},
     ),
-    "single_unnamed_num_starts_with_invalid": (
-        ({"config": {"the_thing": 4}}, A_unnamed_single_num_endswith_ex),
+    "single_unnamed_num_ends_with_invalid": (
+        ({"config": {"the_thing_val": None}}, A_unnamed_single_num_endswith_ex),
+        {"config": {"the_thing_val": None}},
+    ),
+    "single_unnamed_num_ends_with_req_v": (
+        ({"config": {"the_thing_val": 3}}, A_unnamed_single_num_endswith_req),
+        {"config": {"the_thing_val": 3}},
+    ),
+    "single_unnamed_num_ends_with_req_i": (
+        ({"config": {"the_thing_val": None}}, A_unnamed_single_num_endswith_req),
+        ValueError,
+    ),
+    "single_exact_v": (
+        ({"config": {"some_key": None}}, A_unnamed_single_exact),
+        {"config": {"some_key": None}},
+    ),
+    "single_exact_i": (
+        ({"config": {"v_some_key": None}}, A_unnamed_single_exact),
         ValueError,
     ),
     "single_unnamed_num_num_as_key": (

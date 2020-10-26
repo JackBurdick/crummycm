@@ -24,7 +24,20 @@ def _get_corresponding_template_keys(spec_in_dict, uk):
                         f"key {uk} matches {k.name} 's attribute ends_with ({k.ends_with}),"
                         f" but {matching_keys} also match a template spec and only one can be valid"
                     )
-        if not getattr(k, "ends_with", False) and not getattr(k, "starts_with", False):
+        if getattr(k, "exact", False):
+            if uk == k.name:
+                if uk not in matching_keys:
+                    matching_keys.append(k)
+                else:
+                    raise ValueError(
+                        f"key {uk} matches {k.name} 's attribute name ({k.name}),"
+                        f" but {matching_keys} also match a template spec and only one can be valid"
+                    )
+        if (
+            not getattr(k, "ends_with", False)
+            and not getattr(k, "starts_with", False)
+            and not getattr(k, "exact", False)
+        ):
             matching_keys.append(k)
 
     if len(matching_keys) == 0:
@@ -62,7 +75,7 @@ def _eliminate_single_keys(opt_dict, uk_to_sk, used_keys):
             # calls for ends_with=`_val` we will assign to the ends with
             stricter = []
             for sk in sks:
-                if sk.starts_with or sk.ends_with:
+                if sk.starts_with or sk.ends_with or sk.exact:
                     stricter.append(sk)
 
             if len(stricter) == 1:

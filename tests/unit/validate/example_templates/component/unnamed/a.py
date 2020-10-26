@@ -3,13 +3,23 @@ from crummycm.types.dicts.foundation.unnamed_dict import UnnamedDict
 from crummycm.types.values.foundation.numeric import Numeric
 from crummycm.types.values.foundation.text import Text
 
-# from crummycm.types.values.base import Base
+# from crummycm.types.values.base import BaseValue
 A_ex = {"val": Numeric(default_value=int(0), required=False, is_type=int)}
 
 A_unnamed_single_num_ex = {
     "config": UnnamedDict(
         {
             KeyPlaceholder("some_key"): Numeric(
+                default_value=int(0), required=False, is_type=int
+            )
+        }
+    )
+}
+
+A_unnamed_single_exact = {
+    "config": UnnamedDict(
+        {
+            KeyPlaceholder("some_key", exact=True): Numeric(
                 default_value=int(0), required=False, is_type=int
             )
         }
@@ -123,6 +133,16 @@ A_unnamed_single_num_endswith_ex = {
         {
             KeyPlaceholder("my_key", ends_with="_val"): Numeric(
                 default_value=int(0), required=False, is_type=int
+            )
+        }
+    )
+}
+
+A_unnamed_single_num_endswith_req = {
+    "config": UnnamedDict(
+        {
+            KeyPlaceholder("my_key", ends_with="_val"): Numeric(
+                default_value=int(0), required=True, is_type=int
             )
         }
     )

@@ -5,7 +5,7 @@ from crummycm.types.dicts.mixed_dict import MixedDict as MD
 from crummycm.types.values.foundation.numeric import Numeric
 from crummycm.types.values.foundation.text import Text
 
-# from crummycm.types.values.base import Base
+# from crummycm.types.values.base import BaseValue
 A_mixed_all_single = {
     "my_mixed": MD(
         {

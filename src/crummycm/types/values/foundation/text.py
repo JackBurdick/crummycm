@@ -1,7 +1,7 @@
-from crummycm.types.values.base import Base
+from crummycm.types.values.base import BaseValue
 
 
-class Text(Base):
+class Text(BaseValue):
     def __init__(
         self,
         default_value=None,
