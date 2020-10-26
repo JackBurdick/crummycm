@@ -221,10 +221,31 @@ def _parse_py_dicts_and_merge(raw, template):
     # TODO: this could be done in a loop
     # the order is important --known keys, to unknown keys
     # strict to less strict
+
     ok = _inner(known_t, raw)
     on = _inner(named_t, raw)
-    oun = _inner(unnamed_t, raw)
-    ouk = _inner(unknown_t, raw)
+
+    un_strict = determine_if_all_strict(unnamed_t)
+    uk_strict = determine_if_all_strict(unknown_t)
+    # subset raw to only values that match the strict
+    if un_strict:
+        subset_raw = {}
+        for uk in raw.keys():
+            if isinstance(unnamed_t, BaseDict):
+                for sk in unnamed_t.in_dict.keys():
+                    if sk.matches(uk):
+                        subset_raw[uk] = raw[uk]
+        oun = _inner(unnamed_t, subset_raw)
+        ouk = _inner(unknown_t, raw)
+    else:
+        if uk_strict:
+            # TODO: subset
+            ouk = _inner(unknown_t, raw)
+            oun = _inner(unnamed_t, raw)
+        else:
+            oun = _inner(unnamed_t, raw)
+            ouk = _inner(unknown_t, raw)
+
 
     # merge
     formatted = {**ok, **on, **oun, **ouk}
