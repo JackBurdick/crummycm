@@ -10,6 +10,8 @@ from example_templates.component.unknown.a import (
     double_inner_unknown,
     double_inner_unknown_multi,
     double_inner_unknown_unstrict_multi,
+    double_inner_unknown_mixed_req_multi,
+    double_inner_unknown_mixed_req_multi_b,
 )
 
 ex_config = {
@@ -94,6 +96,27 @@ ex_config = {
         (
             {"some_config": {"my_val": 4, "other_other": 0, "other": 2}},
             double_inner_unknown,
+        ),
+        ValueError,
+    ),
+    "double_inner_unknown_mixed_req_multi_a": (
+        (
+            {"some_config": {"my_val": 4, "my_other_val": 0, "other": 2}},
+            double_inner_unknown_mixed_req_multi,
+        ),
+        {"some_config": {"my_val": 4, "my_other_val": 0, "other": 2}},
+    ),
+    "double_inner_unknown_mixed_req_multi_b": (
+        (
+            {"some_config": {"my_val": 4, "my_other_val": 0}},
+            double_inner_unknown_mixed_req_multi,
+        ),
+        {"some_config": {"my_val": 4, "my_other_val": 0}},
+    ),
+    "double_inner_unknown_mixed_req_multi_c": (
+        (
+            {"some_config": {"my_val": 4, "my_other_val": 0}},
+            double_inner_unknown_mixed_req_multi_b,
         ),
         ValueError,
     ),

@@ -5,7 +5,7 @@ from crummycm.types.dicts.base_dict import KeyPlaceholder, Placeholder
 
 def _get_corresponding_template_keys(spec_in_dict, uk):
     matching_keys = []
-    for k in list(spec_in_dict.keys()):
+    for k in spec_in_dict.keys():
         if getattr(k, "starts_with", False):
             if uk.startswith(k.starts_with):
                 if uk not in matching_keys:
@@ -55,6 +55,7 @@ def _get_corresponding_template_keys(spec_in_dict, uk):
 
 def _eliminate_single_keys(opt_dict, uk_to_sk, used_keys):
     unsolved_opt_dict, unsolved_m_opt_dict = {}, {}
+
     for uk, sks in opt_dict.items():
         if len(sks) == 1:
             sk = sks[0]
@@ -75,7 +76,7 @@ def _eliminate_single_keys(opt_dict, uk_to_sk, used_keys):
             # calls for ends_with=`_val` we will assign to the ends with
             stricter = []
             for sk in sks:
-                if sk.starts_with or sk.ends_with or sk.exact:
+                if sk.is_strict():
                     stricter.append(sk)
 
             if len(stricter) == 1:
@@ -107,9 +108,10 @@ def _remove_used_options(unsolved_opt_dict, used_keys):
     return unsolved_opt_dict
 
 
-def _assign_multi_keys(unsolved_m_opt_dict, uk_to_sk):
+def _assign_multi_keys(unsolved_m_opt_dict, uk_to_sk, used_keys):
     sk_to_uks = {}
     c = Counter()
+
     # reverse dict
     for k, v in unsolved_m_opt_dict.items():
         try:
@@ -135,6 +137,7 @@ def _assign_multi_keys(unsolved_m_opt_dict, uk_to_sk):
     for sk, uks in sk_to_uks.items():
         for uk in uks:
             uk_to_sk[uk] = sk
+            used_keys.add(sk)
 
     return uk_to_sk
 
@@ -157,7 +160,7 @@ def _assign_keys(opt_dict, uk_to_sk, used_keys):
     # this block may belong above the _remove_used_options(unsolved_opt_dict,
     # used_keys) to help eliminate additional keys?
     if len(unsolved_m_opt_dict) > 0:
-        uk_to_sk = _assign_multi_keys(unsolved_m_opt_dict, uk_to_sk)
+        uk_to_sk = _assign_multi_keys(unsolved_m_opt_dict, uk_to_sk, used_keys)
 
     return uk_to_sk, unsolved_opt_dict
 
@@ -172,6 +175,14 @@ def map_user_keys_to_spec_key(raw, spec_in_dict):
     # eliminate and assign
     uk_to_sk, used_keys = {}, set()
     uk_to_sk, unsolved_opt_dict = _assign_keys(opt_dict, uk_to_sk, used_keys)
+
+    not_used_req = []
+    req_sks = [sk for sk in list(spec_in_dict.keys()) if sk.required]
+    for req_sk in req_sks:
+        if req_sk not in used_keys:
+            not_used_req.append(req_sk)
+    if len(not_used_req) > 0:
+        raise ValueError(f"required keys {[sk.name for sk in not_used_req]} not used")
 
     assert len(unsolved_opt_dict) == 0, ValueError(
         f"keys remain unassigned: {unsolved_opt_dict}"

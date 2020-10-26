@@ -85,14 +85,14 @@ ex_config = {
         ({"config": {"personal_key": 3, "up_val": 4}}, A_unnamed_double_dist),
         {"config": {"personal_key": 3, "up_val": 4}},
     ),
-    "nested_unnamed_num_multi": (
+    "nested_unnamed_num_multi_2": (
         (
             {"config": {"personal_key": 3, "up_val": 4, "down_val": 2, "side_val": 3}},
             A_unnamed_double_dist,
         ),
         {"config": {"personal_key": 3, "up_val": 4, "down_val": 2, "side_val": 3}},
     ),
-    "nested_unnamed_num_multi": (
+    "nested_unnamed_num_multi_1": (
         (
             {
                 "config": {
@@ -119,7 +119,7 @@ ex_config = {
             }
         },
     ),
-    "nested_unnamed_num_multi": (
+    "nested_unnamed_num_multi_0": (
         (
             {
                 "config": {
@@ -150,11 +150,12 @@ ex_config = {
             }
         },
     ),
-    "nested_unnamed_nest_multi": (
+    "nested_unnamed_nest_multi_a": (
         (
             {
                 "config": {
                     "personal_key": {
+                        "jack": 0,
                         "next_up_val": 4,
                         "next_down_val": 2,
                         "next_side_val": 3,
@@ -170,6 +171,7 @@ ex_config = {
                     "val_up": 6,
                     "val_down": 7,
                     "val_side": 8,
+                    "x_anything": 9,
                 }
             },
             A_unnamed_quad_inner_quad,
@@ -177,6 +179,7 @@ ex_config = {
         {
             "config": {
                 "personal_key": {
+                    "jack": 0,
                     "next_up_val": 4,
                     "next_down_val": 2,
                     "next_side_val": 3,
@@ -192,10 +195,11 @@ ex_config = {
                 "val_up": 6,
                 "val_down": 7,
                 "val_side": 8,
+                "x_anything": 9,
             }
         },
     ),
-    "nested_unnamed_nest_multi": (
+    "nested_unnamed_nest_multi_b": (
         (
             {
                 "config": {
@@ -224,6 +228,7 @@ ex_config = {
                     "val_up": 6,
                     "val_down": 7,
                     "val_side": 8,
+                    "x_anything": 9,
                 }
             },
             A_unnamed_quad_nested_inner_quad,
@@ -255,6 +260,7 @@ ex_config = {
                 "val_up": 6,
                 "val_down": 7,
                 "val_side": 8,
+                "x_anything": 9,
             }
         },
     ),
