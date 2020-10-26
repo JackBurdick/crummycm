@@ -16,6 +16,15 @@ class BaseValue:
 
         # ran in transform
         self.required = True if required is None else required
+
+        if not self.required and self.default_value:
+            raise ValueError(
+                f"Value is not set as required, but also includes a default_value {self.default_value}\n"
+                "please either:\n"
+                "i) set as required\n"
+                "i) remove the default value\n"
+            )
+
         self.is_type = is_type or None
         self.fn = fn or None
         self.fn_kwargs = fn_kwargs or None
