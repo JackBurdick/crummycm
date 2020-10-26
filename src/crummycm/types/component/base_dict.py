@@ -39,6 +39,20 @@ class KeyPlaceholder(Placeholder):
         self.ends_with = ends_with or None
         self.multi = multi
 
+    def matches(self, user_val):
+        if self.starts_with:
+            if user_val.startswith(self.starts_with):
+                return True
+            else:
+                return False
+        elif self.ends_with:
+            if user_val.endswith(self.ends_with):
+                return True
+            else:
+                return False
+        else:
+            return True
+
 
 def is_KeyPlaceholder(cur_obj):
     try:
