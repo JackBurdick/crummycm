@@ -178,17 +178,24 @@ def _split_dicts(raw, template):
 # obtain corresponding dicts from raw
 # NOTE: this could be done in a single loop, but this is easy to
 # read/reason about for the time being
+def _remove_subset_from_raw(subset, raw):
+    for k in subset.keys():
+        try:
+            del raw[k]
+        except KeyError:
+            pass
 
 
 def _inner(cur_t, raw):
     if isinstance(cur_t, BaseDict):
         # print(f"cur_t: {cur_t.in_dict.keys()}")
         o = _parse_comp_dict(raw, cur_t)
-        for k in o.keys():
-            try:
-                del raw[k]
-            except KeyError:
-                pass
+        _remove_subset_from_raw(o, raw)
+        # for k in o.keys():
+        #     try:
+        #         del raw[k]
+        #     except KeyError:
+        #         pass
         # print(f"o: {o}")
     else:
         o = {}
@@ -236,14 +243,14 @@ def _parse_py_dicts_and_merge(raw, template):
     # subset raw to only values that match the strict
     if un_strict:
         subset_raw = _create_subset(unnamed_t, raw)
-        for uk in raw.keys():
-            if isinstance(unnamed_t, BaseDict):
         oun = _inner(unnamed_t, subset_raw)
+        _remove_subset_from_raw(oun, raw)
         ouk = _inner(unknown_t, raw)
     else:
         if uk_strict:
             subset_raw = _create_subset(unknown_t, raw)
             ouk = _inner(unknown_t, subset_raw)
+            _remove_subset_from_raw(ouk, raw)
             oun = _inner(unnamed_t, raw)
         else:
             oun = _inner(unnamed_t, raw)
