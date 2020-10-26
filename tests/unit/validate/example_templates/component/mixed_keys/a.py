@@ -1,11 +1,11 @@
-from crummycm.types.component.base_dict import KeyPlaceholder, ValuePlaceholder
-from crummycm.types.component.unnamed_dict import UnnamedDict
-from crummycm.types.component.known_dict import KnownDict
-from crummycm.types.component.mixed_dict import MixedDict as MD
-from crummycm.types.element.numeric import Numeric
-from crummycm.types.element.text import Text
+from crummycm.types.dicts.base_dict import KeyPlaceholder, ValuePlaceholder
+from crummycm.types.dicts.unnamed_dict import UnnamedDict
+from crummycm.types.dicts.known_dict import KnownDict
+from crummycm.types.dicts.mixed_dict import MixedDict as MD
+from crummycm.types.values.numeric import Numeric
+from crummycm.types.values.text import Text
 
-# from crummycm.types.element.base import Base
+# from crummycm.types.values.base import Base
 A_mixed_all_single = {
     "my_mixed": MD(
         {

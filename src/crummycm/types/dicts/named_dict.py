@@ -1,5 +1,5 @@
 from crummycm.types.base import Base
-from crummycm.types.component.base_dict import BaseDict, ValuePlaceholder
+from crummycm.types.dicts.base_dict import BaseDict, ValuePlaceholder
 
 
 class NamedDict(BaseDict):

@@ -1,12 +1,12 @@
 from typing import Any
 
 from crummycm.types.base import Base
-from crummycm.types.component.base_dict import BaseDict, Placeholder
-from crummycm.types.component.known_dict import KnownDict
-from crummycm.types.component.mixed_dict import MixedDict
-from crummycm.types.component.named_dict import NamedDict
-from crummycm.types.component.unknown_dict import UnknownDict
-from crummycm.types.component.unnamed_dict import UnnamedDict
+from crummycm.types.dicts.base_dict import BaseDict, Placeholder
+from crummycm.types.dicts.known_dict import KnownDict
+from crummycm.types.dicts.mixed_dict import MixedDict
+from crummycm.types.dicts.named_dict import NamedDict
+from crummycm.types.dicts.unknown_dict import UnknownDict
+from crummycm.types.dicts.unnamed_dict import UnnamedDict
 from crummycm.validation.assign import map_user_keys_to_spec_key
 
 # def has_method(o, name):
@@ -174,6 +174,8 @@ def _determine_if_all_strict(cur_t):
     if isinstance(cur_t, BaseDict):
         bl = []
         for k in cur_t.in_dict.keys():
+            # TODO: this would be nicer if the K had a method to check if it was
+            # strcit or not (or even the dict)
             if k.starts_with or k.ends_with:
                 bl.append(True)
             else:

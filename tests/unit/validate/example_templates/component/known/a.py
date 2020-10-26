@@ -1,8 +1,8 @@
-from crummycm.types.component.known_dict import KnownDict
-from crummycm.types.element.numeric import Numeric
-from crummycm.types.element.text import Text
+from crummycm.types.dicts.known_dict import KnownDict
+from crummycm.types.values.numeric import Numeric
+from crummycm.types.values.text import Text
 
-# from crummycm.types.element.base import Base
+# from crummycm.types.values.base import Base
 
 A_ex = {
     "my_num": Numeric(default_value=int(0), required=False, is_type=int),

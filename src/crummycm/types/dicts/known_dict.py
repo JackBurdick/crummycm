@@ -1,7 +1,7 @@
-# from crummycm.types.element.numeric import Numeric
-# from crummycm.types.element.text import Text
+# from crummycm.types.values.numeric import Numeric
+# from crummycm.types.values.text import Text
 from crummycm.types.base import Base
-from crummycm.types.component.base_dict import BaseDict, ValuePlaceholder
+from crummycm.types.dicts.base_dict import BaseDict, ValuePlaceholder
 
 
 class KnownDict(BaseDict):
