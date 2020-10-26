@@ -50,10 +50,15 @@ class KeyPlaceholder(Placeholder):
         self.exact = exact
 
         # optional
-        self.required = False
+        self.required = required
 
         # allows many to one relationship
         self.multi = multi
+
+        if self.multi and self.exact:
+            raise ValueError(
+                f"{str(self.__class__)} is not allowed to be both exact and multi"
+            )
 
     def matches(self, user_val):
         if self.starts_with:

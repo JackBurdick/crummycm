@@ -63,3 +63,41 @@ A_mixed_outter_nested = MD(
         ),
     }
 )
+
+
+mixed_all_single_key_unnamed_req_false = {
+    "my_mixed": MD(
+        {
+            "kd_num": Numeric(default_value=int(0), is_type=int),
+            KeyPlaceholder("some_str", ends_with="_str", required=False): Text(),
+            KeyPlaceholder("some_num", required=True): ValuePlaceholder("user_num"),
+            "wild_card": ValuePlaceholder("wild_card_value"),
+        }
+    )
+}
+
+mixed_all_single_key_unnamed_req_false_v_req_false = {
+    "my_mixed": MD(
+        {
+            "kd_num": Numeric(default_value=int(0), is_type=int),
+            KeyPlaceholder("some_str", ends_with="_str", required=False): Text(
+                required=False
+            ),
+            KeyPlaceholder("some_num", required=True): ValuePlaceholder("user_num"),
+            "wild_card": ValuePlaceholder("wild_card_value"),
+        }
+    )
+}
+
+mixed_all_single_key_unnamed_req_false_v_req_false_default = {
+    "my_mixed": MD(
+        {
+            "kd_num": Numeric(default_value=int(0), is_type=int),
+            KeyPlaceholder("some_str", ends_with="_str", required=False): Text(
+                required=False, default_value="DIESEL"
+            ),
+            KeyPlaceholder("some_num", required=True): ValuePlaceholder("user_num"),
+            "wild_card": ValuePlaceholder("wild_card_value"),
+        }
+    )
+}

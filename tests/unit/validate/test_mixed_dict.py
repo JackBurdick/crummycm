@@ -6,6 +6,9 @@ from example_templates.component.mixed_keys.a import (
     A_mixed_outter,
     A_mixed_all_single_nested,
     A_mixed_outter_nested,
+    mixed_all_single_key_unnamed_req_false,
+    mixed_all_single_key_unnamed_req_false_v_req_false,
+    mixed_all_single_key_unnamed_req_false_v_req_false_default,
 )
 
 ex_config = {
@@ -22,6 +25,62 @@ ex_config = {
             A_mixed_all_single,
         ),
         {"my_mixed": {"kd_num": 0, "my_str": "Jack", "my_num": 11, "wild_card": 2.3}},
+    ),
+    "mixed_all_single_key_known_req_false_a": (
+        (
+            {"my_mixed": {"kd_num": 0, "my_num": 11, "wild_card": 2.3}},
+            mixed_all_single_key_unnamed_req_false,
+        ),
+        {"my_mixed": {"kd_num": 0, "my_num": 11, "wild_card": 2.3}},
+    ),
+    "mixed_all_single_key_known_req_false_b": (
+        (
+            {
+                "my_mixed": {
+                    "kd_num": 0,
+                    "my_str": "Jack",
+                    "my_num": 11,
+                    "wild_card": 2.3,
+                }
+            },
+            mixed_all_single_key_unnamed_req_false,
+        ),
+        {"my_mixed": {"kd_num": 0, "my_str": "Jack", "my_num": 11, "wild_card": 2.3}},
+    ),
+    "mixed_all_single_key_known_req_false_i": (
+        (
+            {"my_mixed": {"kd_num": 0, "my_num": 11, "my_str": None, "wild_card": 2.3}},
+            mixed_all_single_key_unnamed_req_false,
+        ),
+        ValueError,
+    ),
+    "mixed_all_single_key_unnamed_req_false_v_req_false_a": (
+        (
+            {"my_mixed": {"kd_num": 0, "my_num": 11, "wild_card": 2.3}},
+            mixed_all_single_key_unnamed_req_false_v_req_false,
+        ),
+        {"my_mixed": {"kd_num": 0, "my_num": 11, "wild_card": 2.3}},
+    ),
+    "mixed_all_single_key_unnamed_req_false_v_req_false_b": (
+        (
+            {"my_mixed": {"kd_num": 0, "my_str": None, "my_num": 11, "wild_card": 2.3}},
+            mixed_all_single_key_unnamed_req_false_v_req_false,
+        ),
+        {"my_mixed": {"kd_num": 0, "my_str": None, "my_num": 11, "wild_card": 2.3}},
+    ),
+    "mixed_all_single_key_unnamed_req_false_v_req_false_def_a": (
+        (
+            {"my_mixed": {"kd_num": 0, "my_num": 11, "wild_card": 2.3}},
+            mixed_all_single_key_unnamed_req_false_v_req_false_default,
+        ),
+        {"my_mixed": {"kd_num": 0, "my_num": 11, "wild_card": 2.3}},
+    ),
+    "mixed_all_single_key_unnamed_req_false_v_req_false_def_b": (
+        (
+            {"my_mixed": {"kd_num": 0, "my_num": 11, "my_str": None, "wild_card": 2.3}},
+            mixed_all_single_key_unnamed_req_false_v_req_false_default,
+        ),
+        {"my_mixed": {"kd_num": 0, "my_num": 11, "my_str": "DIESEL", "wild_card": 2.3}},
     ),
     "mixed_outter": (
         (
