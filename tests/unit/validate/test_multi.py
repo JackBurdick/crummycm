@@ -12,6 +12,15 @@ from example_templates.element.multi.a import (
     SINGLE_default_tup,
     SINGLE_is_list,
     SINGLE_multi_inner_types,
+    SINGLE_Numeric_float,
+    SINGLE_Text_lower,
+    SINGLE_Text_lower_tuple,
+    SINGLE_bool,
+    SINGLE_fn,
+    SINGLE_fn_kwargs,
+    SINGLE_fn_bad_kwargs,
+    SINGLE_fn_lower_d,
+    SINGLE_fn_d,
 )
 
 ex_config = {
@@ -120,12 +129,64 @@ ex_config = {
         ({"my_multi": [1, "d", (2,)]}, SINGLE_multi_inner_types),
         TypeError,
     ),
-    # numeric inner
-    # # TODO: complex
-    # # -- functions
-    # "apply_fn_wo_kwargs": (({"my_num": 1}, A_fn_EX_TEMP), {"my_num": 2}),
-    # "apply_fn_kwargs": (({"my_num": 1}, A_fn_kwargs_EX_TEMP), {"my_num": 11}),
-    # "apply_bad_kwargs": (({"my_num": 0}, A_fn_bad_kwargs_EX_TEMP), ValueError),
+    "SINGLE_Numeric_float": (
+        ({"my_multi": [1.0, 1.1, 1.2]}, SINGLE_Numeric_float),
+        {"my_multi": [1.0, 1.1, 1.2]},
+    ),
+    "SINGLE_Text_lower_v": (
+        ({"my_multi": ["HI", "DIESEL", "SIREN"]}, SINGLE_Text_lower),
+        {"my_multi": ["hi", "diesel", "siren"]},
+    ),
+    "SINGLE_Text_lower_i": (
+        ({"my_multi": ["HI", "DIESEL", 3]}, SINGLE_Text_lower),
+        TypeError,
+    ),
+    "SINGLE_bool": (
+        ({"my_multi": [True, True, False, True]}, SINGLE_bool),
+        {"my_multi": [True, True, False, True]},
+    ),
+    "SINGLE_Text_lower_tuple_v": (
+        ({"my_multi": ("HI", "DIESEL", "SIREN")}, SINGLE_Text_lower_tuple),
+        {"my_multi": ("hi", "diesel", "siren")},
+    ),
+    "SINGLE_Text_lower_tuple_i": (
+        ({"my_multi": ["HI", "DIESEL", 3]}, SINGLE_Text_lower_tuple),
+        TypeError,
+    ),
+    "SINGLE_fn": (
+        ({"my_multi": ["HI", "DIESEL", "SIREN"]}, SINGLE_fn),
+        {"my_multi": ["HIB", "DIESELB", "SIRENB"]},
+    ),
+    "SINGLE_fn_kwargs": (
+        ({"my_multi": ["HI", "DIESEL", "SIREN"]}, SINGLE_fn_kwargs),
+        {"my_multi": ["HIBBB", "DIESELBBB", "SIRENBBB"]},
+    ),
+    "SINGLE_fn_bad_kwargs": (
+        ({"my_multi": ["HI", "DIESEL", "SIREN"]}, SINGLE_fn_bad_kwargs),
+        ValueError,
+    ),
+    # fn
+    "SINGLE_fn": (
+        ({"my_multi": ["HI", "DIESEL", "SIREN"]}, SINGLE_fn),
+        {"my_multi": ["HIB", "DIESELB", "SIRENB"]},
+    ),
+    "SINGLE_fn_kwargs": (
+        ({"my_multi": ["HI", "DIESEL", "SIREN"]}, SINGLE_fn_kwargs),
+        {"my_multi": ["HIBBB", "DIESELBBB", "SIRENBBB"]},
+    ),
+    "SINGLE_fn_bad_kwargs": (
+        ({"my_multi": ["HI", "DIESEL", "SIREN"]}, SINGLE_fn_bad_kwargs),
+        ValueError,
+    ),
+    # order of operations
+    "SINGLE_fn_lower_d": (
+        ({"my_multi": ["HI", "DIESEL", "SIREN"]}, SINGLE_fn_lower_d),
+        {"my_multi": ["bihz", "bleseidz", "bnerisz"]},
+    ),
+    "SINGLE_fn_d": (
+        ({"my_multi": ["Hi", "DieSel", "Siren"]}, SINGLE_fn_d),
+        {"my_multi": ["BiHZ", "BleSeiDZ", "BneriSZ"]},
+    ),
 }
 
 

@@ -13,7 +13,7 @@ class Multi(BaseValue):
         fn_kwargs=None,
         # specific
         homogeneous=None,
-        inner_types=None,
+        element_types=None,
     ):
 
         self.ALLOWED_TYPES = (list, tuple)
@@ -32,14 +32,14 @@ class Multi(BaseValue):
         )
 
         self.homogeneous = homogeneous or None
-        self.inner_types = inner_types or None
+        self.element_types = element_types or None
 
         if self.homogeneous:
             # TODO: this is a pretty poor check
-            print(type(self.inner_types))
-            if type(self.inner_types) in (list, tuple):
+            print(type(self.element_types))
+            if type(self.element_types) in (list, tuple):
                 raise ValueError(
-                    f"cannot specify inner_types as {self.inner_types} and set homogeneous"
+                    f"cannot specify element_types as {self.element_types} and set homogeneous"
                 )
 
     def transform(self, cur_value=None):
@@ -51,17 +51,29 @@ class Multi(BaseValue):
                     f"cur_value ({cur_value}) is not type {self.ALLOWED_TYPES}"
                 )
         self.user_in = cur_value
+        # TODO: I'm not sure what is more nature, doing the transform, then the
+        # lower/upper ect. or reverse (as it is now)
         iv = super().transform(self.user_in)
         if iv:
-            if self.inner_types:
-                if isinstance(self.inner_types, (list, tuple)):
+            if self.element_types:
+                if isinstance(self.element_types, (list, tuple)):
                     for cv in iv:
-                        if not any([isinstance(cv, it) for it in self.inner_types]):
-                            raise TypeError(f"{cv} is not in {self.inner_types}")
+                        if not any([isinstance(cv, it) for it in self.element_types]):
+                            raise TypeError(f"{cv} is not in {self.element_types}")
                 else:
-                    for cv in iv:
-                        if not isinstance(cv, self.inner_types):
-                            raise TypeError(f"{cv} is not in {self.inner_types}")
+                    if isinstance(self.element_types, BaseValue):
+                        # `.transform()` each value
+                        nv = [self.element_types.transform(cv) for cv in iv]
+                        if self.is_type:
+                            # in this case convert the list to the other type
+                            # (currently a list or tuple)
+                            iv = self.is_type(nv)
+                        else:
+                            iv = nv
+                    else:
+                        for cv in iv:
+                            if not isinstance(cv, self.element_types):
+                                raise TypeError(f"{cv} is not in {self.element_types}")
 
             if self.homogeneous:
                 first_type = type(iv[0])
