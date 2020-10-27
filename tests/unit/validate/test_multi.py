@@ -57,7 +57,7 @@ ex_config = {
         ({"my_multi": [2.0, 3.1]}, SINGLE_homogeneous_float),
         {"my_multi": [2.0, 3.1]},
     ),
-    #### as tuple
+    # as tuple
     "tup_single_value_provided": (
         ({"my_multi": ("c", "d")}, SINGLE),
         {"my_multi": ("c", "d")},
@@ -116,6 +116,10 @@ ex_config = {
         TypeError,
     ),
     # compose
+    "SINGLE_multi_inner_types_i": (
+        ({"my_multi": [1, "d", (2,)]}, SINGLE_multi_inner_types),
+        TypeError,
+    ),
     # numeric inner
     # # TODO: complex
     # # -- functions
