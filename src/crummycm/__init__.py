@@ -20,7 +20,7 @@ else:
 
 
 # Config
-from crummycm.parse import parse
+from crummycm.parse.read import parse
 from crummycm.validation.validation import validate
 
 # from crummycm.generate import config

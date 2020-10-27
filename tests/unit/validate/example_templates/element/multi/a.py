@@ -1,6 +1,6 @@
-from crummycm.types.values.compound.multi import Multi
-from crummycm.types.values.element.numeric import Numeric
-from crummycm.types.values.element.text import Text
+from crummycm.validation.types.values.compound.multi import Multi
+from crummycm.validation.types.values.element.numeric import Numeric
+from crummycm.validation.types.values.element.text import Text
 
 SINGLE = {"my_multi": Multi(required=True)}
 SINGLE_default = {"my_multi": Multi(default_value=["a", "b"], required=True)}

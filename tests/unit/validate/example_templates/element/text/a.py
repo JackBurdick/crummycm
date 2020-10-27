@@ -1,4 +1,4 @@
-from crummycm.types.values.element.text import Text
+from crummycm.validation.types.values.element.text import Text
 
 A_EX_TEMP = {"my_text": Text(default_value="Jack")}
 # type

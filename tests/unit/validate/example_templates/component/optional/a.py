@@ -1,13 +1,13 @@
-from crummycm.types.dicts.base_dict import KeyPlaceholder, ValuePlaceholder
+from crummycm.validation.types.dicts.base_dict import KeyPlaceholder, ValuePlaceholder
 
-# from crummycm.types.dicts.foundation.unnamed_dict import UnnamedDict
-from crummycm.types.dicts.foundation.named_dict import NamedDict
-from crummycm.types.dicts.mixed_dict import MixedDict as MD
+# from crummycm.validation.types.dicts.foundation.unnamed_dict import UnnamedDict
+from crummycm.validation.types.dicts.foundation.named_dict import NamedDict
+from crummycm.validation.types.dicts.mixed_dict import MixedDict as MD
 
-# from crummycm.types.values.element.numeric import Numeric
-from crummycm.types.values.element.text import Text
+# from crummycm.validation.types.values.element.numeric import Numeric
+from crummycm.validation.types.values.element.text import Text
 
-# from crummycm.types.values.base import BaseValue
+# from crummycm.validation.types.values.base import BaseValue
 required_num_false = {
     "my_conf": MD({KeyPlaceholder("my_val"): ValuePlaceholder("some_val")})
 }

@@ -1,9 +1,9 @@
-from crummycm.types.dicts.base_dict import KeyPlaceholder
-from crummycm.types.dicts.foundation.unnamed_dict import UnnamedDict
-from crummycm.types.values.element.numeric import Numeric
-from crummycm.types.values.element.text import Text
+from crummycm.validation.types.dicts.base_dict import KeyPlaceholder
+from crummycm.validation.types.dicts.foundation.unnamed_dict import UnnamedDict
+from crummycm.validation.types.values.element.numeric import Numeric
+from crummycm.validation.types.values.element.text import Text
 
-# from crummycm.types.values.base import BaseValue
+# from crummycm.validation.types.values.base import BaseValue
 A_ex = {"val": Numeric(default_value=int(0), required=False, is_type=int)}
 
 A_unnamed_single_num_ex = {

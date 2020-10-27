@@ -1,4 +1,8 @@
-from crummycm.types.dicts.base_dict import BaseDict, KeyPlaceholder, ValuePlaceholder
+from crummycm.validation.types.dicts.base_dict import (
+    BaseDict,
+    KeyPlaceholder,
+    ValuePlaceholder,
+)
 
 
 class UnknownDict(BaseDict):

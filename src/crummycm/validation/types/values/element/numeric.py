@@ -1,5 +1,5 @@
 from typing import Optional
-from crummycm.types.values.base import BaseValue
+from crummycm.validation.types.values.base import BaseValue
 
 
 class Numeric(BaseValue):

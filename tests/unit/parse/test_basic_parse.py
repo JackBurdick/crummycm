@@ -1,6 +1,6 @@
 import pytest
 
-from crummycm.parse import parse
+from crummycm.parse.read import parse
 from example_files.simple.a import A_EX_DICT
 
 ex_config = {
@@ -29,12 +29,7 @@ ex_config = {
         },
     ),
     "xml_simple_a": (
-        (
-            {
-                "cur_in": "./tests/unit/parse/example_files/simple/a.xml",
-                "unsafe": True,
-            },
-        ),
+        ({"cur_in": "./tests/unit/parse/example_files/simple/a.xml", "unsafe": True},),
         {
             "name": "Diesel",
             "location": {"state": "WA", "country": "USA"},

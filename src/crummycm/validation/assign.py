@@ -1,6 +1,6 @@
 from collections import Counter
 
-from crummycm.types.dicts.base_dict import KeyPlaceholder, Placeholder
+from crummycm.validation.types.dicts.base_dict import KeyPlaceholder, Placeholder
 
 
 def _get_corresponding_template_keys(spec_in_dict, uk):

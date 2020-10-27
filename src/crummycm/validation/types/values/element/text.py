@@ -1,4 +1,4 @@
-from crummycm.types.values.base import BaseValue
+from crummycm.validation.types.values.base import BaseValue
 
 
 class Text(BaseValue):

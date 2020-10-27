@@ -1,8 +1,8 @@
-from crummycm.types.dicts.foundation.known_dict import KnownDict
-from crummycm.types.values.element.numeric import Numeric
-from crummycm.types.values.element.text import Text
+from crummycm.validation.types.dicts.foundation.known_dict import KnownDict
+from crummycm.validation.types.values.element.numeric import Numeric
+from crummycm.validation.types.values.element.text import Text
 
-# from crummycm.types.values.base import BaseValue
+# from crummycm.validation.types.values.base import BaseValue
 
 A_ex = {
     "my_num": Numeric(default_value=int(0), is_type=int),

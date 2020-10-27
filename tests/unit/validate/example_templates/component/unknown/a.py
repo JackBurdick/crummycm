@@ -1,9 +1,9 @@
-from crummycm.types.dicts.base_dict import KeyPlaceholder, ValuePlaceholder
-from crummycm.types.dicts.foundation.unknown_dict import UnknownDict
-from crummycm.types.values.element.numeric import Numeric
-from crummycm.types.values.element.text import Text
+from crummycm.validation.types.dicts.base_dict import KeyPlaceholder, ValuePlaceholder
+from crummycm.validation.types.dicts.foundation.unknown_dict import UnknownDict
+from crummycm.validation.types.values.element.numeric import Numeric
+from crummycm.validation.types.values.element.text import Text
 
-# from crummycm.types.values.base import BaseValue
+# from crummycm.validation.types.values.base import BaseValue
 
 A_inner_unknown = {
     "some_config": UnknownDict(

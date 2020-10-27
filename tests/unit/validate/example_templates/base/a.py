@@ -1,4 +1,4 @@
-from crummycm.types.values.base import BaseValue
+from crummycm.validation.types.values.base import BaseValue
 
 
 A_EX_TEMP = {"name": BaseValue(default_value="Sam")}

@@ -1,4 +1,4 @@
-from crummycm.types.dicts.base_dict import BaseDict
+from crummycm.validation.types.dicts.base_dict import BaseDict
 
 
 class MixedDict(BaseDict):
