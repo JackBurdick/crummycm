@@ -22,5 +22,7 @@ else:
 # Config
 from crummycm.parse.read import parse
 from crummycm.validation.validation import validate
+from crummycm.generation.generation import generate
+
 
 # from crummycm.generate import config

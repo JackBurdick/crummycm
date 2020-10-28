@@ -1,0 +1,10 @@
+data:
+  name: "MNIST"
+  schema:
+    x_image:
+      shape: [28, 28, 1]
+      dtype: "float32"
+    y_target:
+      shape: [1, 1]
+      dtype: "int32"
+  source: "http://yann.lecun.com/exdb/mnist/"
