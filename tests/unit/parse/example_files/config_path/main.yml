@@ -1,0 +1,5 @@
+name: Diesel
+location:
+    state: WA
+  country: USA
+info: "path::./tests/unit/parse/example_files/simple/a.yml"

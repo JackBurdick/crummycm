@@ -3,6 +3,11 @@ from crummycm.parse.read_format.json import parse_json_from_path
 from crummycm.parse.read_format.yaml import parse_yaml_from_path
 from crummycm.parse.read_format.xml import parse_xml_from_path
 from crummycm.parse.read_format.proto import parse_proto_from_path
+from crummycm.parse.key_decorators.decorators import (
+    is_value_decorated,
+    parse_value,
+    apply_decs,
+)
 import pathlib
 
 
@@ -55,24 +60,24 @@ def _parse_path_to_dict(user_in, unsafe=False):
     return raw_dict
 
 
-def _r_maybe_expand_dict(cur_d: Dict[str, Any], unsafe: bool):
-    temp_dict = {}
-    for k, v in cur_d.items():
-        if k == "config_path":
-            if isinstance(v, str):
-                if pathlib.Path(v).is_file():
-                    vd = _parse_path_to_dict(v, unsafe=unsafe)
-                    vd = _r_maybe_expand_dict(vd)
-                else:
-                    raise FileNotFoundError(f"file {v} specified by {k} does not exist")
-                return vd
-            else:
-                raise ValueError(
-                    f"value specified ({v}) is type ({type(v)}), not a str indicating a path"
-                )
-        else:
-            temp_dict[k] = v
-    return temp_dict
+# def _r_maybe_expand_dict(cur_d: Dict[str, Any], unsafe: bool):
+#     temp_dict = {}
+#     for k, v in cur_d.items():
+#         if k == "config_path":
+#             if isinstance(v, str):
+#                 if pathlib.Path(v).is_file():
+#                     vd = _parse_path_to_dict(v, unsafe=unsafe)
+#                     vd = _r_maybe_expand_dict(vd)
+#                 else:
+#                     raise FileNotFoundError(f"file {v} specified by {k} does not exist")
+#                 return vd
+#             else:
+#                 raise ValueError(
+#                     f"value specified ({v}) is type ({type(v)}), not a str indicating a path"
+#                 )
+#         else:
+#             temp_dict[k] = v
+#     return temp_dict
 
 
 def _r_parse_dict(cur_in, unsafe=False):
@@ -80,11 +85,16 @@ def _r_parse_dict(cur_in, unsafe=False):
     if isinstance(cur_in, dict):
         td = {}
         for k, v in cur_in.items():
-            if k == "config_path":
-                td[k] = _parse_path_to_dict(v, unsafe=unsafe)
+            # if
+            # # if k == "config_path":
+            # #     td[k] = _parse_path_to_dict(v, unsafe=unsafe)
+            # else:
+            if isinstance(v, dict):
+                td[k] = _r_parse_dict(v, unsafe=unsafe)
             else:
-                if isinstance(v, dict):
-                    td[k] = _r_parse_dict(v, unsafe=unsafe)
+                if is_value_decorated(v):
+                    decs, v = parse_value(v)
+                    v = apply_decs(decs, v)
                 else:
                     td[k] = v
         return td
