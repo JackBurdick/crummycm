@@ -1,6 +1,6 @@
 import pytest
 
-from crummycm.parse.read import parse
+from crummycm.read.read import parse
 from example_files.simple.a import A_EX_DICT
 
 ex_config = {
