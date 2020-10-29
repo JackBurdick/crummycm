@@ -24,7 +24,7 @@ class XmlDictConfig(dict):
     """
     Example usage:
 
-    >>> tree = ElementTree.parse('your_file.xml')
+    >>> tree = ElementTree.to_dict('your_file.xml')
     >>> root = tree.getroot()
     >>> xmldict = XmlDictConfig(root)
 
