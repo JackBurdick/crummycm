@@ -1,4 +1,5 @@
-from crummycm.read.key_instructions.functions.standard import parse_path
+from crummycm.read.key_instructions.functions import standard
+import inspect
 
 INSTRUCTION_STR = "::"
 
@@ -18,11 +19,13 @@ def parse_value(v):
 
 
 def apply_decs(decs, v):
-    # TODO: try: split decs on decs_split
-    for d in decs.split("&"):
-        if d == "path":
-            v = parse_path(v)
+    # TODO: cache this?
+    standard_fns = dict(
+        [o for o in inspect.getmembers(standard) if inspect.isfunction(o[1])]
+    )
 
-    # TODO: look up dec
-    # TODO: apply dec
+    # NOTE: order is important
+    for d in decs.split("&"):
+        if d in standard_fns.keys():
+            v = standard_fns[d](v)
     return v

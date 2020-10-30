@@ -1,9 +1,11 @@
-# TODO: I'm not sure what is happening here.
-# from crummycm.read.read import parse
 import crummycm as ccm
+
+# TODO: I'm not sure why I'm having trouble with the import here
+# from crummycm.read.read import parse
+# from crummycm import parse
+# ^ neither work and I'm unsure why
 
 
 def parse_path(v, unsafe=True):
-    # return parse_path_to_dict(mystr)
-    v = ccm.parse(v, unsafe)  # ccm.parse.read.
+    v = ccm.parse(v, unsafe)
     return v

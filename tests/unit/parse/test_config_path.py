@@ -1,7 +1,6 @@
 import pytest
 
 from crummycm.read.read import parse
-from example_files.simple.a import A_EX_DICT
 
 ex_config = {
     "yml_simple_a": (
