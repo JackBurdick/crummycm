@@ -1,11 +1,6 @@
-import crummycm as ccm
-
-# TODO: I'm not sure why I'm having trouble with the import here
-# from crummycm.read.read import parse
-# from crummycm import parse
-# ^ neither work and I'm unsure why
+from crummycm.read.read import parse_path_to_dict
 
 
 def parse_path(v, unsafe=True):
-    v = ccm.parse(v, unsafe)
+    v = parse_path_to_dict(v, unsafe)
     return v

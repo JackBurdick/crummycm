@@ -1,5 +1,6 @@
-from crummycm.read.key_instructions.functions import standard
 import inspect
+
+from crummycm.read.key_instructions.functions import standard
 
 INSTRUCTION_STR = "::"
 
