@@ -61,5 +61,8 @@ def test_basic_parse(config, expected):
     elif issubclass(expected, TypeError):
         with pytest.raises(TypeError):
             raw_dict = call(config)
+    elif issubclass(expected, KeyError):
+        with pytest.raises(KeyError):
+            raw_dict = call(config)
     else:
         raise ValueError(f"expected {expected} not accounted for")

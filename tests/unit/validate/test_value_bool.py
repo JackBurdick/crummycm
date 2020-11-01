@@ -1,9 +1,28 @@
 import pytest
 
 from crummycm.validation.validation import validate
-from example_templates.element.bool.a import req_true
+from example_templates.element.bool.a import req_true, req_true_default
 
-ex_config = {"req_true_v": (({"my_bool": True}, req_true), {"my_bool": True})}
+ex_config = {
+    "req_true_v": (({"my_bool": True}, req_true), {"my_bool": True}),
+    "req_true_i": (({"my_bool": None}, req_true), ValueError),
+    "req_true_type_int_i": (({"my_bool": 3}, req_true), TypeError),
+    "req_true_type_str_i": (({"my_bool": "3"}, req_true), TypeError),
+    "req_true_type_zero_i": (({"my_bool": 0}, req_true), TypeError),
+    "req_true_type_one_i": (({"my_bool": 1}, req_true), TypeError),
+    "req_true_default_v_true": (
+        ({"my_bool": True}, req_true_default),
+        {"my_bool": True},
+    ),
+    "req_true_default_v_def": (
+        ({"my_bool": None}, req_true_default),
+        {"my_bool": True},
+    ),
+    "req_true_default_v_user": (
+        ({"my_bool": False}, req_true_default),
+        {"my_bool": False},
+    ),
+}
 
 
 def call(config):
