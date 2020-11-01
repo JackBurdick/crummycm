@@ -19,10 +19,13 @@ class BaseValue:
 
         if not self.required and self.default_value:
             raise ValueError(
-                f"Value is not set as required, but also includes a default_value {self.default_value}\n"
+                f"Value is not specified as required, but does include a default_value {self.default_value}\n"
                 "please either:\n"
                 "i) set as required\n"
                 "i) remove the default value\n"
+                "------\n"
+                "if these do not solve the issue, you may wish to make the Key optional\n"
+                "e.g. `{KeyPlaceholder(required=False): <this value>`}"
             )
 
         self.is_type = is_type or None
@@ -37,7 +40,7 @@ class BaseValue:
     def _set_init(self, raw):
         self.user_in = raw
         cur_val = raw
-        if not raw:
+        if raw is None:
             if self.default_value:
                 cur_val = self.default_value
         return cur_val
