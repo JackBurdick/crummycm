@@ -1,5 +1,5 @@
-from crummycm.validation.types.dicts.base_dict import (
-    BaseDict,
+from crummycm.validation.types.dicts.base_dict import BaseDict
+from crummycm.validation.types.placeholders.placeholder import (
     KeyPlaceholder,
     ValuePlaceholder,
 )

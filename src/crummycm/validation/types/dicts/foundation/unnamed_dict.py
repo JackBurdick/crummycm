@@ -1,8 +1,8 @@
 # from crummycm.validation.types.values.element.numeric import Numeric
 # from crummycm.validation.types.values.element.text import Text
 # from crummycm.validation.types.values.base import BaseValue
-from crummycm.validation.types.dicts.base_dict import (
-    BaseDict,
+from crummycm.validation.types.dicts.base_dict import BaseDict
+from crummycm.validation.types.placeholders.placeholder import (
     KeyPlaceholder,
     ValuePlaceholder,
     is_KeyPlaceholder,

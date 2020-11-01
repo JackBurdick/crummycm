@@ -1,4 +1,7 @@
-from crummycm.validation.types.dicts.base_dict import KeyPlaceholder, ValuePlaceholder
+from crummycm.validation.types.placeholders.placeholder import (
+    KeyPlaceholder,
+    ValuePlaceholder,
+)
 from crummycm.validation.types.dicts.foundation.unknown_dict import UnknownDict
 from crummycm.validation.types.values.element.numeric import Numeric
 from crummycm.validation.types.values.element.text import Text
