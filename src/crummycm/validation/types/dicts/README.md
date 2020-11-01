@@ -4,5 +4,5 @@
 
 All dicts inherit from [BaseDict](./base_dict.py).
 
-Users will mostly use a [MixedDict](./mixed_dict.py) that is composed of
+Users will mostly use a [ConfigDict](./config_dict.py) that is composed of
 [foundational dict types](./foundation).

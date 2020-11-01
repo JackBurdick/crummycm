@@ -5,7 +5,7 @@ from crummycm.validation.types.placeholders.placeholder import (
 
 # from crummycm.validation.types.dicts.foundation.unnamed_dict import UnnamedDict
 from crummycm.validation.types.dicts.foundation.named_dict import NamedDict
-from crummycm.validation.types.dicts.mixed_dict import MixedDict as MD
+from crummycm.validation.types.dicts.config_dict import ConfigDict as MD
 
 # from crummycm.validation.types.values.element.numeric import Numeric
 from crummycm.validation.types.values.element.text import Text

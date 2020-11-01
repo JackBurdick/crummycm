@@ -6,7 +6,7 @@ from crummycm.validation.types.dicts.foundation.known_dict import KnownDict
 from crummycm.validation.types.dicts.foundation.named_dict import NamedDict
 from crummycm.validation.types.dicts.foundation.unknown_dict import UnknownDict
 from crummycm.validation.types.dicts.foundation.unnamed_dict import UnnamedDict
-from crummycm.validation.types.dicts.mixed_dict import MixedDict
+from crummycm.validation.types.dicts.config_dict import ConfigDict
 from crummycm.validation.assign import map_user_keys_to_spec_key
 
 # def has_method(o, name):
@@ -110,7 +110,7 @@ def _parse_comp_dict(raw, spec):
         tmp_dict = _parse_named_dict(raw, spec)
     elif isinstance(spec, UnnamedDict):
         tmp_dict = _parse_unnamed_dict(raw, spec)
-    elif isinstance(spec, MixedDict):
+    elif isinstance(spec, ConfigDict):
         tmp_dict = _parse_py_dicts_and_merge(raw, spec.in_dict)
     elif isinstance(spec, UnknownDict):
         tmp_dict = _parse_unknown_dict(raw, spec)

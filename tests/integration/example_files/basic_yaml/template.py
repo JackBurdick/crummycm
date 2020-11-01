@@ -1,4 +1,4 @@
-from crummycm.validation.types.dicts.mixed_dict import MixedDict as MD
+from crummycm.validation.types.dicts.config_dict import ConfigDict as MD
 from crummycm.validation.types.placeholders.placeholder import KeyPlaceholder as KPH
 from crummycm.validation.types.values.element.numeric import Numeric
 from crummycm.validation.types.values.element.text import Text
