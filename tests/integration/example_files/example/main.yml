@@ -1,0 +1,4 @@
+data:
+  name: "MNIST"
+  schema: "parse_path::./tests/integration/example_files/example/schema.json"
+  source: "http://yann.lecun.com/exdb/mnist/"

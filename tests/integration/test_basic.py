@@ -2,6 +2,7 @@ import pytest
 
 import crummycm as ccm
 from example_files.basic_yaml.template import TEMPLATE
+from example_files.example.template import DATA
 
 ex_config = {
     "yml_simple_a": (
@@ -16,15 +17,29 @@ ex_config = {
                 "source": "http://yann.lecun.com/exdb/mnist/",
             }
         },
-    )
+    ),
+    "example_v": (
+        ("./tests/integration/example_files/example/main.yml", DATA),
+        {
+            "data": {
+                "name": "mnist",
+                "schema": {
+                    "x_image": {"shape": [28, 28, 1], "dtype": "float32"},
+                    "y_target": {"shape": [1, 1], "dtype": "int32", "label": True},
+                },
+                "source": "http://yann.lecun.com/exdb/mnist/",
+            }
+        },
+    ),
 }
 
 
 def call(example):
-    # wrapping the intput in a tuple such that I can ** the internal dict to
+    # wrapping the input in a tuple such that I can ** the internal dict to
     # expand the commands..this isn't great, but it works.
     if isinstance(example, tuple):
         raw_dict = ccm.generate(*example)
+        print(raw_dict)
     elif isinstance(example, dict):
         raw_dict = ccm.generate(**example)
     else:
@@ -49,3 +64,4 @@ def test_basic_parse(config, expected):
             raw_dict = call(config)
     else:
         raise ValueError(f"expected {expected} not accounted for")
+

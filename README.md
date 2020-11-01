@@ -1,12 +1,7 @@
-# crummycm
+# crummycm (work in progress)
 
-Crummy config management (WIP).
+Parse config file(s) and against custom python objects.
 
-Parse a config file against custom python objects.
+## Example
 
-
-# TODO:
-- examples
-- improve test organization + cases
-- allow bool type
-- improve imports+organization
+Please see [example](./examples/basic_example.md)

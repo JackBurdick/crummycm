@@ -19,10 +19,7 @@ else:
     __version__ = _dist.version
 
 
-# Config
+# functionality
 from crummycm.read.read import parse
 from crummycm.validation.validation import validate
 from crummycm.generation.generation import generate
-
-
-# from crummycm.generate import config

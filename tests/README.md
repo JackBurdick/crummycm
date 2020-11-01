@@ -2,4 +2,4 @@
 
 Tests are a work in progress.
 
-`pytest tests/unit/ -v`
+`pytest tests/`
