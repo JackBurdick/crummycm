@@ -1,8 +1,8 @@
 from typing import Any, Dict
 
 from crummycm.formats.format.json import parse_json_from_path, write_dict_to_json
-from crummycm.formats.format.proto import parse_proto_from_path
-from crummycm.formats.format.xml import parse_xml_from_path
+from crummycm.formats.format.proto import parse_proto_from_path, write_dict_to_proto
+from crummycm.formats.format.xml import parse_xml_from_path, write_dict_to_xml
 from crummycm.formats.format.yaml import parse_yaml_from_path, write_dict_to_yaml
 
 
@@ -53,15 +53,11 @@ def _write_dict_to_path(data: Dict[str, Any], cur_path: str, in_format: str) -> 
     elif in_format == "yaml":
         out_path = write_dict_to_yaml(data=data, path=cur_path)
     elif in_format == "proto":
-        raise NotImplementedError(f"format {in_format} not supported yet")
-        # raw_dict = parse_proto_from_path(cur_path)
+        raise NotImplementedError("unable to write proto format correctly")
+        # out_path = write_dict_to_proto(data=data, path=cur_path)
     elif in_format == "xml":
-        raise NotImplementedError(f"format {in_format} not supported yet")
-        # raw_dict = parse_xml_from_path(cur_path)
-        # if not ignore_types:
-        #     raise NotImplementedError(
-        #         f"XML parsing is occuring, but the type may not be preserved"
-        #     )
+        raise NotImplementedError("unable to write xml format correctly")
+        # out_path = write_dict_to_xml(data=data, path=cur_path)
     else:
         raise ValueError(f"the specified {in_format} is not valid")
 

@@ -2,6 +2,8 @@ import xml.etree.ElementTree as ET
 
 from xml.etree import cElementTree as ElementTree
 import xmltodict
+from dict2xml import dict2xml
+from typing import Any, Dict
 
 
 class XmlListConfig(list):
@@ -115,3 +117,39 @@ def parse_xml_from_path(path: str) -> dict:
                 return dict()
     except FileNotFoundError:
         raise FileNotFoundError(f"The configuration file {path} was not found")
+
+
+E_D = {
+    "<": "&lt;",
+    ">": "&gt;",
+    "&": "&amp;",
+    '"': "&qote;",
+    "'": "&apos;",
+    "[": "&lsqb;",
+    "]": "&rsqb;",
+}
+
+
+# def replace_entities(data):
+#     # https://en.wikipedia.org/wiki/List_of_XML_and_HTML_character_entity_references
+#     global E_D
+#     out_d = {}
+#     for k, v in data.items():
+
+#         k = "".join([E_D[kc] if kc in E_D.keys() else kc for kc in k])
+#         if isinstance(v, str):
+#             v = "".join([E_D[vc] if vc in E_D.keys() else vc for vc in v])
+#         elif isinstance(v, dict):
+#             v = replace_entities(v)
+#         out_d[k] = v
+#     return out_d
+
+
+def write_dict_to_xml(data: Dict[str, Any], path: str):
+    # TODO: this cannot handle entities
+    # ent.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+    # d = replace_entities(data)
+    xml_str = dict2xml(data, wrap="all", indent="  ")
+    with open(path, "w") as outfile:
+        outfile.write(xml_str)
+    return outfile

@@ -54,6 +54,22 @@ ex_config = {
             }
         },
     ),
+    "flat_a_proto": (
+        (flat_a, "tests/unit/template/basic/example_files/out_yml/flat_a.proto"),
+        NotImplementedError,
+    ),
+    "nested_a_proto": (
+        (nested_a, "tests/unit/template/basic/example_files/out_yml/nested_a.proto"),
+        NotImplementedError,
+    ),
+    "flat_a_xml": (
+        (flat_a, "tests/unit/template/basic/example_files/out_yml/flat_a.xml"),
+        NotImplementedError,
+    ),
+    "nested_a_xml": (
+        (nested_a, "tests/unit/template/basic/example_files/out_yml/nested_a.xml"),
+        NotImplementedError,
+    ),
 }
 
 
@@ -81,6 +97,9 @@ def test_basic_parse(config, expected):
             raw_dict = call(config)
     elif issubclass(expected, KeyError):
         with pytest.raises(KeyError):
+            raw_dict = call(config)
+    elif issubclass(expected, NotImplementedError):
+        with pytest.raises(NotImplementedError):
             raw_dict = call(config)
     else:
         raise ValueError(f"expected {expected} not accounted for")

@@ -25,3 +25,11 @@ def parse_proto_from_path(path: str) -> Dict[str, Any]:
                 return dict()
     except FileNotFoundError:
         raise FileNotFoundError(f"The configuration file {path} was not found")
+
+
+def write_dict_to_proto(data: Dict[str, Any], path: str) -> str:
+    s = Struct()
+    s.update(data)
+    with open(f"{path}", "wb") as f:
+        f.write(s.SerializeToString())
+    return f"{path}"
