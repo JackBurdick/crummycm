@@ -1,6 +1,7 @@
 import yaml
 from yaml.constructor import ConstructorError
 from yaml.nodes import MappingNode
+from typing import Any, Dict
 
 try:
     from yaml import CLoader as Loader
@@ -66,3 +67,8 @@ def parse_yaml_from_path(path: str) -> dict:
         raise FileNotFoundError(
             f"Error > Exiting: the configuration file {path} was not found"
         )
+
+
+def write_dict_to_yaml(data: Dict[str, Any], path: str):
+    with open(path, "w") as outfile:
+        yaml.dump(data, outfile, default_flow_style=False)

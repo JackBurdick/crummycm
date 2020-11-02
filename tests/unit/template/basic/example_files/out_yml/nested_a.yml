@@ -1,0 +1,8 @@
+my_mixed:
+  '[KeyPlaceholder]': '[ValuePlaceholder]'
+  kd_num: '[Numeric]'
+  nested_md:
+    '[KeyPlaceholder]': '[ValuePlaceholder]'
+    kd_num: '[Numeric]'
+    wild_card: '[ValuePlaceholder]'
+  wild_card: '[ValuePlaceholder]'
