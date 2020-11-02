@@ -21,6 +21,11 @@ class ValuePlaceholder(Placeholder):
             raise ValueError(f"name {name} should be type {str}, not {type(name)}")
         super().__init__(name)
 
+    def template(self, level=0):
+        if level == 0:
+            pass
+        return f"[{self.__class__.__name__}]"
+
 
 class KeyPlaceholder(Placeholder):
     def __init__(
@@ -61,6 +66,11 @@ class KeyPlaceholder(Placeholder):
             return True
         else:
             return False
+
+    def template(self, level=0):
+        if level == 0:
+            pass
+        return f"[{self.__class__.__name__}]"
 
     def matches(self, user_val):
         if self.starts_with:

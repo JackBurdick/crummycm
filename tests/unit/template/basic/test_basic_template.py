@@ -3,11 +3,37 @@ import pytest
 from crummycm.templating.templating import template
 from example_files.a import flat_a, nested_a
 
-ex_config = {"flat_a": (flat_a, flat_a), "nested_a": (nested_a, nested_a)}
+ex_config = {
+    "flat_a": (
+        (flat_a, "tests/unit/template/basic/example_files/out_yml/flat_a.yml"),
+        {
+            "my_mixed": {
+                "kd_num": "[Numeric]",
+                "[KeyPlaceholder]": "[ValuePlaceholder]",
+                "wild_card": "[ValuePlaceholder]",
+            }
+        },
+    ),
+    "nested_a": (
+        (nested_a, "tests/unit/template/basic/example_files/out_yml/nested_a.yml"),
+        {
+            "my_mixed": {
+                "kd_num": "[Numeric]",
+                "[KeyPlaceholder]": "[ValuePlaceholder]",
+                "wild_card": "[ValuePlaceholder]",
+                "nested_md": {
+                    "kd_num": "[Numeric]",
+                    "[KeyPlaceholder]": "[ValuePlaceholder]",
+                    "wild_card": "[ValuePlaceholder]",
+                },
+            }
+        },
+    ),
+}
 
 
 def call(temp):
-    raw_dict = template(temp)
+    raw_dict = template(temp[0], temp[1])
     return raw_dict
 
 

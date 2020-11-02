@@ -6,33 +6,35 @@ from crummycm.validation.types.placeholders.placeholder import (
 from crummycm.validation.types.values.base import BaseValue
 
 
-def print_key(k):
+def print_key(k, level):
     if isinstance(k, KeyPlaceholder):
-        return f"<{k.name}>"
+        return k.template(level=level)
     else:
         return k
 
 
-def print_value(v):
+def print_value(v, level):
     if isinstance(v, ValuePlaceholder):
-        return f"<{v.name}>"
+        return v.template(level=level)
     elif isinstance(v, BaseValue):
-        return f"{v.__class__.__name__}()"
+        return v.template(level=level)
     else:
         return v
 
 
-def print_template(d):
+def generate_example_template(d, level=0):
+    out_d = {}
     for k, v in d.items():
         if isinstance(v, dict):
-            print_template(v)
+            v = generate_example_template(v, level)
         if isinstance(v, BaseDict):
-            print_template(v.in_dict)
+            v = generate_example_template(v.in_dict, level)
         else:
-            print(f"{print_key(k)} : {print_value(v)}")
+            v = print_value(v, level)
+        out_d[print_key(k, level)] = v
+    return out_d
 
 
-def template(template):
-    print("\n")
-    print_template(template)
-    return template
+def template(template, write_path, level=0):
+    o = generate_example_template(template, level)
+    return o

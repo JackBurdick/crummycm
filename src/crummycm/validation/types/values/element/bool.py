@@ -26,6 +26,11 @@ class Bool(BaseValue):
             fn_kwargs=fn_kwargs,
         )
 
+    def template(self, level=0):
+        if level == 0:
+            pass
+        return f"[{self.__class__.__name__}]"
+
     def transform(self, cur_value=None):
         if cur_value is not None:
             if not isinstance(cur_value, self.ALLOWED_TYPES):
