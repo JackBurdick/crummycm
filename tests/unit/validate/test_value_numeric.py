@@ -9,6 +9,7 @@ from example_templates.element.numeric.a import (
     A_fn_kwargs_EX_TEMP,
     A_int_EX_TEMP,
     A_required_EX_TEMP,
+    numeric_bounds_inf,
 )
 
 ex_config = {
@@ -36,6 +37,8 @@ ex_config = {
     "apply_fn_wo_kwargs": (({"my_num": 1}, A_fn_EX_TEMP), {"my_num": 2}),
     "apply_fn_kwargs": (({"my_num": 1}, A_fn_kwargs_EX_TEMP), {"my_num": 11}),
     "apply_bad_kwargs": (({"my_num": 0}, A_fn_bad_kwargs_EX_TEMP), ValueError),
+    "bounds_inf_positive_v": (({"my_num": 0}, numeric_bounds_inf), {"my_num": 0}),
+    "bounds_inf_positive_i": (({"my_num": -1}, numeric_bounds_inf), ValueError),
 }
 
 

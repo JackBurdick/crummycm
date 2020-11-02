@@ -24,3 +24,9 @@ A_fn_bad_kwargs_EX_TEMP = {
         fn=add_number_n_times, fn_kwargs={"xxxx": 3, "times": 2}, is_type=int
     )
 }
+
+numeric_bounds_inf = {
+    "my_num": Numeric(
+        default_value=int(0), required=False, is_type=int, bounds=(0, float("inf"))
+    )
+}
