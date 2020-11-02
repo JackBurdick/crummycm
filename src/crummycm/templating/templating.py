@@ -4,7 +4,7 @@ from crummycm.validation.types.placeholders.placeholder import (
     ValuePlaceholder,
 )
 from crummycm.validation.types.values.base import BaseValue
-from crummycm.read.read_format.yaml import write_dict_to_yaml
+from crummycm.formats.format.yaml import write_dict_to_yaml
 
 
 def print_key(k, level):

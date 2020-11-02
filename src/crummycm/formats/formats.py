@@ -1,9 +1,9 @@
 from typing import Any, Dict
 
-from crummycm.read.read_format.json import parse_json_from_path
-from crummycm.read.read_format.proto import parse_proto_from_path
-from crummycm.read.read_format.xml import parse_xml_from_path
-from crummycm.read.read_format.yaml import parse_yaml_from_path
+from crummycm.formats.format.json import parse_json_from_path
+from crummycm.formats.format.proto import parse_proto_from_path
+from crummycm.formats.format.xml import parse_xml_from_path
+from crummycm.formats.format.yaml import parse_yaml_from_path
 
 
 def _determine_file_format(user_in: Any) -> str:

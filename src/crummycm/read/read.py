@@ -1,6 +1,6 @@
 import pathlib
 
-from crummycm.read.formats import parse_path_to_dict
+from crummycm.formats.formats import parse_path_to_dict
 from crummycm.read.key_instructions.instructions import (
     apply_decs,
     parse_value,
