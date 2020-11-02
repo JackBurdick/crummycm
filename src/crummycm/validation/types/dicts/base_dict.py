@@ -1,10 +1,26 @@
 from typing import Optional
+
+import crummycm as ccm
 from crummycm.validation.types.values.base import BaseValue
 from crummycm.validation.types.placeholders.placeholder import (
     KeyPlaceholder,
     ValuePlaceholder,
     Placeholder,
 )
+
+
+"""
+# NOTE: I could use some help with imports
+# from crummycm.validation.types.dicts.config_dict import ConfigDict as CD
+# from .config_dict import ConfigDict
+^above do not work, and so instead I do
+`import crummycm as ccm`
+then use:
+`ccm.validation.types.dicts.config_dict.ConfigDict(v)`
+this may be related to circular imports, but I'm unsure at this point
++ https://stackoverflow.com/questions/22187279/python-circular-importing
+
+"""
 
 
 class BaseDict:
@@ -56,13 +72,19 @@ class BaseDict:
                     f"key {k} is expected to be type {str} or {KeyPlaceholder}, not {type(k)}"
                 )
 
-            assert (
+            if (
                 isinstance(v, BaseValue)
                 or isinstance(v, BaseDict)
                 or isinstance(v, ValuePlaceholder)
-            ), TypeError(
-                f"value {v} is expected to be subclass of {BaseValue} or subclass of {BaseDict}, not {type(v)}"
-            )
+            ):
+                pass
+            elif isinstance(v, dict):
+                v = ccm.validation.types.dicts.config_dict.ConfigDict(v)
+                in_dict[k] = v
+            else:
+                raise TypeError(
+                    f"value {v} is expected to be a dict or a subclass of {BaseValue} or subclass of {BaseDict}, not {type(v)}"
+                )
 
         assert len(str_key) + len(sw_val) + len(ew_val) + len(named_keys) == len(
             in_dict.keys()
