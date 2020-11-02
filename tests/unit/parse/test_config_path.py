@@ -31,7 +31,6 @@ def test_basic_parse(config, expected):
     """test whether the user input can be parsed to a dict"""
     if isinstance(expected, dict):
         raw_dict = call(config)
-        print(raw_dict)
         assert expected == raw_dict
     elif issubclass(expected, ValueError):
         with pytest.raises(ValueError):

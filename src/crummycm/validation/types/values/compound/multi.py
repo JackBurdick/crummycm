@@ -36,7 +36,6 @@ class Multi(BaseValue):
 
         if self.homogeneous:
             # TODO: this is a pretty poor check
-            print(type(self.element_types))
             if type(self.element_types) in (list, tuple):
                 raise ValueError(
                     f"cannot specify element_types as {self.element_types} and set homogeneous"

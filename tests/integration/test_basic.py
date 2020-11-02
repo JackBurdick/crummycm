@@ -39,7 +39,6 @@ def call(example):
     # expand the commands..this isn't great, but it works.
     if isinstance(example, tuple):
         raw_dict = ccm.generate(*example)
-        print(raw_dict)
     elif isinstance(example, dict):
         raw_dict = ccm.generate(**example)
     else:

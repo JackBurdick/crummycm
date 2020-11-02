@@ -63,8 +63,9 @@ def _eliminate_single_keys(opt_dict, uk_to_sk, used_keys):
                 unsolved_m_opt_dict[uk] = sk
             else:
                 if sk in used_keys:
+                    # NOTE: this error message is a little cryptic
                     raise ValueError(
-                        f"key {sk.name} matches multiple items: {[v.name for v in list(used_keys)]}"
+                        f"key {sk.name} (user: {uk}) matches multiple items: {[v.name for v in list(used_keys)]}"
                     )
                 else:
                     used_keys.add(sk)
