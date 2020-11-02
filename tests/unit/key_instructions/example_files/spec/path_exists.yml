@@ -1,0 +1,2 @@
+data:
+  schema: "path_exists::./tests/unit/key_instructions/example_files/schema.json"
