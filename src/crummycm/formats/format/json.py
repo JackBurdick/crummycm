@@ -1,4 +1,5 @@
 import json
+from typing import Any, Dict
 
 
 def _dict_raise_on_duplicates(ordered_pairs):
@@ -31,3 +32,9 @@ def parse_json_from_path(path: str) -> dict:
                 return dict()
     except FileNotFoundError:
         raise FileNotFoundError(f"The configuration file {path} was not found")
+
+
+def write_dict_to_json(data: Dict[str, Any], path: str):
+    with open(path, "w") as outfile:
+        json.dump(data, outfile, indent=2)
+    return outfile

@@ -4,7 +4,7 @@ from crummycm.templating.templating import template
 from example_files.a import flat_a, nested_a
 
 ex_config = {
-    "flat_a": (
+    "flat_a_yml": (
         (flat_a, "tests/unit/template/basic/example_files/out_yml/flat_a.yml"),
         {
             "my_mixed": {
@@ -14,8 +14,33 @@ ex_config = {
             }
         },
     ),
-    "nested_a": (
+    "nested_a_yml": (
         (nested_a, "tests/unit/template/basic/example_files/out_yml/nested_a.yml"),
+        {
+            "my_mixed": {
+                "kd_num": "[Numeric]",
+                "[KeyPlaceholder]": "[ValuePlaceholder]",
+                "wild_card": "[ValuePlaceholder]",
+                "nested_md": {
+                    "kd_num": "[Numeric]",
+                    "[KeyPlaceholder]": "[ValuePlaceholder]",
+                    "wild_card": "[ValuePlaceholder]",
+                },
+            }
+        },
+    ),
+    "flat_a_json": (
+        (flat_a, "tests/unit/template/basic/example_files/out_yml/flat_a.json"),
+        {
+            "my_mixed": {
+                "kd_num": "[Numeric]",
+                "[KeyPlaceholder]": "[ValuePlaceholder]",
+                "wild_card": "[ValuePlaceholder]",
+            }
+        },
+    ),
+    "nested_a_json": (
+        (nested_a, "tests/unit/template/basic/example_files/out_yml/nested_a.json"),
         {
             "my_mixed": {
                 "kd_num": "[Numeric]",

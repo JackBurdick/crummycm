@@ -1,0 +1,12 @@
+{
+  "my_mixed": {
+    "kd_num": "[Numeric]",
+    "[KeyPlaceholder]": "[ValuePlaceholder]",
+    "wild_card": "[ValuePlaceholder]",
+    "nested_md": {
+      "kd_num": "[Numeric]",
+      "[KeyPlaceholder]": "[ValuePlaceholder]",
+      "wild_card": "[ValuePlaceholder]"
+    }
+  }
+}

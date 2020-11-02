@@ -1,0 +1,7 @@
+{
+  "my_mixed": {
+    "kd_num": "[Numeric]",
+    "[KeyPlaceholder]": "[ValuePlaceholder]",
+    "wild_card": "[ValuePlaceholder]"
+  }
+}

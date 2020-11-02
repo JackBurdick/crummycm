@@ -72,3 +72,4 @@ def parse_yaml_from_path(path: str) -> dict:
 def write_dict_to_yaml(data: Dict[str, Any], path: str):
     with open(path, "w") as outfile:
         yaml.dump(data, outfile, default_flow_style=False)
+    return outfile

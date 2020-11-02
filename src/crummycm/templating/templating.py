@@ -4,7 +4,9 @@ from crummycm.validation.types.placeholders.placeholder import (
     ValuePlaceholder,
 )
 from crummycm.validation.types.values.base import BaseValue
-from crummycm.formats.format.yaml import write_dict_to_yaml
+
+# from crummycm.formats.format.yaml import write_dict_to_yaml
+from crummycm.formats.formats import write_dict_to_file
 
 
 def print_key(k, level):
@@ -38,6 +40,7 @@ def generate_example_template(d, level=0):
 
 def template(template, write_path, level=0):
     o = generate_example_template(template, level)
-    if write_path.endswith("yml"):
-        write_dict_to_yaml(data=o, path=write_path)
+    p = write_dict_to_file(o, write_path=write_path)
+    if not p:
+        raise ValueError("dict not written")
     return o
