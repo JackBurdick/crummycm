@@ -100,4 +100,4 @@ class BaseValue:
         return self.out
 
     def __str__(self):
-        return str(self.__class__) + ": " + str(self.__dict__)
+        return str(self.__class__.__name__) + ": " + str(self.__dict__)

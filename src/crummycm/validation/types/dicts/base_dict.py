@@ -1,12 +1,14 @@
-from typing import Optional
-
 import crummycm as ccm
-from crummycm.validation.types.values.base import BaseValue
 from crummycm.validation.types.placeholders.placeholder import (
     KeyPlaceholder,
-    ValuePlaceholder,
     Placeholder,
+    ValuePlaceholder,
 )
+from crummycm.validation.types.values.base import BaseValue
+from crummycm.validation.types.values.compound.multi import Multi
+from crummycm.validation.types.values.element.bool import Bool
+from crummycm.validation.types.values.element.numeric import Numeric
+from crummycm.validation.types.values.element.text import Text
 
 
 """
@@ -76,6 +78,13 @@ class BaseDict:
                 isinstance(v, BaseValue)
                 or isinstance(v, BaseDict)
                 or isinstance(v, ValuePlaceholder)
+                # This is rough
+                or isinstance(v, Text)
+                or isinstance(v, Multi)
+                or isinstance(v, Numeric)
+                or isinstance(v, Bool)
+                # I think this is still a result of poor import management on my part
+                or isinstance(v, ccm.validation.types.dicts.config_dict.ConfigDict)
             ):
                 pass
             elif isinstance(v, dict):
@@ -100,4 +109,4 @@ class BaseDict:
         self.in_dict = in_dict or None
 
     def __str__(self):
-        return str(self.__class__) + ": " + str(self.__dict__)
+        return str(self.__class__.__name__) + ": " + str(self.__dict__)
