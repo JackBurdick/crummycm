@@ -1,14 +1,17 @@
 from typing import Any
 
-from crummycm.validation.types.values.base import BaseValue
+from crummycm.validation.assign import map_user_keys_to_spec_key, populate_dict
 from crummycm.validation.types.dicts.base_dict import BaseDict, Placeholder
+from crummycm.validation.types.dicts.config_dict import ConfigDict
 from crummycm.validation.types.dicts.foundation.known_dict import KnownDict
 from crummycm.validation.types.dicts.foundation.named_dict import NamedDict
 from crummycm.validation.types.dicts.foundation.unknown_dict import UnknownDict
 from crummycm.validation.types.dicts.foundation.unnamed_dict import UnnamedDict
-from crummycm.validation.types.dicts.config_dict import ConfigDict
-from crummycm.validation.assign import map_user_keys_to_spec_key
-
+from crummycm.validation.types.placeholders.placeholder import (
+    KeyPlaceholder,
+    ValuePlaceholder,
+)
+from crummycm.validation.types.values.base import BaseValue
 
 """
 
@@ -73,9 +76,43 @@ def _parse_named_dict(raw, spec):
     return temp_dict
 
 
+def _set_all_to_none(cur_d):
+    tmp_ud = {}
+    for k, v in cur_d.items():
+        # key
+        if isinstance(k, str):
+            tmp_uk = k
+        elif isinstance(k, KeyPlaceholder):
+            if k.exact:
+                tmp_uk = k.name
+            else:
+                raise ValueError(
+                    f"cannot propagate `populate` through {k}, KeyPlaceholder must be `exact=True`"
+                )
+        else:
+            raise ValueError(
+                f"cannot propagate `populate` to {k}, key must be {str}"
+                f" or a KeyPlaceholder with `exact=True`"
+            )
+
+        # value
+        if isinstance(v, BaseValue):
+            ret_v = None
+        elif isinstance(v, ValuePlaceholder):
+            ret_v = None
+        elif isinstance(v, BaseDict):
+            ret_v = _set_all_to_none(cur_d.in_dict)
+        else:
+            raise ValueError(
+                f"cannot propagate `populate` to {v}, value must be {BaseValue}"
+                f" or {BaseDict} or {ValuePlaceholder} with `exact=True`"
+            )
+        tmp_ud[tmp_uk] = ret_v
+
+    return tmp_ud
+
+
 def _parse_unnamed_dict(raw, spec, disallow_unused):
-    # if not raw:
-    #     raise ValueError(f"no user entry found for {spec}")
 
     # TODO: keep track of used names
     uk_to_sk = map_user_keys_to_spec_key(raw, spec.in_dict)
@@ -93,13 +130,40 @@ def _parse_unnamed_dict(raw, spec, disallow_unused):
             raise TypeError(f"type of {sv} ({type(sv)}) is invalid")
         tmp_dict[uk] = cur_val
 
+    # TODO: add populate keys if unused
+    pop_dict = populate_dict(spec.in_dict)
+    for pk, pv in pop_dict.items():
+        cur_k = pk.name
+        if cur_k not in tmp_dict.keys():
+            if isinstance(pv, BaseValue):
+                ret_v = pv.default_value
+                tmp_dict[cur_k] = ret_v
+            elif isinstance(pv, BaseDict):
+                tmp_ud = _set_all_to_none(pv.in_dict)
+                ret_v = validate(tmp_ud, pv.in_dict, disallow_unused)
+                tmp_dict[cur_k] = ret_v
+
     return tmp_dict
 
 
 def _parse_unknown_dict(raw, spec):
     tmp_dict = {}
-    uk_to_sk = map_user_keys_to_spec_key(raw, spec.in_dict)
+    # the output is unused, but the function is still run to ensure inner checks
+    # NOTE: need to ensure this is still required/valid
+    _ = map_user_keys_to_spec_key(raw, spec.in_dict)
     tmp_dict = raw.copy()
+
+    # TODO: add populate keys if unused
+    pop_dict = populate_dict(spec.in_dict)
+    for pk, pv in pop_dict.items():
+        cur_k = pk.name
+        if cur_k not in tmp_dict.keys():
+            if isinstance(pv, ValuePlaceholder):
+                ret_v = pv.default_value
+                tmp_dict[cur_k] = ret_v
+            else:
+                raise ValueError(f"value of {pk} is {pv} not a {ValuePlaceholder}")
+
     return tmp_dict
 
 
