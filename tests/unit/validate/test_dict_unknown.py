@@ -41,7 +41,7 @@ ex_config = {
     ),
     "A_inner_unknown_required_false_b": (
         ({"some_config": {}}, A_inner_unknown_required_false),
-        ValueError,
+        {"some_config": {}},
     ),
     "A_inner_unknown_required_false_c": (
         ({"some_config": {"hello": None}}, A_inner_unknown_required_false),
@@ -55,7 +55,7 @@ ex_config = {
         ({"anything": {"my_val": 4}}, A_outer_unknown_req_false),
         {"anything": {"my_val": 4}},
     ),
-    "A_outer_unknown_req_false_c": (({}, A_outer_unknown_req_false), ValueError),
+    "A_outer_unknown_req_false_c": (({}, A_outer_unknown_req_false), {}),
     "A_outer_unknown_req_false_d": ((None, A_outer_unknown_req_false), ValueError),
     "req_outter_empty": (({}, A_outer_unknown), ValueError),
     "req_inner_empty": (({"some_config": {}}, A_inner_unknown), ValueError),

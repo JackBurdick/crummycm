@@ -5,31 +5,31 @@ from crummycm.validation.types.placeholders.placeholder import (
 
 # from crummycm.validation.types.dicts.foundation.unnamed_dict import UnnamedDict
 from crummycm.validation.types.dicts.foundation.named_dict import NamedDict
-from crummycm.validation.types.dicts.config_dict import ConfigDict as MD
+from crummycm.validation.types.dicts.config_dict import ConfigDict as CD
 
 # from crummycm.validation.types.values.element.numeric import Numeric
 from crummycm.validation.types.values.element.text import Text
 
 # from crummycm.validation.types.values.base import BaseValue
 required_num_false = {
-    "my_conf": MD({KeyPlaceholder("my_val"): ValuePlaceholder("some_val")})
+    "my_conf": CD({KeyPlaceholder("my_val"): ValuePlaceholder("some_val")})
 }
 
 required_num_true = {
-    "my_conf": MD(
+    "my_conf": CD(
         {KeyPlaceholder("my_val", required=True): ValuePlaceholder("some_val")}
     )
 }
 required_num_true_true = {
-    "my_conf": MD({KeyPlaceholder("my_text", required=True): Text(required=True)})
+    "my_conf": CD({KeyPlaceholder("my_text", required=True): Text(required=True)})
 }
 
 required_num_true_false = {
-    "my_conf": MD({KeyPlaceholder("my_text", required=True): Text(required=False)})
+    "my_conf": CD({KeyPlaceholder("my_text", required=True): Text(required=False)})
 }
 
 required_num_true_false_default = {
-    "my_conf": MD(
+    "my_conf": CD(
         {KeyPlaceholder("my_text", required=True): Text(default_value="Jack")}
     )
 }
@@ -37,5 +37,11 @@ required_num_true_false_default = {
 # if the key is present, the value is required
 # if the key isn't present, ignore
 required_num_false_true = {
-    "my_conf": MD({KeyPlaceholder("my_text", required=False): Text(required=True)})
+    "my_conf": {KeyPlaceholder("my_text", required=False): Text(required=True)}
+}
+
+req_unknown = {
+    "my_conf": {
+        KeyPlaceholder("my_text", required=False): ValuePlaceholder("my_text_value")
+    }
 }

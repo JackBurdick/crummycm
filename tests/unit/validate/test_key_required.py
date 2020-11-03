@@ -8,6 +8,7 @@ from example_templates.component.optional.a import (
     required_num_true_false,
     required_num_true_false_default,
     required_num_false_true,
+    req_unknown,
 )
 
 ex_config = {
@@ -44,6 +45,7 @@ ex_config = {
         ({"my_conf": {}}, required_num_false_true),
         {"my_conf": {}},
     ),
+    "required_unknown": (({"my_conf": {}}, req_unknown), {"my_conf": {}}),
 }
 
 

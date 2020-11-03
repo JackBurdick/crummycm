@@ -99,8 +99,6 @@ def _parse_unnamed_dict(raw, spec, disallow_unused):
 def _parse_unknown_dict(raw, spec):
     tmp_dict = {}
     uk_to_sk = map_user_keys_to_spec_key(raw, spec.in_dict)
-    if not uk_to_sk:
-        raise ValueError(f"no options present for {spec} in {raw}")
     tmp_dict = raw.copy()
     return tmp_dict
 
