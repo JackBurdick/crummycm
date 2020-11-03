@@ -31,7 +31,7 @@ ex_config = {
     ),
     "single_unnamed_num_starts_with_invalid": (
         ({"config": {"val_the_thing": None}}, A_unnamed_single_num_startswith_ex),
-        {"config": {"val_the_thing": None}},
+        {"config": {"val_the_thing": 0}},
     ),
     "single_unnamed_num_ends_with_valid": (
         ({"config": {"the_thing_val": 4}}, A_unnamed_single_num_endswith_ex),
@@ -39,7 +39,7 @@ ex_config = {
     ),
     "single_unnamed_num_ends_with_invalid": (
         ({"config": {"the_thing_val": None}}, A_unnamed_single_num_endswith_ex),
-        {"config": {"the_thing_val": None}},
+        {"config": {"the_thing_val": 0}},
     ),
     "single_unnamed_num_ends_with_req_v": (
         ({"config": {"the_thing_val": 3}}, A_unnamed_single_num_endswith_req),
@@ -47,11 +47,11 @@ ex_config = {
     ),
     "single_unnamed_num_ends_with_req_i": (
         ({"config": {"the_thing_val": None}}, A_unnamed_single_num_endswith_req),
-        ValueError,
+        {"config": {"the_thing_val": 0}},
     ),
     "single_exact_v": (
         ({"config": {"some_key": None}}, A_unnamed_single_exact),
-        {"config": {"some_key": None}},
+        {"config": {"some_key": 2}},
     ),
     "single_exact_i": (
         ({"config": {"v_some_key": None}}, A_unnamed_single_exact),

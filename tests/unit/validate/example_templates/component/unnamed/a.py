@@ -20,7 +20,7 @@ A_unnamed_single_exact = {
     "config": UnnamedDict(
         {
             KeyPlaceholder("some_key", exact=True): Numeric(
-                default_value=int(0), required=False, is_type=int
+                default_value=2, required=True, is_type=int
             )
         }
     )

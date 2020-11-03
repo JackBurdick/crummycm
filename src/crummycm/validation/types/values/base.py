@@ -41,7 +41,7 @@ class BaseValue:
         self.user_in = raw
         cur_val = raw
         if raw is None:
-            if self.default_value:
+            if self.default_value is not None:
                 cur_val = self.default_value
         return cur_val
 
