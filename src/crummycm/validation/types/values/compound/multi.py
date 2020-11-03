@@ -1,4 +1,3 @@
-from typing import Optional
 from crummycm.validation.types.values.base import BaseValue
 
 

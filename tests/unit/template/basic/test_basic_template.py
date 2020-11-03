@@ -1,6 +1,6 @@
 import pytest
 
-from crummycm.templating.templating import template
+import crummycm as ccm
 from example_files.a import flat_a, nested_a
 
 ex_config = {
@@ -108,7 +108,7 @@ ex_config = {
 
 
 def call(temp):
-    raw_dict = template(temp[0], temp[1], temp[2])
+    raw_dict = ccm.template(temp[0], temp[1], temp[2])
     return raw_dict
 
 
@@ -137,4 +137,3 @@ def test_basic_parse(config, expected):
             raw_dict = call(config)
     else:
         raise ValueError(f"expected {expected} not accounted for")
-

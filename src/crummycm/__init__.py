@@ -23,3 +23,4 @@ else:
 from crummycm.read.read import parse
 from crummycm.validation.validation import validate
 from crummycm.generation.generation import generate
+from crummycm.templating.templating import template
