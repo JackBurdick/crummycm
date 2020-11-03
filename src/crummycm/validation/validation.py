@@ -101,7 +101,7 @@ def _set_all_to_none(cur_d):
         elif isinstance(v, ValuePlaceholder):
             ret_v = None
         elif isinstance(v, BaseDict):
-            ret_v = _set_all_to_none(cur_d.in_dict)
+            ret_v = _set_all_to_none(v.in_dict)
         else:
             raise ValueError(
                 f"cannot propagate `populate` to {v}, value must be {BaseValue}"
@@ -263,6 +263,11 @@ def _determine_if_all_strict(cur_t):
 
 def _create_subset(cur_t, raw):
     subset_raw = {}
+    # if raw: # TODO: unsure if I want this...
+    if raw is None:
+        # NOTE: I'm not convinced this is how I want to handle a situation in
+        # which there is no user values to parse
+        raise ValueError(f"no user value for {cur_t}")
     for uk in raw.keys():
         if isinstance(cur_t, BaseDict):
             for sk in cur_t.in_dict.keys():

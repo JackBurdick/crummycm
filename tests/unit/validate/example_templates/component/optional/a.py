@@ -69,3 +69,24 @@ req_unnammed_populate_nested = {
         }
     }
 }
+
+req_unnammed_double_nested_outer_pop = {
+    "my_conf": {
+        KeyPlaceholder("my_inner", required=False, exact=True, populate=True): {
+            KeyPlaceholder("my_double_inner", required=False, exact=True): {
+                "inner_text": Text(required=True, default_value="hello")
+            }
+        }
+    }
+}
+
+req_unnammed_double_nested_inner_pop = {
+    "my_conf": {
+        KeyPlaceholder("my_inner", required=False, exact=True): {
+            KeyPlaceholder(
+                "my_double_inner", required=False, exact=True, populate=True
+            ): {"inner_text": Text(required=True, default_value="hello")}
+        }
+    }
+}
+
