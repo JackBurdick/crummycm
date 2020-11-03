@@ -22,9 +22,12 @@ class ValuePlaceholder(Placeholder):
         super().__init__(name)
 
     def template(self, level=0):
+        ret_str = f"[{self.__class__.__name__}]"
         if level == 0:
             pass
-        return f"[{self.__class__.__name__}]"
+        if ret_str:
+            ret_str += "*"
+        return ret_str
 
 
 class KeyPlaceholder(Placeholder):
@@ -68,9 +71,23 @@ class KeyPlaceholder(Placeholder):
             return False
 
     def template(self, level=0):
+        name = "KPH"
+        if self.exact:
+            name = self.exact
+        ret_str = f"[{name}]"
         if level == 0:
-            pass
-        return f"[{self.__class__.__name__}]"
+            if self.ends_with or self.starts_with:
+                ret_str += "^"
+        elif level > 0:
+            if self.starts_with:
+                ret_str = f"{ret_str}(starts_with='{self.starts_with}')"
+            if self.ends_with:
+                ret_str = f"{ret_str}(ends_with='{self.ends_with}')"
+        if self.multi:
+            ret_str = f"MULTI:{ret_str}"
+        if self.required:
+            ret_str += "*"
+        return ret_str
 
     def matches(self, user_val):
         if self.starts_with:

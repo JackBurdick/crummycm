@@ -4,77 +4,111 @@ from crummycm.templating.templating import template
 from example_files.a import flat_a, nested_a
 
 ex_config = {
-    "flat_a_yml": (
-        (flat_a, "tests/unit/template/basic/example_files/out_yml/flat_a.yml"),
+    "flat_a_yml_0": (
+        (flat_a, "tests/unit/template/basic/example_files/out_yml/flat_a.yml", 0),
         {
             "my_mixed": {
-                "kd_num": "[Numeric]",
-                "[KeyPlaceholder]": "[ValuePlaceholder]",
-                "wild_card": "[ValuePlaceholder]",
+                "kd_num": "<class 'int'>[Numeric]*",
+                "[KPH]^": "[Text](DIESEL)*",
+                "[KPH]*": "[ValuePlaceholder]*",
+                "wild_card": "[ValuePlaceholder]*",
             }
         },
     ),
-    "nested_a_yml": (
-        (nested_a, "tests/unit/template/basic/example_files/out_yml/nested_a.yml"),
+    "nested_a_yml_0": (
+        (nested_a, "tests/unit/template/basic/example_files/out_yml/nested_a.yml", 0),
         {
             "my_mixed": {
-                "kd_num": "[Numeric]",
-                "[KeyPlaceholder]": "[ValuePlaceholder]",
-                "wild_card": "[ValuePlaceholder]",
+                "kd_num": "<class 'int'>[Numeric]",
+                "[KPH]^*": "[Text]*",
+                "[KPH]*": "[ValuePlaceholder]*",
+                "wild_card": "[ValuePlaceholder]*",
                 "nested_md": {
-                    "kd_num": "[Numeric]",
-                    "[KeyPlaceholder]": "[ValuePlaceholder]",
-                    "wild_card": "[ValuePlaceholder]",
+                    "kd_num": "<class 'int'>[Numeric]",
+                    "[KPH]^*": "[Text]*",
+                    "[KPH]*": "[ValuePlaceholder]*",
+                    "wild_card": "[ValuePlaceholder]*",
+                },
+            }
+        },
+    ),
+    "flat_a_yml_1": (
+        (flat_a, "tests/unit/template/basic/example_files/out_yml/flat_a.yml", 1),
+        {
+            "my_mixed": {
+                "kd_num": "<class 'int'>[Numeric]*",
+                "[KPH](ends_with='_str')": "[Text](DIESEL)*",
+                "[KPH]*": "[ValuePlaceholder]*",
+                "wild_card": "[ValuePlaceholder]*",
+            }
+        },
+    ),
+    "nested_a_yml_1": (
+        (nested_a, "tests/unit/template/basic/example_files/out_yml/nested_a.yml", 1),
+        {
+            "my_mixed": {
+                "kd_num": "<class 'int'>[Numeric]",
+                "[KPH](ends_with='_str')*": "[Text]*",
+                "[KPH]*": "[ValuePlaceholder]*",
+                "wild_card": "[ValuePlaceholder]*",
+                "nested_md": {
+                    "kd_num": "<class 'int'>[Numeric]",
+                    "[KPH](ends_with='_str')*": "[Text]*",
+                    "[KPH]*": "[ValuePlaceholder]*",
+                    "wild_card": "[ValuePlaceholder]*",
                 },
             }
         },
     ),
     "flat_a_json": (
-        (flat_a, "tests/unit/template/basic/example_files/out_yml/flat_a.json"),
+        (flat_a, "tests/unit/template/basic/example_files/out_yml/flat_a.json", 0),
         {
             "my_mixed": {
-                "kd_num": "[Numeric]",
-                "[KeyPlaceholder]": "[ValuePlaceholder]",
-                "wild_card": "[ValuePlaceholder]",
+                "kd_num": "<class 'int'>[Numeric]*",
+                "[KPH]^": "[Text](DIESEL)*",
+                "[KPH]*": "[ValuePlaceholder]*",
+                "wild_card": "[ValuePlaceholder]*",
             }
         },
     ),
     "nested_a_json": (
-        (nested_a, "tests/unit/template/basic/example_files/out_yml/nested_a.json"),
+        (nested_a, "tests/unit/template/basic/example_files/out_yml/nested_a.json", 0),
         {
             "my_mixed": {
-                "kd_num": "[Numeric]",
-                "[KeyPlaceholder]": "[ValuePlaceholder]",
-                "wild_card": "[ValuePlaceholder]",
+                "kd_num": "<class 'int'>[Numeric]",
+                "[KPH]^*": "[Text]*",
+                "[KPH]*": "[ValuePlaceholder]*",
+                "wild_card": "[ValuePlaceholder]*",
                 "nested_md": {
-                    "kd_num": "[Numeric]",
-                    "[KeyPlaceholder]": "[ValuePlaceholder]",
-                    "wild_card": "[ValuePlaceholder]",
+                    "kd_num": "<class 'int'>[Numeric]",
+                    "[KPH]^*": "[Text]*",
+                    "[KPH]*": "[ValuePlaceholder]*",
+                    "wild_card": "[ValuePlaceholder]*",
                 },
             }
         },
     ),
     "flat_a_proto": (
-        (flat_a, "tests/unit/template/basic/example_files/out_yml/flat_a.proto"),
+        (flat_a, "tests/unit/template/basic/example_files/out_yml/flat_a.proto", 0),
         NotImplementedError,
     ),
     "nested_a_proto": (
-        (nested_a, "tests/unit/template/basic/example_files/out_yml/nested_a.proto"),
+        (nested_a, "tests/unit/template/basic/example_files/out_yml/nested_a.proto", 0),
         NotImplementedError,
     ),
     "flat_a_xml": (
-        (flat_a, "tests/unit/template/basic/example_files/out_yml/flat_a.xml"),
+        (flat_a, "tests/unit/template/basic/example_files/out_yml/flat_a.xml", 0),
         NotImplementedError,
     ),
     "nested_a_xml": (
-        (nested_a, "tests/unit/template/basic/example_files/out_yml/nested_a.xml"),
+        (nested_a, "tests/unit/template/basic/example_files/out_yml/nested_a.xml", 0),
         NotImplementedError,
     ),
 }
 
 
 def call(temp):
-    raw_dict = template(temp[0], temp[1])
+    raw_dict = template(temp[0], temp[1], temp[2])
     return raw_dict
 
 

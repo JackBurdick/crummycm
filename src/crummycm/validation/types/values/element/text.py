@@ -44,9 +44,24 @@ class Text(BaseValue):
         self.ends_with = ends_with or None
 
     def template(self, level=0):
+        ret_str = f"[{self.__class__.__name__}]"
         if level == 0:
             pass
-        return f"[{self.__class__.__name__}]"
+        if self.default_value:
+            ret_str += f"({self.default_value})"
+        if self.fn:
+            ret_str += "!"
+        if (
+            self.ends_with
+            or self.starts_with
+            or self.contains
+            or self.contains_one_of
+            or self.is_in_list
+        ):
+            ret_str += "^"
+        if ret_str:
+            ret_str += "*"
+        return ret_str
 
     def transform(self, cur_value=None):
         if cur_value is not None:

@@ -41,6 +41,26 @@ class Multi(BaseValue):
                     f"cannot specify element_types as {self.element_types} and set homogeneous"
                 )
 
+    def template(self, level=0):
+        ret_str = f"[{self.__class__.__name__}]"
+        if self.is_type:
+            ret_str = f"{self.is_type}{ret_str}"
+        if self.element_types:
+            ret_str = f"[{self.element_types}]{ret_str}"
+        if self.default_value:
+            ret_str += f"({self.default_value})"
+        if level == 0:
+            if self.homogeneous:
+                ret_str += "^"
+        elif level > 0:
+            if self.homogeneous:
+                ret_str += f"[{self.homogeneous}]"
+        if self.fn:
+            ret_str += "!"
+        if self.required:
+            ret_str += "*"
+        return ret_str
+
     def transform(self, cur_value=None):
         if cur_value is not None:
             if not isinstance(cur_value, self.ALLOWED_TYPES) and not isinstance(

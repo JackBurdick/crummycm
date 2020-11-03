@@ -1,8 +1,10 @@
 my_mixed:
-  '[KeyPlaceholder]': '[ValuePlaceholder]'
-  kd_num: '[Numeric]'
+  '[KPH](ends_with=''_str'')*': '[Text]*'
+  '[KPH]*': '[ValuePlaceholder]*'
+  kd_num: <class 'int'>[Numeric]
   nested_md:
-    '[KeyPlaceholder]': '[ValuePlaceholder]'
-    kd_num: '[Numeric]'
-    wild_card: '[ValuePlaceholder]'
-  wild_card: '[ValuePlaceholder]'
+    '[KPH](ends_with=''_str'')*': '[Text]*'
+    '[KPH]*': '[ValuePlaceholder]*'
+    kd_num: <class 'int'>[Numeric]
+    wild_card: '[ValuePlaceholder]*'
+  wild_card: '[ValuePlaceholder]*'

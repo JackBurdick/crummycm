@@ -1,4 +1,5 @@
 my_mixed:
-  '[KeyPlaceholder]': '[ValuePlaceholder]'
-  kd_num: '[Numeric]'
-  wild_card: '[ValuePlaceholder]'
+  '[KPH](ends_with=''_str'')': '[Text](DIESEL)*'
+  '[KPH]*': '[ValuePlaceholder]*'
+  kd_num: <class 'int'>[Numeric]*
+  wild_card: '[ValuePlaceholder]*'

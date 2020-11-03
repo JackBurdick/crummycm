@@ -1,7 +1,8 @@
 {
   "my_mixed": {
-    "kd_num": "[Numeric]",
-    "[KeyPlaceholder]": "[ValuePlaceholder]",
-    "wild_card": "[ValuePlaceholder]"
+    "kd_num": "<class 'int'>[Numeric]*",
+    "[KPH]^": "[Text](DIESEL)*",
+    "[KPH]*": "[ValuePlaceholder]*",
+    "wild_card": "[ValuePlaceholder]*"
   }
 }

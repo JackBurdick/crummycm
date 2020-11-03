@@ -27,9 +27,16 @@ class Bool(BaseValue):
         )
 
     def template(self, level=0):
+        ret_str = f"[{self.__class__.__name__}]"
         if level == 0:
             pass
-        return f"[{self.__class__.__name__}]"
+        if self.default_value:
+            ret_str += f"({self.default_value})"
+        if self.fn:
+            ret_str += "!"
+        if self.required:
+            ret_str += "*"
+        return ret_str
 
     def transform(self, cur_value=None):
         if cur_value is not None:
