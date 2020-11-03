@@ -73,16 +73,16 @@ class KeyPlaceholder(Placeholder):
     def template(self, level=0):
         name = "KPH"
         if self.exact:
-            name = self.exact
+            name = self.name
         ret_str = f"[{name}]"
         if level == 0:
             if self.ends_with or self.starts_with:
                 ret_str += "^"
         elif level > 0:
             if self.starts_with:
-                ret_str = f"{ret_str}(starts_with='{self.starts_with}')"
+                ret_str += f"(starts_with='{self.starts_with}')"
             if self.ends_with:
-                ret_str = f"{ret_str}(ends_with='{self.ends_with}')"
+                ret_str += f"(ends_with='{self.ends_with}')"
         if self.multi:
             ret_str = f"MULTI:{ret_str}"
         if self.required:
