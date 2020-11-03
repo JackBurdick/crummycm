@@ -190,3 +190,19 @@ def map_user_keys_to_spec_key(raw, spec_in_dict):
     )
 
     return uk_to_sk
+
+
+def _populate_keys(spec_in_dict):
+    pop_keys = [sk for sk in list(spec_in_dict.keys()) if sk.populate]
+    return pop_keys
+
+
+def populate_dict(spec_in_dict):
+    """
+    subset given dict to only contain keys with .populate=True
+    """
+    pop_d = {}
+    pop_keys = _populate_keys(spec_in_dict)
+    for pk in pop_keys:
+        pop_d[pk] = spec_in_dict[pk]
+    return pop_d
