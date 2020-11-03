@@ -38,6 +38,7 @@ class KeyPlaceholder(Placeholder):
         ends_with=None,
         exact=False,
         required=True,
+        populate=False,
         multi=False,
     ):
         if not name:
@@ -52,6 +53,15 @@ class KeyPlaceholder(Placeholder):
         self.starts_with = starts_with or None
         self.ends_with = ends_with or None
         self.exact = exact
+        self.populate = populate
+        if self.populate and not self.exact:
+            raise ValueError(
+                f"{self.__class__.__name__} cannot populate unless `exact` is set"
+            )
+        if self.populate and self.multi:
+            raise ValueError(
+                f"{self.__class__.__name__} cannot populate if `multi` is set"
+            )
 
         # optional
         self.required = required
@@ -87,6 +97,8 @@ class KeyPlaceholder(Placeholder):
             ret_str = f"MULTI:{ret_str}"
         if self.required:
             ret_str += "*"
+        if self.populate:
+            ret_str = f"@:{ret_str}"
         return ret_str
 
     def matches(self, user_val):
