@@ -45,3 +45,27 @@ req_unknown = {
         KeyPlaceholder("my_text", required=False): ValuePlaceholder("my_text_value")
     }
 }
+
+req_unknown_populate = {
+    "my_conf": {
+        KeyPlaceholder(
+            "my_text", required=False, exact=True, populate=True
+        ): ValuePlaceholder("my_text_value")
+    }
+}
+
+req_unnammed_populate = {
+    "my_conf": {
+        KeyPlaceholder("my_text", required=False, exact=True, populate=True): Text(
+            required=True, default_value="hello"
+        )
+    }
+}
+
+req_unnammed_populate_nested = {
+    "my_conf": {
+        KeyPlaceholder("my_text", required=False, exact=True, populate=True): {
+            "inner_text": Text(required=True, default_value="hello")
+        }
+    }
+}
