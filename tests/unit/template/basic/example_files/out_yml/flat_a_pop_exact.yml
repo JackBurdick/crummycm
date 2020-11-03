@@ -1,0 +1,5 @@
+my_mixed:
+  '@:[some_num]*': '[ValuePlaceholder](0)*'
+  '[KPH]^': '[Text](DIESEL)*'
+  kd_num: <class 'int'>[Numeric]*
+  wild_card: '[ValuePlaceholder]*'

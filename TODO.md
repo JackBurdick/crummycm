@@ -8,8 +8,6 @@ General
 - pip/conda
 - Either/or type key? or groups of keys?
     - a way to designate "one of these" and have a diff value for each
-- `populate` (@) for KPH/BaseValues such that items are returned if not
-  required by the user
 - return_as for Text
     - if a user inputs "mse", but we want the validation to be ["mse"]?
     - optional?

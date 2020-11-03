@@ -42,3 +42,18 @@ nested_a = {
         }
     )
 }
+
+flat_a_pop_exact = {
+    "my_mixed": CD(
+        {
+            "kd_num": Numeric(default_value=int(0), is_type=int),
+            KeyPlaceholder("some_str", ends_with="_str", required=False): Text(
+                default_value="DIESEL"
+            ),
+            KeyPlaceholder(
+                "some_num", required=True, exact=True, populate=True
+            ): ValuePlaceholder("user_num", default_value=0),
+            "wild_card": ValuePlaceholder("wild_card_value"),
+        }
+    )
+}

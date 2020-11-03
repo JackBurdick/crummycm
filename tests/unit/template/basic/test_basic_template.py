@@ -1,7 +1,7 @@
 import pytest
 
 import crummycm as ccm
-from example_files.a import flat_a, nested_a
+from example_files.a import flat_a, nested_a, flat_a_pop_exact
 
 ex_config = {
     "flat_a_yml_0": (
@@ -103,6 +103,21 @@ ex_config = {
     "nested_a_xml": (
         (nested_a, "tests/unit/template/basic/example_files/out_yml/nested_a.xml", 0),
         NotImplementedError,
+    ),
+    "flat_a_pop_exact_0": (
+        (
+            flat_a_pop_exact,
+            "tests/unit/template/basic/example_files/out_yml/flat_a_pop_exact.yml",
+            0,
+        ),
+        {
+            "my_mixed": {
+                "kd_num": "<class 'int'>[Numeric]*",
+                "[KPH]^": "[Text](DIESEL)*",
+                "@:[some_num]*": "[ValuePlaceholder](0)*",
+                "wild_card": "[ValuePlaceholder]*",
+            }
+        },
     ),
 }
 

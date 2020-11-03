@@ -26,7 +26,7 @@ class ValuePlaceholder(Placeholder):
         ret_str = f"[{self.__class__.__name__}]"
         if level == 0:
             pass
-        if self.default_value:
+        if self.default_value is not None:
             ret_str += f"({self.default_value})"
         if ret_str:
             ret_str += "*"
