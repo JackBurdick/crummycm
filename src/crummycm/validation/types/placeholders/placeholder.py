@@ -14,17 +14,20 @@ class Placeholder:
 
 
 class ValuePlaceholder(Placeholder):
-    def __init__(self, name):
+    def __init__(self, name, *, default_value=None):
         if not name:
             raise ValueError("no name was provided for ValuePlaceholder")
         elif not isinstance(name, str):
             raise ValueError(f"name {name} should be type {str}, not {type(name)}")
         super().__init__(name)
+        self.default_value = default_value
 
     def template(self, level=0):
         ret_str = f"[{self.__class__.__name__}]"
         if level == 0:
             pass
+        if self.default_value:
+            ret_str += f"({self.default_value})"
         if ret_str:
             ret_str += "*"
         return ret_str
@@ -54,6 +57,13 @@ class KeyPlaceholder(Placeholder):
         self.ends_with = ends_with or None
         self.exact = exact
         self.populate = populate
+
+        # optional
+        self.required = required
+
+        # allows many to one relationship
+        self.multi = multi
+
         if self.populate and not self.exact:
             raise ValueError(
                 f"{self.__class__.__name__} cannot populate unless `exact` is set"
@@ -62,13 +72,6 @@ class KeyPlaceholder(Placeholder):
             raise ValueError(
                 f"{self.__class__.__name__} cannot populate if `multi` is set"
             )
-
-        # optional
-        self.required = required
-
-        # allows many to one relationship
-        self.multi = multi
-
         if self.multi and self.exact:
             raise ValueError(
                 f"{str(self.__class__)} is not allowed to be both exact and multi"
