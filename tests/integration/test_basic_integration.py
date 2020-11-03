@@ -52,7 +52,6 @@ def call(example):
 def test_basic_parse(config, expected):
     """test whether the user input can be parsed to a dict"""
     if isinstance(expected, dict):
-
         raw_dict = call(config)
         assert expected == raw_dict
     elif issubclass(expected, ValueError):

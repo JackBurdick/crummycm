@@ -1,3 +1,4 @@
+from crummycm.validation.types.placeholders.placeholder import ValuePlaceholder
 from crummycm.validation.types.values.base import BaseValue
 
 
@@ -42,10 +43,15 @@ class Multi(BaseValue):
 
     def template(self, level=0):
         ret_str = f"[{self.__class__.__name__}]"
-        if self.is_type:
-            ret_str = f"{self.is_type}{ret_str}"
         if self.element_types:
-            ret_str = f"[{self.element_types}]{ret_str}"
+            if isinstance(self.element_types, BaseValue):
+                ret_str = f"el:{self.element_types.template(level)}{ret_str}"
+            elif isinstance(self.element_types, ValuePlaceholder):
+                ret_str = f"[{self.element_types.template(level)}]{ret_str}"
+            else:
+                ret_str = f"[{self.element_types}]{ret_str}"
+        if self.is_type:
+            ret_str = f"[{self.is_type.__name__}] of {ret_str}"
         if self.default_value:
             ret_str += f"({self.default_value})"
         if level == 0:

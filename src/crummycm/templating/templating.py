@@ -21,6 +21,8 @@ def print_value(v, level):
         return v.template(level=level)
     elif isinstance(v, BaseValue):
         return v.template(level=level)
+    elif isinstance(v, BaseDict):
+        return generate_example_template(v, level)
     else:
         return v
 
@@ -39,8 +41,14 @@ def generate_example_template(d, level=0):
 
 
 def template(template, write_path, level=0):
-    o = generate_example_template(template, level)
+    if isinstance(template, dict):
+        o = generate_example_template(template, level)
+    elif isinstance(template, BaseDict):
+        o = generate_example_template(template.in_dict, level)
+    else:
+        raise TypeError(f"template is a {type(template)} not a {dict} or {BaseDict}")
     p = write_dict_to_file(o, write_path=write_path)
     if not p:
         raise ValueError("dict not written")
     return o
+

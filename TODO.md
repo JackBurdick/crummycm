@@ -1,6 +1,5 @@
 General
 -------
-- use template to create a template in the spec of choice
 - create README/doc from template
 - create hash of spec
 - test when you know ~some options
@@ -16,3 +15,7 @@ Future
 - `disallow_unused` is difficult to follow and passed around internally
     - also it would be nice to be able to specify this at the local level, not
       global level
+- template() improvements
+    - (xml, proto?)
+    - printing values should be improved
+    - levels are not very useful right now
