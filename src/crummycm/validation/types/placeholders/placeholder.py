@@ -9,8 +9,15 @@ class Placeholder:
         # allows to be used as key
         return hash(self.name + f"{__class__}")
 
-    def __str__(self):
-        return "[" + str(self.__class__.__name__) + ": " + str(self.__dict__) + "]"
+    def __repr__(self):
+        return (
+            "["
+            + str(self.__class__.__name__)
+            + f"({self.name})"
+            + ": "
+            + str(self.__dict__)
+            + "]"
+        )
 
 
 class ValuePlaceholder(Placeholder):

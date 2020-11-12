@@ -312,6 +312,7 @@ def _parse_py_dicts_and_merge(raw, template, disallow_unused):
 
 
 def validate(raw: Any, template: Any, disallow_unused: bool = True):
+    # TODO: dict appear to be deleted here
 
     if raw:
         user_keys = set(raw.keys()).copy()

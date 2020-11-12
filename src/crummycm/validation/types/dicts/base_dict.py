@@ -108,5 +108,5 @@ class BaseDict:
 
         self.in_dict = in_dict or None
 
-    def __str__(self):
-        return str(self.__class__.__name__) + ": " + str(self.__dict__)
+    def __repr__(self):
+        return str(self.__class__.__name__) + ": " + f"{self.in_dict}"

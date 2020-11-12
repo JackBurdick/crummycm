@@ -99,5 +99,5 @@ class BaseValue:
         self.out = intermediate
         return self.out
 
-    def __str__(self):
+    def __repr__(self):
         return str(self.__class__.__name__) + ": " + str(self.__dict__)
