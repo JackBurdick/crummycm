@@ -66,14 +66,14 @@ class Either(BaseValue):
 
         self.either_seq = either_seq
 
-        SEQ_TYPES = {list, tuple}
-        IND_TYPES = {str, int, float}
-        ACCEPTED_RET_TYPES = SEQ_TYPES | IND_TYPES
+        self.ACCEPTED_SEQ_TYPES = {list, tuple}
+        self.ACCEPTED_IND_TYPES = {str, int, float}
+        self.ACCEPTED_RET_TYPES = self.ACCEPTED_SEQ_TYPES | self.ACCEPTED_IND_TYPES
         if return_as_type:
-            if return_as_type not in ACCEPTED_RET_TYPES:
+            if return_as_type not in self.ACCEPTED_RET_TYPES:
                 raise ValueError(
                     f"return_as_type ({return_as_type}) is not allowed "
-                    f"please choose one of {ACCEPTED_RET_TYPES}"
+                    f"please choose one of {self.ACCEPTED_RET_TYPES}"
                 )
 
         self.return_as_type = return_as_type
@@ -106,21 +106,66 @@ class Either(BaseValue):
         if out is None:
             raise ValueError(f"raw value was not transformed by any of the options")
 
-        if self.return_as_type == list:
-            if not isinstance(out, list):
-                if isinstance(out, tuple):
-                    out = list(out)
+        if self.return_as_type:
+            # convert from one seq to another
+            if isinstance(out, tuple(self.ACCEPTED_SEQ_TYPES)):
+                if self.return_as_type in self.ACCEPTED_SEQ_TYPES:
+                    out = self.return_as_type(out)
+                elif self.return_as_type in self.ACCEPTED_IND_TYPES:
+                    # e.g. out = [1,3] and return type = str
+                    raise ValueError(
+                        f"user is trying to convert a sequence value ({out}, type: {type(out)})"
+                        f"into a individual type {self.return_as_type}. this is currently not allowed as"
+                        f"the output may be unexpected. e.g. if the user value is ['a','b'], the output would be"
+                        f"'['a','b','"
+                    )
                 else:
-                    out = [out]
-        elif self.return_as_type == tuple:
-            if not isinstance(out, tuple):
-                if isinstance(out, list):
-                    out = tuple(out)
-                else:
-                    out = (out,)
-        elif self.return_as_type:
-            # TODO: additional error needed?
-            out = self.return_as_type(out)
+                    raise ValueError(
+                        f"{self.return_as_type} is not an accepted sequence of individual type"
+                    )
+            elif isinstance(out, tuple(self.ACCEPTED_IND_TYPES)):
+                # out is a indiviual type, e.g. 1, or 1.1, 'some_str'
+                if self.return_as_type in self.ACCEPTED_SEQ_TYPES:
+                    # return type is a sequence, 'allowed' (as a wrapper) since
+                    # it wraps the value. a straight conversion is now allowed
+                    # since it may be unexpected. e.g. list("abc") becomes ['a','b','c']
+                    if self.return_as_type == list:
+                        out = [out]
+                    elif self.return_as_type == tuple:
+                        out = (out,)
+                    else:
+                        raise NotImplementedError(
+                            f"specified sequence type ({self.return_as_type}) is not implemented"
+                        )
+                elif self.return_as_type in self.ACCEPTED_IND_TYPES:
+                    # return type is an individual type as well
+                    try:
+                        out = self.return_as_type(out)
+                    except ValueError as e:
+                        raise ValueError(
+                            f"transformed value ({out}) is type {type(out)} and is unable to be"
+                            f" converted to type {self.return_as_type}. python error: {e}"
+                        )
+            else:
+                raise ValueError(
+                    f"{type(out)} is not an accepted sequence of individual type"
+                )
+
+            if self.return_as_type == list:
+                if not isinstance(out, list):
+                    if isinstance(out, tuple):
+                        out = list(out)
+                    else:
+                        out = [out]
+            elif self.return_as_type == tuple:
+                if not isinstance(out, tuple):
+                    if isinstance(out, list):
+                        out = tuple(out)
+                    else:
+                        out = (out,)
+            elif self.return_as_type:
+                # TODO: additional error needed?
+                out = self.return_as_type(out)
 
         return out
 

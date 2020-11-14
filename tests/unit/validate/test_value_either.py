@@ -84,10 +84,10 @@ ex_config = {
         ({"my_either": "cat"}, text_or_list_ret_str),
         {"my_either": "cat"},
     ),
-    # "text_or_list_ret_str_text": (
-    #     ({"my_either": ["cat"]}, text_or_list_ret_str),
-    #     {"my_either": "cat"}, >>>>>  "['cat']"
-    # ),
+    "text_or_list_ret_str_list_notallowed": (
+        ({"my_either": ["cat"]}, text_or_list_ret_str),
+        ValueError,
+    ),
 }
 
 
