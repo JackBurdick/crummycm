@@ -41,9 +41,21 @@ list_or_text_return_tuple = {
     )
 }
 
+l_or_t_default_list = {
+    "my_either": Either(
+        either_seq=[Multi(required=False), Text(required=False)],
+        default_value=["a", "b"],
+    )
+}
 
-# Num_or_Text = {
+
+# NOTE: not valid since Multi is not required, but does have a default value
+# inner_default_a = {
 #     "my_either": Either(
-#         either_seq={Numeric(required=False, is_type=float), Text(required=False)}
+#         either_seq=[
+#             Multi(required=False, default_value=["a", "b"]),
+#             Text(required=False),
+#         ]
 #     )
 # }
+

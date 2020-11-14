@@ -10,6 +10,7 @@ from example_templates.element.either.a import (
     list_or_text,
     list_or_text_return_list,
     list_or_text_return_tuple,
+    l_or_t_default_list,
 )
 
 ex_config = {
@@ -54,6 +55,14 @@ ex_config = {
     "list_or_text_return_tuple_list": (
         ({"my_either": ["cat"]}, list_or_text_return_tuple),
         {"my_either": ("cat",)},
+    ),
+    "l_or_t_default_list_provided": (
+        ({"my_either": ["cat"]}, l_or_t_default_list),
+        {"my_either": ["cat"]},
+    ),
+    "l_or_t_default_list_fallback": (
+        ({"my_either": None}, l_or_t_default_list),
+        {"my_either": ["a", "b"]},
     ),
 }
 

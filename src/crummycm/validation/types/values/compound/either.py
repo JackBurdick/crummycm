@@ -82,6 +82,8 @@ class Either(BaseValue):
                 break
             except (TypeError, ValueError):
                 pass
+        if out is None:
+            out = super().transform(raw)
 
         if out is None:
             raise ValueError(f"raw value was not transformed by any of the options")
