@@ -12,7 +12,7 @@ class Either(BaseValue):
         fn_kwargs=None,
         # specific
         either_seq=None,
-        return_type=None,
+        return_as_type=None,
     ):
 
         super().__init__(
@@ -23,6 +23,14 @@ class Either(BaseValue):
             fn=fn,
             fn_kwargs=fn_kwargs,
         )
+
+        if return_as_type is not None:
+            if default_value is not None:
+                if not isinstance(default_value, return_as_type):
+                    raise ValueError(
+                        f"default value ({default_value}) is not the same"
+                        f" as the specified return_as_type ({return_as_type})"
+                    )
 
         # NOTE: the order of `either_seq` is relevant
         if either_seq is None:
@@ -36,6 +44,7 @@ class Either(BaseValue):
                 "Either.`either_seq` is for specifying values that could "
                 "be one of a set of options, the set of options should be larger than 1"
             )
+        v_types = set()
         for v in either_seq:
             if not isinstance(v, BaseValue):
                 raise ValueError(
@@ -46,19 +55,28 @@ class Either(BaseValue):
                     f"Cannot specify value in {self.__class__.__name__} as required: ({v}) \n"
                     f"> likely fix: use (required=False) when instantiating {v}"
                 )
-            # TODO ensure required is not set
+            if v.__class__ in v_types:
+                raise ValueError(
+                    f"value in `either_seq` contains multiple types of {v.__class__.__name__}"
+                    " only one instance of each type is allowed. Please modify either_set to contain"
+                    " one of the specified type"
+                )
+            else:
+                v_types.add(v.__class__)
 
         self.either_seq = either_seq
 
-        ACCEPTED_RET_TYPES = {list, str, int, tuple, float}
-        if return_type:
-            if return_type not in ACCEPTED_RET_TYPES:
+        SEQ_TYPES = {list, tuple}
+        IND_TYPES = {str, int, float}
+        ACCEPTED_RET_TYPES = SEQ_TYPES | IND_TYPES
+        if return_as_type:
+            if return_as_type not in ACCEPTED_RET_TYPES:
                 raise ValueError(
-                    f"return_type ({return_type}) is not allowed "
+                    f"return_as_type ({return_as_type}) is not allowed "
                     f"please choose one of {ACCEPTED_RET_TYPES}"
                 )
 
-        self.return_type = return_type
+        self.return_as_type = return_as_type
 
     def template(self, level=0):
         # TODO: this will need to be shortened
@@ -88,21 +106,21 @@ class Either(BaseValue):
         if out is None:
             raise ValueError(f"raw value was not transformed by any of the options")
 
-        if self.return_type == list:
+        if self.return_as_type == list:
             if not isinstance(out, list):
                 if isinstance(out, tuple):
                     out = list(out)
                 else:
                     out = [out]
-        elif self.return_type == tuple:
+        elif self.return_as_type == tuple:
             if not isinstance(out, tuple):
                 if isinstance(out, list):
                     out = tuple(out)
                 else:
                     out = (out,)
-        elif self.return_type:
+        elif self.return_as_type:
             # TODO: additional error needed?
-            out = self.return_type(out)
+            out = self.return_as_type(out)
 
         return out
 

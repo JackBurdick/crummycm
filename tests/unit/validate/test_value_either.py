@@ -11,6 +11,9 @@ from example_templates.element.either.a import (
     list_or_text_return_list,
     list_or_text_return_tuple,
     l_or_t_default_list,
+    f_or_t,
+    f_or_t_ret_float,
+    text_or_list_ret_str,
 )
 
 ex_config = {
@@ -35,6 +38,10 @@ ex_config = {
     "Return_list_num": (({"my_either": 3}, return_list), {"my_either": [3]}),
     "Return_list_text": (({"my_either": "3"}, return_list), {"my_either": ["3"]}),
     "text_or_list_text": (({"my_either": "cat"}, text_or_list), {"my_either": "cat"}),
+    "text_or_list_list": (
+        ({"my_either": ["cat"]}, text_or_list),
+        {"my_either": ["cat"]},
+    ),
     "list_or_text_text": (({"my_either": "cat"}, list_or_text), {"my_either": "cat"}),
     "list_or_text_list": (
         ({"my_either": ["cat"]}, list_or_text),
@@ -64,6 +71,23 @@ ex_config = {
         ({"my_either": None}, l_or_t_default_list),
         {"my_either": ["a", "b"]},
     ),
+    "f_or_t_a": (({"my_either": None}, f_or_t), {"my_either": 3.3}),
+    "f_or_t_b": (({"my_either": "1"}, f_or_t), {"my_either": "1"}),
+    "f_or_t_ret_float_a": (({"my_either": "1"}, f_or_t_ret_float), {"my_either": 1.0}),
+    "f_or_t_ret_float_b": (
+        ({"my_either": "1.4"}, f_or_t_ret_float),
+        {"my_either": 1.4},
+    ),
+    "f_or_t_ret_float_c": (({"my_either": 1.4}, f_or_t_ret_float), {"my_either": 1.4}),
+    "f_or_t_ret_float_d": (({"my_either": None}, f_or_t_ret_float), {"my_either": 1.3}),
+    "text_or_list_ret_str_text": (
+        ({"my_either": "cat"}, text_or_list_ret_str),
+        {"my_either": "cat"},
+    ),
+    # "text_or_list_ret_str_text": (
+    #     ({"my_either": ["cat"]}, text_or_list_ret_str),
+    #     {"my_either": "cat"}, >>>>>  "['cat']"
+    # ),
 }
 
 
