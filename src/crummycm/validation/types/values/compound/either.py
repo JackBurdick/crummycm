@@ -24,8 +24,13 @@ class Either(BaseValue):
             fn_kwargs=fn_kwargs,
         )
 
+        # NOTE: the order of `either_seq` is relevant
         if either_seq is None:
             raise ValueError(f"Either.`either_seq` requires user specified options")
+        if not isinstance(either_seq, (list, tuple)):
+            raise ValueError(
+                f"either_seq must be either type tuple or list, not {type(either_seq)}"
+            )
         if len(either_seq) < 2:
             raise ValueError(
                 "Either.`either_seq` is for specifying values that could "
@@ -35,6 +40,11 @@ class Either(BaseValue):
             if not isinstance(v, BaseValue):
                 raise ValueError(
                     f"value {v} is type {type(v)} and should be an instance of a BaseValue"
+                )
+            if v.required:
+                raise ValueError(
+                    f"Cannot specify value in {self.__class__.__name__} as required: ({v}) \n"
+                    f"> likely fix: use (required=False) when instantiating {v}"
                 )
             # TODO ensure required is not set
 

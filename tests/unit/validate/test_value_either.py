@@ -2,15 +2,59 @@ from typing import Type
 import pytest
 
 from crummycm.validation.validation import validate
-from example_templates.element.either.a import Num_or_Text
+from example_templates.element.either.a import (
+    Num_or_Text_list,
+    Num_or_Text_tuple,
+    return_list,
+    text_or_list,
+    list_or_text,
+    list_or_text_return_list,
+    list_or_text_return_tuple,
+)
 
 ex_config = {
-    "Num_or_Text_number_provided": (({"my_either": 3}, Num_or_Text), {"my_either": 3}),
+    "Num_or_Text_number_provided": (
+        ({"my_either": 3}, Num_or_Text_list),
+        {"my_either": 3},
+    ),
     "Num_or_Text_text_provided": (
-        ({"my_either": "cat"}, Num_or_Text),
+        ({"my_either": "cat"}, Num_or_Text_list),
         {"my_either": "cat"},
     ),
-    "Num_or_Text_None": (({"my_either": None}, Num_or_Text), ValueError),
+    "Num_or_Text_None": (({"my_either": None}, Num_or_Text_list), ValueError),
+    "Num_or_Text_number_provided_tup": (
+        ({"my_either": 3}, Num_or_Text_tuple),
+        {"my_either": 3},
+    ),
+    "Num_or_Text_text_provided_tup": (
+        ({"my_either": "cat"}, Num_or_Text_tuple),
+        {"my_either": "cat"},
+    ),
+    "Num_or_Text_None_tup": (({"my_either": None}, Num_or_Text_tuple), ValueError),
+    "Return_list_num": (({"my_either": 3}, return_list), {"my_either": [3]}),
+    "Return_list_text": (({"my_either": "3"}, return_list), {"my_either": ["3"]}),
+    "text_or_list_text": (({"my_either": "cat"}, text_or_list), {"my_either": "cat"}),
+    "list_or_text_text": (({"my_either": "cat"}, list_or_text), {"my_either": "cat"}),
+    "list_or_text_list": (
+        ({"my_either": ["cat"]}, list_or_text),
+        {"my_either": ["cat"]},
+    ),
+    "list_or_text_return_list_text": (
+        ({"my_either": "cat"}, list_or_text_return_list),
+        {"my_either": ["cat"]},
+    ),
+    "list_or_text_return_list_list": (
+        ({"my_either": ["cat"]}, list_or_text_return_list),
+        {"my_either": ["cat"]},
+    ),
+    "list_or_text_return_tuple_text": (
+        ({"my_either": "cat"}, list_or_text_return_tuple),
+        {"my_either": ("cat",)},
+    ),
+    "list_or_text_return_tuple_list": (
+        ({"my_either": ["cat"]}, list_or_text_return_tuple),
+        {"my_either": ("cat",)},
+    ),
 }
 
 
