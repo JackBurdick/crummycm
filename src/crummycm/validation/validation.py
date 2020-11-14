@@ -167,24 +167,49 @@ def _parse_unknown_dict(raw, spec):
     return tmp_dict
 
 
+class Wrapper(str):
+    # https://stackoverflow.com/questions/33158501/python-keyerror-and-valueerror-inconsistency
+    def __repr__(self):
+        return str(self)
+
+
 def _parse_comp_dict(raw, spec, disallow_unused):
+    if isinstance(spec, BaseDict):
+        spec_keys = list(spec.in_dict.keys())
+    else:
+        spec_keys = list(spec.keys())
+    if raw:
+        raw_keys = list(raw.keys())
+    else:
+        raw_keys = []
+    err_str = f"current keys\n" f"> spec:({spec_keys})\n" f"> user:({raw_keys})"
     if raw is None:
         # NOTE: I'm not convinced this is how I want to handle a situation in
         # which there is no user values to parse
         raise ValueError(f"no user value for {spec}")
     tmp_dict = {}
-    if isinstance(spec, KnownDict):
-        tmp_dict = _parse_known_dict(raw, spec, disallow_unused)
-    elif isinstance(spec, NamedDict):
-        tmp_dict = _parse_named_dict(raw, spec)
-    elif isinstance(spec, UnnamedDict):
-        tmp_dict = _parse_unnamed_dict(raw, spec, disallow_unused)
-    elif isinstance(spec, ConfigDict):
-        tmp_dict = _parse_py_dicts_and_merge(raw, spec.in_dict, disallow_unused)
-    elif isinstance(spec, UnknownDict):
-        tmp_dict = _parse_unknown_dict(raw, spec)
-    else:
-        raise TypeError(f"{spec} ({type(spec)}) is not an accepted type")
+    try:
+        if isinstance(spec, KnownDict):
+            tmp_dict = _parse_known_dict(raw, spec, disallow_unused)
+        elif isinstance(spec, NamedDict):
+            tmp_dict = _parse_named_dict(raw, spec)
+        elif isinstance(spec, UnnamedDict):
+            tmp_dict = _parse_unnamed_dict(raw, spec, disallow_unused)
+        elif isinstance(spec, ConfigDict):
+            tmp_dict = _parse_py_dicts_and_merge(raw, spec.in_dict, disallow_unused)
+        elif isinstance(spec, UnknownDict):
+            tmp_dict = _parse_unknown_dict(raw, spec)
+        else:
+            raise TypeError(f"{spec} ({type(spec)}) is not an accepted type")
+    except KeyError as err:
+        err_out = f"{err}\n" + err_str
+        raise KeyError(Wrapper(err_out))
+    except ValueError as err:
+        err_out = f"{err}\n" + err_str
+        raise ValueError(err_out)
+    except TypeError as err:
+        err_out = f"{err}\n" + err_str
+        raise TypeError(err_out)
 
     return tmp_dict
 
