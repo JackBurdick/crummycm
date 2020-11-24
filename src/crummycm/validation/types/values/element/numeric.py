@@ -1,4 +1,5 @@
 from crummycm.validation.types.values.base import BaseValue
+import operator
 
 
 class Numeric(BaseValue):
@@ -12,6 +13,7 @@ class Numeric(BaseValue):
         fn_kwargs=None,
         # specific
         bounds=None,
+        bounds_inclusive=None,
     ):
 
         self.ALLOWED_TYPES = (float, int, complex)
@@ -28,7 +30,23 @@ class Numeric(BaseValue):
             fn_kwargs=fn_kwargs,
         )
 
-        self.bounds = bounds or None
+        self.bounds = bounds
+        if bounds_inclusive:
+            if not isinstance(bounds_inclusive, tuple):
+                raise ValueError(
+                    f"`bounds_inclusive` ({bounds_inclusive}) expected to be tuple, not {type(bounds_inclusive)}"
+                )
+            else:
+                if len(bounds_inclusive) != 2:
+                    raise ValueError(
+                        f"`bounds_inclusive` ({bounds_inclusive}) expected to be len 2, not {len(bounds_inclusive)}"
+                    )
+            for b in bounds_inclusive:
+                if not isinstance(b, bool):
+                    raise ValueError(
+                        f"`bounds_inclusive` ({bounds_inclusive}), value ({b}) should be type {bool}, not {type(b)}"
+                    )
+        self.bounds_inclusive = bounds_inclusive
 
     def template(self, level=0):
         ret_str = f"[{self.__class__.__name__}]"
@@ -62,14 +80,27 @@ class Numeric(BaseValue):
         if iv:
             if self.bounds:
                 # ensure w/in bounds
-                if iv > self.bounds[1]:
+                if self.bounds_inclusive:
+                    if self.bounds_inclusive[0]:
+                        l_op = operator.ge
+                    else:
+                        l_op = operator.gt
+                    if self.bounds_inclusive[1]:
+                        r_op = operator.le
+                    else:
+                        r_op = operator.lt
+                else:
+                    l_op = operator.gt
+                    r_op = operator.lt
+
+                if not r_op(iv, self.bounds[1]):
                     raise ValueError(
-                        f"value {cur_value} tranformed by {super()} into {iv} is greater than {self.bounds[1]}, description: {self.description}"
+                        f"value {cur_value} tranformed by {super()} into {iv} is greater than {self.bounds[1]} (op: {r_op}), description: {self.description}"
                     )
 
-                if iv < self.bounds[0]:
+                if not l_op(iv, self.bounds[0]):
                     raise ValueError(
-                        f"value {cur_value} tranformed by {super()} into {iv} is less than {self.bounds[0]}, description: {self.description}"
+                        f"value {cur_value} tranformed by {super()} into {iv} is less than {self.bounds[0]} (op: {r_op}),, description: {self.description}"
                     )
 
         self.out = iv

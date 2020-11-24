@@ -30,3 +30,17 @@ numeric_bounds_inf = {
         default_value=int(0), required=False, is_type=int, bounds=(0, float("inf"))
     )
 }
+
+numeric_bounds_1_1 = {
+    "my_num": Numeric(default_value=int(0), required=False, is_type=int, bounds=(-1, 1))
+}
+
+numeric_bounds_1_1_inc = {
+    "my_num": Numeric(
+        default_value=int(0),
+        required=False,
+        is_type=int,
+        bounds=(-1, 1),
+        bounds_inclusive=(True, True),
+    )
+}
