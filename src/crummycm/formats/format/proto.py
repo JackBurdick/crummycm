@@ -1,7 +1,5 @@
 from typing import Any, Dict
 
-from google.protobuf.json_format import MessageToDict
-from google.protobuf.struct_pb2 import Struct
 
 """
 proto information: 
@@ -12,6 +10,9 @@ proto information:
 
 
 def parse_proto_from_path(path: str) -> Dict[str, Any]:
+    from google.protobuf.json_format import MessageToDict
+    from google.protobuf.struct_pb2 import Struct
+
     try:
         s = Struct()
         with open(path, "rb") as data_file:
@@ -28,6 +29,8 @@ def parse_proto_from_path(path: str) -> Dict[str, Any]:
 
 
 def write_dict_to_proto(data: Dict[str, Any], path: str) -> str:
+    from google.protobuf.struct_pb2 import Struct
+
     s = Struct()
     s.update(data)
     with open(f"{path}", "wb") as f:

@@ -1,9 +1,9 @@
-import xml.etree.ElementTree as ET
-
-from xml.etree import cElementTree as ElementTree
-import xmltodict
-from dict2xml import dict2xml
 from typing import Any, Dict
+
+
+"""
+import xmltodict
+"""
 
 
 class XmlListConfig(list):
@@ -25,6 +25,7 @@ class XmlListConfig(list):
 class XmlDictConfig(dict):
     """
     Example usage:
+    from xml.etree import cElementTree as ElementTree
 
     >>> tree = ElementTree.to_dict('your_file.xml')
     >>> root = tree.getroot()
@@ -94,6 +95,8 @@ def elements_equal(e1, e2):
 
 
 def parse_xml_from_path(path: str) -> dict:
+    import xml.etree.ElementTree as ET
+
     # https://stackoverflow.com/questions/2148119/how-to-convert-an-xml-string-to-a-dictionary
     # http://code.activestate.com/recipes/410469-xml-as-dictionary/
     try:
@@ -146,6 +149,8 @@ E_D = {
 
 
 def write_dict_to_xml(data: Dict[str, Any], path: str):
+    from dict2xml import dict2xml
+
     # TODO: this cannot handle entities
     # ent.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
     # d = replace_entities(data)
