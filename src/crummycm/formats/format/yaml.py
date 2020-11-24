@@ -1,4 +1,9 @@
-import yaml
+try:
+    import yaml
+except ModuleNotFoundError as e:
+    raise ModuleNotFoundError(
+        "{e}\n > please install pyyaml in this environment `pip install PyYAML`"
+    )
 from yaml.constructor import ConstructorError
 from yaml.nodes import MappingNode
 from typing import Any, Dict
