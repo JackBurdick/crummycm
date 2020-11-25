@@ -19,6 +19,7 @@ SINGLE_Text_lower_tuple = {
     "my_multi": Multi(element_types=Text(to_lower=True), is_type=tuple)
 }
 SINGLE_bool = {"my_multi": Multi(element_types=bool)}
+multi_int_unique = {"my_multi": Multi(element_types=int, elements_unique=True)}
 
 
 # fn

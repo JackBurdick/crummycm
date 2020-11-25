@@ -14,6 +14,7 @@ class Multi(BaseValue):
         # specific
         homogeneous=None,
         element_types=None,
+        elements_unique=None,
     ):
 
         self.ALLOWED_TYPES = (list, tuple)
@@ -33,6 +34,7 @@ class Multi(BaseValue):
 
         self.homogeneous = homogeneous or None
         self.element_types = element_types or None
+        self.elements_unique = elements_unique or False
 
         if self.homogeneous:
             # TODO: this is a pretty poor check
@@ -57,9 +59,13 @@ class Multi(BaseValue):
         if level == 0:
             if self.homogeneous:
                 ret_str += "^"
+            if self.elements_unique:
+                ret_str += "#"
         elif level > 0:
             if self.homogeneous:
                 ret_str += f"[{self.homogeneous}]"
+            if self.elements_unique:
+                ret_str = "{" + f"{ret_str}" + "}"
         if self.fn:
             ret_str += "!"
         if self.required:
@@ -106,6 +112,12 @@ class Multi(BaseValue):
                         raise ValueError(
                             f"objects are not homogeneous. {v} is type {type(v)}, but {iv[0]} is {first_type}"
                         )
+            if self.elements_unique:
+                if len(iv) > len(set(iv)):
+                    raise ValueError(
+                        f"not all items in list are unique and uniqueness is required \n"
+                        f"> items: {iv}"
+                    )
 
         self.out = iv
         return self.out

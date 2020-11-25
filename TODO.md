@@ -12,7 +12,7 @@ General
 
 Functions
 ---------
-
+- allow function on key to be applied to entire value once obtained
 
 Future
 ------

@@ -21,6 +21,7 @@ from example_templates.element.multi.a import (
     SINGLE_fn_bad_kwargs,
     SINGLE_fn_lower_d,
     SINGLE_fn_d,
+    multi_int_unique,
 )
 
 ex_config = {
@@ -187,6 +188,11 @@ ex_config = {
         ({"my_multi": ["Hi", "DieSel", "Siren"]}, SINGLE_fn_d),
         {"my_multi": ["BiHZ", "BleSeiDZ", "BneriSZ"]},
     ),
+    "multi_int_unique_true": (
+        ({"my_multi": [1, 2, 3]}, multi_int_unique),
+        {"my_multi": [1, 2, 3]},
+    ),
+    "multi_int_unique_false": (({"my_multi": [1, 2, 1]}, multi_int_unique), ValueError),
 }
 
 
